@@ -22,8 +22,14 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-//        System.setProperty("https.proxyHost","192.168.32.1");
-//        System.setProperty("https.proxyPort","3128");
+        System.out.println("System proxy host: " + System.getProperties().get("http.proxyHost"));
+        System.out.println("System proxy port: " + System.getProperties().get("http.proxyPort"));
+
+        System.getProperties().put("http.proxyHost", "proxy2.cht");
+        System.getProperties().put("http.proxyPort", "3128");
+
+        System.out.println("New System proxy host: " + System.getProperties().get("http.proxyHost"));
+        System.out.println("New System proxy port: " + System.getProperties().get("http.proxyPort"));
 
 
         String ipAddress = "173.194.39.160";
@@ -33,19 +39,22 @@ public class Main {
         System.out.println(inet.isReachable(5000) ? "Host is reachable" : "Host is NOT reachable");
 
 
-//        String languageTo = "ru";
-//        String languageFrom = "en";
-//        String text = "Hello again";
-//
+        String languageTo = "ru";
+        String languageFrom = "en";
+        String text = "Hello again";
+
         String filepath = "google_result";
-//
-//
-//        String pattern = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
-//        text = URLEncoder.encode(text, "UTF-8");
-//
-//        String url = String.format(pattern, text, languageFrom, languageTo);
-//        System.out.println(url);
-        String url = "http://translate.google.com/translate_a/t?client=t&text=Hello%20again&hl=en&sl=en&tl=ru&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+
+        if(1==1)
+            return;
+
+
+        String pattern = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+        text = URLEncoder.encode(text, "UTF-8");
+
+        String url = String.format(pattern, text, languageFrom, languageTo);
+        System.out.println(url);
+
 
 
         Client client = ClientBuilder.newClient();
@@ -60,10 +69,10 @@ public class Main {
             os.write(bArray);
             os.flush();
 
-        }/* catch (IOException e) {
+        } catch (IOException e) {
             String message = MessageFormat.format("Failed to save {0} file", filepath);
             System.exit(1);
-        }*/ finally {
+        } finally {
             if (os != null) {
                 try {
                     os.close();
@@ -74,44 +83,26 @@ public class Main {
         }
 
 
-        URL oracle = new URL(url);
-        URLConnection yc = oracle.openConnection();
-        BufferedReader in = new BufferedReader(new InputStreamReader(
-                yc.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null)
-            System.out.println(inputLine);
-        in.close();
+//        URL oracle = new URL("http://translate.google.com/translate_a/t?client=t&text=Hello%20again&hl=en&sl=en&tl=ru&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1");
+//        URLConnection yc = oracle.openConnection();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(
+//                yc.getInputStream()));
+//        String inputLine;
+//        while ((inputLine = in.readLine()) != null)
+//            System.out.println(inputLine);
+//        in.close();
 
 
 
-
-//        try {
-//
-//            String url = "http://translate.google.com/translate_a/t?client=t&text=Hello%20again&hl=en&sl=en&tl=ru&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+//            String url = "http://google.com";
 //
 //            URL obj = new URL(url);
 //            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
 //
-//            conn.setRequestProperty("Content-Type", "application/json");
-//            conn.setDoOutput(true);
-//
-//            conn.setRequestMethod("PUT");
-//
-//            String userpass = "user" + ":" + "pass";
-//            String basicAuth = "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary(userpass.getBytes("UTF-8"));
-//            conn.setRequestProperty ("Authorization", basicAuth);
-//
-//            String data =  "{\"format\":\"json\",\"pattern\":\"#\"}";
-//            OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-//            out.write(data);
-//            out.close();
-//
-//            new InputStreamReader(conn.getInputStream());
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+//            BufferedReader in = new BufferedReader(new InputStreamReader(
+//                    conn.getInputStream()));
+
+
 
 
     }
