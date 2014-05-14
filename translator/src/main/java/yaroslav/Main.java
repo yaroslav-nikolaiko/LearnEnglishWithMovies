@@ -25,12 +25,11 @@ public class Main {
         System.out.println("System proxy host: " + System.getProperties().get("http.proxyHost"));
         System.out.println("System proxy port: " + System.getProperties().get("http.proxyPort"));
 
-        System.getProperties().put("http.proxyHost", "proxy2.cht");
-        System.getProperties().put("http.proxyPort", "3128");
-
-        System.out.println("New System proxy host: " + System.getProperties().get("http.proxyHost"));
-        System.out.println("New System proxy port: " + System.getProperties().get("http.proxyPort"));
-
+        String systemProxy = System.getProperties().get("http.proxyHost").toString();
+        if( ! "null".equals(systemProxy)){
+            System.getProperties().put("http.proxyHost", "proxy2.cht");
+            System.getProperties().put("http.proxyPort", "3128");
+        }
 
         String ipAddress = "173.194.39.160";
         InetAddress inet = InetAddress.getByName(ipAddress);
@@ -38,24 +37,17 @@ public class Main {
         System.out.println("Sending Ping Request to " + ipAddress);
         System.out.println(inet.isReachable(5000) ? "Host is reachable" : "Host is NOT reachable");
 
-
         String languageTo = "ru";
         String languageFrom = "en";
         String text = "Hello again";
 
         String filepath = "google_result";
 
-        if(1==1)
-            return;
-
 
         String pattern = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
         text = URLEncoder.encode(text, "UTF-8");
 
         String url = String.format(pattern, text, languageFrom, languageTo);
-        System.out.println(url);
-
-
 
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(url);
@@ -101,8 +93,6 @@ public class Main {
 //
 //            BufferedReader in = new BufferedReader(new InputStreamReader(
 //                    conn.getInputStream()));
-
-
 
 
     }
