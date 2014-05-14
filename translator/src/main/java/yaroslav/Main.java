@@ -1,11 +1,18 @@
 package yaroslav;
 
+import javafx.scene.media.SubtitleTrack;
+import yaroslav.subtitles.SubtitlesParser;
+import yaroslav.subtitles.parser.subtitleFile.Caption;
+import yaroslav.subtitles.parser.subtitleFile.TimedTextObject;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import java.io.*;
 import java.net.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,57 +29,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println("System proxy host: " + System.getProperties().get("http.proxyHost"));
-        System.out.println("System proxy port: " + System.getProperties().get("http.proxyPort"));
+//        System.getProperties().put("http.proxyHost", "proxy2.cht");
+//        System.getProperties().put("http.proxyPort", "3128");
 
-        String systemProxy = System.getProperties().get("http.proxyHost").toString();
-        if( ! "null".equals(systemProxy)){
-            System.getProperties().put("http.proxyHost", "proxy2.cht");
-            System.getProperties().put("http.proxyPort", "3128");
+        SubtitlesParser parser = new SubtitlesParser("Game of Thrones - 4x01 - Two Swords.HDTV.KILLERS.en.srt");
+        TimedTextObject tto = parser.getTto();
+
+
+        List<String> content = new ArrayList<>();
+        for(Caption caption : tto.captions.values()) {
+            //System.out.println(caption.content);
+            content.add(caption.content);
         }
 
-        String ipAddress = "173.194.39.160";
-        InetAddress inet = InetAddress.getByName(ipAddress);
+//        String text = "Hello again\n";
+//        text+="This is new Line!\n";
+//        text+="Also Try ! and ?";
+        String text = "Try this <i>";
+        translate(text, false);
 
-        System.out.println("Sending Ping Request to " + ipAddress);
-        System.out.println(inet.isReachable(5000) ? "Host is reachable" : "Host is NOT reachable");
+//        for(String str : content)
+//            translate(str, true);
 
-        String languageTo = "ru";
-        String languageFrom = "en";
-        String text = "Hello again";
-
-        String filepath = "google_result";
+//        if(1==1)
+//            return;
 
 
-        String pattern = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
-        text = URLEncoder.encode(text, "UTF-8");
-
-        String url = String.format(pattern, text, languageFrom, languageTo);
-
-        Client client = ClientBuilder.newClient();
-        WebTarget webTarget = client.target(url);
-        System.out.println("WTF URL is:  "+webTarget.getUri());
-
-        byte[] bArray;
-        FileOutputStream os = null;
-        try {
-            bArray = webTarget.request().get(byte[].class);
-            os = new FileOutputStream(filepath);
-            os.write(bArray);
-            os.flush();
-
-        } catch (IOException e) {
-            String message = MessageFormat.format("Failed to save {0} file", filepath);
-            System.exit(1);
-        } finally {
-            if (os != null) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    System.exit(1);
-                }
-            }
-        }
 
 
 //        URL oracle = new URL("http://translate.google.com/translate_a/t?client=t&text=Hello%20again&hl=en&sl=en&tl=ru&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1");
@@ -94,6 +76,46 @@ public class Main {
 //            BufferedReader in = new BufferedReader(new InputStreamReader(
 //                    conn.getInputStream()));
 
+
+    }
+
+
+    public static void translate(String text, boolean append) throws UnsupportedEncodingException {
+        String languageTo = "ru";
+        String languageFrom = "en";
+
+        String filepath = "google_result";
+
+
+        String pattern = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+        text = URLEncoder.encode(text, "UTF-8");
+
+        String url = String.format(pattern, text, languageFrom, languageTo);
+
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(url);
+        System.out.println("WTF URL is:  "+webTarget.getUri());
+
+        byte[] bArray;
+        FileOutputStream os = null;
+        try {
+            bArray = webTarget.request().get(byte[].class);
+            os = new FileOutputStream(filepath, append);
+            os.write(bArray);
+            os.flush();
+
+        } catch (IOException e) {
+            String message = MessageFormat.format("Failed to save {0} file", filepath);
+            System.exit(1);
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    System.exit(1);
+                }
+            }
+        }
 
     }
 }

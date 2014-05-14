@@ -13,6 +13,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>LearnEnglishWIthMovies</groupId>
+            <artifactId>subtitles-parser</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <version>2.6</version>

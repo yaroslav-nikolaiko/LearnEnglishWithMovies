@@ -56,7 +56,14 @@ public class FormatSRT implements TimedTextFileFormat {
 		try {
 			while(line!=null){
 				line = line.trim();
-				lineCounter++;
+                StringBuilder newLine = new StringBuilder();
+                for(char c: line.toCharArray()){
+                    int code = (int) c;
+                    if(code != 65279)
+                        newLine.append(c);
+                }
+                line = newLine.toString();
+                lineCounter++;
 				//if its a blank line, ignore it, otherwise...
 				if (!line.isEmpty()){
 					allGood = false;
@@ -95,7 +102,8 @@ public class FormatSRT implements TimedTextFileFormat {
 						line = br.readLine().trim();
 						String text = "";
 						while (!line.isEmpty()){
-							text+=line+"<br />";
+							//text+=line+"<br />";
+                            text+=line;
 							line = br.readLine().trim();
 							lineCounter++;
 						}
