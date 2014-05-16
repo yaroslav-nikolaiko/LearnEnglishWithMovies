@@ -1,6 +1,5 @@
 package yaroslav;
 
-import javafx.scene.media.SubtitleTrack;
 import yaroslav.subtitles.SubtitlesParser;
 import yaroslav.subtitles.parser.subtitleFile.Caption;
 import yaroslav.subtitles.parser.subtitleFile.TimedTextObject;
@@ -29,10 +28,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-//        System.getProperties().put("http.proxyHost", "proxy2.cht");
-//        System.getProperties().put("http.proxyPort", "3128");
+        System.getProperties().put("http.proxyHost", "proxy2.cht");
+        System.getProperties().put("http.proxyPort", "3128");
 
-        SubtitlesParser parser = new SubtitlesParser("Game of Thrones - 4x01 - Two Swords.HDTV.KILLERS.en.srt");
+//        String fileName = "Game of Thrones - 4x01 - Two Swords.HDTV.KILLERS.en.srt";
+        String fileName = "small_file.srt";
+        SubtitlesParser parser = new SubtitlesParser(fileName);
         TimedTextObject tto = parser.getTto();
 
 
@@ -45,11 +46,10 @@ public class Main {
 //        String text = "Hello again\n";
 //        text+="This is new Line!\n";
 //        text+="Also Try ! and ?";
-        String text = "Try this <i>";
-        translate(text, false);
+//        translate(text, false);
 
-//        for(String str : content)
-//            translate(str, true);
+        for(String str : content)
+            translate(str, true);
 
 //        if(1==1)
 //            return;

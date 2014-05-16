@@ -35,6 +35,7 @@ import java.util.Iterator;
  *
  */
 public class FormatSRT implements TimedTextFileFormat {
+    private static final int INVALID_CHARACTER_CODE = 65279;
 
 
 	public TimedTextObject parseFile(String fileName, InputStream is) throws IOException {
@@ -56,13 +57,7 @@ public class FormatSRT implements TimedTextFileFormat {
 		try {
 			while(line!=null){
 				line = line.trim();
-                StringBuilder newLine = new StringBuilder();
-                for(char c: line.toCharArray()){
-                    int code = (int) c;
-                    if(code != 65279)
-                        newLine.append(c);
-                }
-                line = newLine.toString();
+                line = removeInvalidCharacters(line);
                 lineCounter++;
 				//if its a blank line, ignore it, otherwise...
 				if (!line.isEmpty()){
@@ -205,5 +200,15 @@ public class FormatSRT implements TimedTextFileFormat {
 		}
 		return lines;
 	}
+
+    private String removeInvalidCharacters(String line){
+        StringBuilder newLine = new StringBuilder();
+        for(char c: line.toCharArray()){
+            int code = (int) c;
+            if(code != INVALID_CHARACTER_CODE)
+                newLine.append(c);
+        }
+        return  newLine.toString();
+    }
 
 }
