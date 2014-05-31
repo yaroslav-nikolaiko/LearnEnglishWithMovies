@@ -38,6 +38,7 @@ public class FormatSRT implements TimedTextFileFormat {
     private static final int INVALID_CHARACTER_CODE = 65279;
 
 
+
 	public TimedTextObject parseFile(String fileName, InputStream is) throws IOException {
 
 		TimedTextObject tto = new TimedTextObject();

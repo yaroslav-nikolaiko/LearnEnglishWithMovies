@@ -8,4 +8,5 @@ import yaroslav.subtitles.exception.SubtitlesParserException;
  */
 public interface SubtitlesParser {
     public Subtitles parse() throws SubtitlesParserException;
+    public Subtitles parse(byte[] content)throws SubtitlesParserException;
 }

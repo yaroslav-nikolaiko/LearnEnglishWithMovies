@@ -56,8 +56,11 @@ public class SubtitlesUnit implements Comparable<SubtitlesUnit>{
         Matcher m = p.matcher(sample);
 
         List<String> result = new ArrayList<>();
-        while ( m.find() )
-            result.add(sample.substring(m.start(), m.end()));
+        while ( m.find() ){
+            String temp = sample.substring(m.start(), m.end());
+            if(temp.length() > 1)
+                result.add(temp);
+        }
         return result;
     }
 

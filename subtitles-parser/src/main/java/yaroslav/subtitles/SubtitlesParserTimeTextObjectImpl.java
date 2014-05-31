@@ -5,6 +5,7 @@ import yaroslav.subtitles.bridge.SubtitlesUnit;
 import yaroslav.subtitles.exception.SubtitlesParserException;
 import yaroslav.subtitles.parser.subtitleFile.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,14 @@ public class SubtitlesParserTimeTextObjectImpl implements SubtitlesParser {
         this.filename = filename;
         initTTFFormat();
         parse1();
+    }
+
+    public SubtitlesParserTimeTextObjectImpl(byte[] content){
+        initTTFFormat();
+        parse2(content);
+    }
+
+    public SubtitlesParserTimeTextObjectImpl() {
     }
 
     public TimedTextObject getTto() {
@@ -62,8 +71,33 @@ public class SubtitlesParserTimeTextObjectImpl implements SubtitlesParser {
 
     }
 
+    protected void parse2(byte[] bytes){
+        InputStream is = null;
+        try {
+            is = new ByteArrayInputStream(bytes);
+            tto = ttff.parseFile("null", is);
+        } catch (FileNotFoundException | FatalParsingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public Subtitles parse() throws SubtitlesParserException {
+        NavigableMap<Integer, SubtitlesUnit> map = new TreeMap<>();
+        for (Map.Entry<Integer, Caption> entry : tto.captions.entrySet())
+            map.put(entry.getKey(), new SubtitlesUnit(entry.getValue().content));
+
+        return new Subtitles(map);
+    }
+
+    @Override
+    public Subtitles parse(byte[] content) throws SubtitlesParserException {
+        initTTFFormat();
+        parse2(content);
+
         NavigableMap<Integer, SubtitlesUnit> map = new TreeMap<>();
         for (Map.Entry<Integer, Caption> entry : tto.captions.entrySet())
             map.put(entry.getKey(), new SubtitlesUnit(entry.getValue().content));
