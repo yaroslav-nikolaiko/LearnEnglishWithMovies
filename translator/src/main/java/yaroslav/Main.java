@@ -7,10 +7,15 @@ import yaroslav.subtitles.parser.subtitleFile.TimedTextObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.net.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -38,22 +43,38 @@ public class Main {
 
 
         List<String> content = new ArrayList<>();
+        int counter=0;
         for(Caption caption : tto.captions.values()) {
             //System.out.println(caption.content);
             content.add(caption.content);
+            counter ++;
+            if(counter==3)
+                break;
+
         }
+
+        //translateYandex(content, false);
+        xmlParser();
 
 //        String text = "Hello again\n";
 //        text+="This is new Line!\n";
 //        text+="Also Try ! and ?";
 //        translate(text, false);
 
-        for(String str : content)
-            translate(str, true);
+//        String text = "little bird";
+//        translate(text, false);
+
+//        String text = "This is a very big sentences. It even has a few mistakes.";
+//        translate(text, false);
+
+//        for(String str : content)
+//            translate(str, true);
 
 //        if(1==1)
 //            return;
 
+
+        //tryJson();
 
 
 
@@ -118,4 +139,97 @@ public class Main {
         }
 
     }
+
+    public static void translateYandex(List<String> textList, boolean append) throws UnsupportedEncodingException {
+        String languageTo = "ru";
+        //String languageFrom = "en";
+
+        String filepath = "yandex_result.xml";
+        String apiKey = "trnsl.1.1.20140531T124615Z.286c638c7c6d12c2.7b0a3f481468b227ad9021cbdc2bee694ec79d35";
+
+
+        String pattern = "https://translate.yandex.net/api/v1.5/tr/translate?key=%s&lang=%s&text=%s";
+        String textSeparator = "%3F&text=";
+        //text = URLEncoder.encode(text, "UTF-8");
+        StringBuilder textBuilder = new StringBuilder();
+        textBuilder.append(URLEncoder.encode(textList.remove(0), "UTF-8"));
+        for(String part : textList) {
+            textBuilder.append(textSeparator + URLEncoder.encode(part, "UTF-8"));
+        }
+
+        String url = String.format(pattern, apiKey, languageTo, textBuilder);
+
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(url);
+        System.out.println("WTF URL is:  "+webTarget.getUri());
+
+        byte[] bArray;
+        FileOutputStream os = null;
+        try {
+            bArray = webTarget.request().get(byte[].class);
+            os = new FileOutputStream(filepath, append);
+            os.write(bArray);
+            os.flush();
+
+        } catch (IOException e) {
+            String message = MessageFormat.format("Failed to save {0} file", filepath);
+            System.exit(1);
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    System.exit(1);
+                }
+            }
+        }
+
+    }
+
+    public static void xmlParser() {
+        String filename = "yandex_result.xml";
+        XmlObject obj = unmarshaller(filename);
+        System.out.println(obj);
+    }
+
+    static XmlObject unmarshaller(String xmlFileName ){
+        InputStream input = null;
+        XmlObject result = null;
+        try {
+            input = new FileInputStream(xmlFileName);
+            JAXBContext jaxbContext = JAXBContext.newInstance(XmlObject.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            result = (XmlObject) jaxbUnmarshaller.unmarshal(input);
+        } catch (IOException ex) {
+            //logger.error(MessageFormat.format("File {0} not found ", xmlFileName), ex);
+            ex.printStackTrace();
+        } catch (JAXBException e) {
+            //TODO log
+            e.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    //TODO log
+                }
+            }
+        }
+        return result;
+    }
+
+    static void marshaller(String xmlFileName, XmlObject object){
+        try {
+            File file = new File(xmlFileName);
+            JAXBContext jaxbContext = JAXBContext.newInstance(XmlObject.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            jaxbMarshaller.marshal(object, file);
+        } catch (JAXBException e) {
+            //TODO log
+            e.printStackTrace();
+        }
+    }
+
 }

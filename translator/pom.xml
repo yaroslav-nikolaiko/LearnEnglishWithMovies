@@ -11,6 +11,13 @@
 
     <artifactId>translator</artifactId>
 
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>codehaus</id>-->
+            <!--<url>http://repository.codehaus.org/org/codehaus</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
     <dependencies>
         <dependency>
             <groupId>LearnEnglishWIthMovies</groupId>
@@ -29,6 +36,20 @@
             <artifactId>jersey-client</artifactId>
             <version>2.6</version>
         </dependency>
+
+
+
+        <!--<dependency>-->
+            <!--<groupId>com.googlecode.json-simple</groupId>-->
+            <!--<artifactId>json-simple</artifactId>-->
+            <!--<version>1.1</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.jackson</groupId>-->
+            <!--<artifactId>jackson-mapper-asl</artifactId>-->
+            <!--<version>1.9.13</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 

@@ -1,0 +1,33 @@
+[
+    [
+        ["тощий", "scrawny", "toshchiy", ""]
+    ],
+    [
+        ["adjective", ["тощий", "костлявый", "сухопарый", "худощавый"], [
+            ["тощий", ["skinny", "lean", "gaunt", "scrawny", "meager", "scraggy"], , 0.32465246],
+            ["костлявый", ["bony", "scrawny", "angular", "raw-boned"], , 0.052176401],
+            ["сухопарый", ["gaunt", "scrawny", "scraggy"], , 0.016939197],
+            ["худощавый", ["thin", "spare", "slight", "lank", "scrawny", "slabsided"], , 0.0040234118]
+        ], "scrawny", 3]
+    ],
+    "en",
+    ,
+    [
+        ["тощий", [1], true, false, 1000, 0, 1, 0]
+    ],
+    [
+        ["scrawny", 1, [
+            ["тощий", 1000, true, false],
+            ["худой", 0, true, false],
+            ["костлявый", 0, true, false],
+            ["худым", 0, true, false],
+            ["сухопарый", 0, true, false]
+        ], [
+            [0, 7]
+        ], "scrawny"]
+    ],
+    ,
+    ,
+    [],
+    11
+]

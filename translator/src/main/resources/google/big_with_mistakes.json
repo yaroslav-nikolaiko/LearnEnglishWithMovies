@@ -1,0 +1,72 @@
+[
+    [
+        ["Это очень большие sentancies . ", "This is a very big sentancies.", "Eto ochen' bol'shiye sentancies . ", ""],
+        ["Он даже имеет несколько ошибок .", "It even has a few mistakes.", "On dazhe imeyet neskol'ko oshibok .", ""]
+    ],
+    ,
+    "en",
+    ,
+    [
+        ["Это очень", [1], true, false, 999, 0, 2, 0],
+        ["большие", [2], true, false, 1000, 2, 3, 0],
+        ["sentancies", [3], true, false, 1000, 3, 4, 0],
+        [".", [4], false, false, 1000, 4, 5, 0],
+        ["Он даже имеет", [11], true, false, 999, 0, 3, 1],
+        ["несколько ошибок", [12], true, false, 999, 3, 5, 1],
+        [".", [13], false, false, 1000, 5, 6, 1]
+    ],
+    [
+        ["This is a very", 1, [
+            ["Это очень", 999, true, false]
+        ], [
+            [0, 14]
+        ], "This is a very big sentancies."],
+        ["big", 2, [
+            ["большие", 1000, true, false],
+            ["больших", 0, true, false],
+            ["крупные", 0, true, false],
+            ["большой", 0, true, false],
+            ["крупных", 0, true, false]
+        ], [
+            [15, 18]
+        ], ""],
+        ["sentancies", 3, [
+            ["sentancies", 1000, true, false]
+        ], [
+            [19, 29]
+        ], ""],
+        [".", 4, [
+            [".", 1000, false, false]
+        ], [
+            [29, 30]
+        ], ""],
+        ["It even has", 11, [
+            ["Он даже имеет", 999, true, false],
+            ["Этого даже есть", 0, true, false],
+            ["У этого даже есть", 0, true, false],
+            ["Него даже есть", 0, true, false],
+            ["У него даже есть", 0, true, false]
+        ], [
+            [0, 11]
+        ], "It even has a few mistakes."],
+        ["a few mistakes", 12, [
+            ["несколько ошибок", 999, true, false],
+            ["некоторые ошибки", 0, true, false],
+            ["немного ошибок", 0, true, false],
+            ["немало ошибок", 0, true, false]
+        ], [
+            [12, 26]
+        ], ""],
+        [".", 13, [
+            [".", 1000, false, false]
+        ], [
+            [26, 27]
+        ], ""]
+    ],
+    ,
+    ,
+    [
+        ["en"]
+    ],
+    30
+]
