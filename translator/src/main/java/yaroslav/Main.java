@@ -1,6 +1,7 @@
 package yaroslav;
 
-import yaroslav.subtitles.SubtitlesParser;
+import yaroslav.subtitles.SubtitlesManager;
+import yaroslav.subtitles.SubtitlesParserTimeTextObjectImpl;
 import yaroslav.subtitles.parser.subtitleFile.Caption;
 import yaroslav.subtitles.parser.subtitleFile.TimedTextObject;
 
@@ -15,7 +16,6 @@ import java.io.*;
 import java.net.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -38,7 +38,7 @@ public class Main {
 
 //        String fileName = "Game of Thrones - 4x01 - Two Swords.HDTV.KILLERS.en.srt";
         String fileName = "small_file.srt";
-        SubtitlesParser parser = new SubtitlesParser(fileName);
+        SubtitlesParserTimeTextObjectImpl parser = new SubtitlesParserTimeTextObjectImpl(fileName);
         TimedTextObject tto = parser.getTto();
 
 
@@ -53,7 +53,7 @@ public class Main {
 
         }
 
-        translateYandex(content, false);
+        //translateYandex(content, false);
         //xmlParser();
     }
 
