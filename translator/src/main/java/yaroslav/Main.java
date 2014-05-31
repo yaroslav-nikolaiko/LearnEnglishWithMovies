@@ -48,13 +48,13 @@ public class Main {
             //System.out.println(caption.content);
             content.add(caption.content);
             counter ++;
-            if(counter==3)
+            if(counter==5)
                 break;
 
         }
 
-        //translateYandex(content, false);
-        xmlParser();
+        translateYandex(content, false);
+        //xmlParser();
     }
 
 

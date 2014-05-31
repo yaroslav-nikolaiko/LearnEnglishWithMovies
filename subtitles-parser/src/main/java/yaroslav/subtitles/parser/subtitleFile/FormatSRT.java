@@ -98,7 +98,7 @@ public class FormatSRT implements TimedTextFileFormat {
 						String text = "";
 						while (!line.isEmpty()){
 							//text+=line+"<br />";
-                            text+=line;
+                            text+=line+"\n";
 							line = br.readLine().trim();
 							lineCounter++;
 						}
