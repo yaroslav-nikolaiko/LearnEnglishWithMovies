@@ -3,6 +3,7 @@ package yaroslav.entity;
 import yaroslav.util.Level;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by yaroslav on 6/1/14.
@@ -19,6 +20,8 @@ public class User {
     private String email;
     @Enumerated(EnumType.STRING)
     private Level level;
+    private List<Dictionary> dictionaries;
+    private String nativeLanguage;
 
 
 
