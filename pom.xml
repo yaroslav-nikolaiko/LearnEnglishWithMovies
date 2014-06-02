@@ -11,6 +11,7 @@
     <modules>
         <module>subtitles-parser</module>
         <module>translator</module>
+        <module>core</module>
     </modules>
 
 
