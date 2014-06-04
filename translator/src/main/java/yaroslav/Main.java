@@ -1,6 +1,5 @@
 package yaroslav;
 
-import yaroslav.subtitles.SubtitlesManager;
 import yaroslav.subtitles.SubtitlesParserTimeTextObjectImpl;
 import yaroslav.subtitles.parser.subtitleFile.Caption;
 import yaroslav.subtitles.parser.subtitleFile.TimedTextObject;

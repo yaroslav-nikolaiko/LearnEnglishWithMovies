@@ -12,10 +12,26 @@ public class PrimitiveWordsContainer {
     @GeneratedValue
     private Long id;
     @ElementCollection
-    @CollectionTable(name = "primitives")
+    @CollectionTable(name = "Primitives")
     @MapKeyColumn(name = "language")
     @Column(name = "word")
     private Map<String, String> words;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Map<String, String> getWords() {
+        return words;
+    }
+
+    public void setWords(Map<String, String> words) {
+        this.words = words;
+    }
 }
 
 
