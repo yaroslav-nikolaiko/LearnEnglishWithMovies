@@ -7,7 +7,22 @@ import javax.persistence.Entity;
  */
 @Entity
 public class TVShow extends MediaItem {
-    private String name;
     private String season;
     private String episode;
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public String getEpisode() {
+        return episode;
+    }
+
+    public void setEpisode(String episode) {
+        this.episode = episode;
+    }
 }

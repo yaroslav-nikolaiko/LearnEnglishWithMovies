@@ -16,14 +16,7 @@ public class Word {
     @Column(nullable = false)
     private String word;
     private String rootWord;
-    @ElementCollection
-    private List<String> translation;
-    private Integer count;
-    @Enumerated(EnumType.STRING)
-    private Category category;
-    @ManyToOne
-    @JoinColumn(name = "dictionary_fk")
-    private Dictionary dictionary;
+
 
     public Word(){
 
@@ -57,35 +50,4 @@ public class Word {
         this.rootWord = rootWord;
     }
 
-    public List<String> getTranslation() {
-        return translation;
-    }
-
-    public void setTranslation(List<String> translation) {
-        this.translation = translation;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
 }

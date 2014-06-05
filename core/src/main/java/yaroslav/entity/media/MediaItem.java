@@ -1,6 +1,7 @@
 package yaroslav.entity.media;
 
 import yaroslav.entity.Dictionary;
+import yaroslav.entity.DictionaryUnit;
 import yaroslav.entity.Word;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class MediaItem {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] content;
@@ -21,7 +23,7 @@ public class MediaItem {
     @ManyToOne
     private Dictionary dictionary;
     @Transient
-    private List<Word> words;
+    private List<DictionaryUnit> words;
 
     public Long getId() {
         return id;
@@ -29,6 +31,14 @@ public class MediaItem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public byte[] getContent() {
@@ -55,11 +65,11 @@ public class MediaItem {
         this.dictionary = dictionary;
     }
 
-    public List<Word> getWords() {
+    public List<DictionaryUnit> getWords() {
         return words;
     }
 
-    public void setWords(List<Word> words) {
+    public void setWords(List<DictionaryUnit> words) {
         this.words = words;
     }
 }
