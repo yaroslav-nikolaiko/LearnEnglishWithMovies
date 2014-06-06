@@ -16,42 +16,20 @@ public class Word {
     private Long id;
     @Column(nullable = false)
     private String word;
+    @Column(nullable = false)
+    private String language;
     private String rootWord;
-    @Enumerated(EnumType.STRING)
-    private Category category;
-    @Transient
-    private List<MediaItem> mediaItems;
+
+
 
     public Word(){
 
     }
 
-    public Word(String word){
+    public Word(String word, String language){
         this.word = word;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public String getRootWord() {
-        return rootWord;
-    }
-
-    public void setRootWord(String rootWord) {
-        this.rootWord = rootWord;
-    }
 
 }
