@@ -22,18 +22,16 @@ public class Dictionary {
     @Enumerated(EnumType.STRING)
     private Level level;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dictionary")
-    private List<Word> words;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dictionary")
     private List<MediaItem> mediaItems;
 
     public Dictionary() {
-        words = new ArrayList<>();
-        mediaItems = new ArrayList<>();
+//        words = new ArrayList<>();
+//        mediaItems = new ArrayList<>();
     }
 
     public void addWords(Collection<String> words){
-        for(String word : words)
-            this.words.add(new Word(word));
+//        for(String word : words)
+//            this.words.add(new Word(word));
     }
 
     /********************************************************************************************
@@ -70,14 +68,6 @@ public class Dictionary {
 
     public void setLevel(Level level) {
         this.level = level;
-    }
-
-    public List<Word> getWords() {
-        return words;
-    }
-
-    public void setWords(List<Word> words) {
-        this.words = words;
     }
 
     public List<MediaItem> getMediaItems() {

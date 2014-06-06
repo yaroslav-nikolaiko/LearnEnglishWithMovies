@@ -1,5 +1,6 @@
 package yaroslav.entity;
 
+import yaroslav.entity.media.MediaItem;
 import yaroslav.util.Category;
 
 import javax.persistence.*;
@@ -16,7 +17,10 @@ public class Word {
     @Column(nullable = false)
     private String word;
     private String rootWord;
-
+    @Enumerated(EnumType.STRING)
+    private Category category;
+    @Transient
+    private List<MediaItem> mediaItems;
 
     public Word(){
 

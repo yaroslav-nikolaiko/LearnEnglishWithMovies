@@ -1,7 +1,6 @@
 package yaroslav.entity.media;
 
 import yaroslav.entity.Dictionary;
-import yaroslav.entity.DictionaryUnit;
 import yaroslav.entity.Word;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class MediaItem {
     @ManyToOne
     private Dictionary dictionary;
     @Transient
-    private List<DictionaryUnit> words;
+    private List<Word> words;
 
     public Long getId() {
         return id;
@@ -63,13 +62,5 @@ public class MediaItem {
 
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
-    }
-
-    public List<DictionaryUnit> getWords() {
-        return words;
-    }
-
-    public void setWords(List<DictionaryUnit> words) {
-        this.words = words;
     }
 }
