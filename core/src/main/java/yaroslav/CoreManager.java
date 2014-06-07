@@ -1,6 +1,5 @@
 package yaroslav;
 
-import yaroslav.entity.Word;
 
 import java.util.Collection;
 import java.util.List;

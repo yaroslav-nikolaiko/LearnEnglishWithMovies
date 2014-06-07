@@ -1,6 +1,7 @@
 package yaroslav.entity;
 
 import yaroslav.entity.media.MediaItem;
+import yaroslav.util.Language;
 import yaroslav.util.Level;
 
 import javax.persistence.*;
@@ -17,21 +18,21 @@ public class Dictionary {
     @GeneratedValue
     private Long id;
     @Column(nullable = false)
-    private String learningLanguage;
-    private String nativeLanguage;
+    @Enumerated(EnumType.STRING)
+    private Language learningLanguage;
+    @Enumerated(EnumType.STRING)
+    private Language nativeLanguage;
     @Enumerated(EnumType.STRING)
     private Level level;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dictionary")
     private List<MediaItem> mediaItems;
 
     public Dictionary() {
-//        words = new ArrayList<>();
-//        mediaItems = new ArrayList<>();
+        mediaItems = new ArrayList<>();
     }
 
-    public void addWords(Collection<String> words){
-//        for(String word : words)
-//            this.words.add(new Word(word));
+    public void addMediaItem(MediaItem item) {
+        mediaItems.add(item);
     }
 
     /********************************************************************************************
@@ -46,19 +47,19 @@ public class Dictionary {
         this.id = id;
     }
 
-    public String getLearningLanguage() {
+    public Language getLearningLanguage() {
         return learningLanguage;
     }
 
-    public void setLearningLanguage(String learningLanguage) {
+    public void setLearningLanguage(Language learningLanguage) {
         this.learningLanguage = learningLanguage;
     }
 
-    public String getNativeLanguage() {
+    public Language getNativeLanguage() {
         return nativeLanguage;
     }
 
-    public void setNativeLanguage(String nativeLanguage) {
+    public void setNativeLanguage(Language nativeLanguage) {
         this.nativeLanguage = nativeLanguage;
     }
 
@@ -76,5 +77,17 @@ public class Dictionary {
 
     public void setMediaItems(List<MediaItem> mediaItems) {
         this.mediaItems = mediaItems;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("learningLanguage  " + learningLanguage ).append("\n");
+        result.append("nativeLanguage  " + nativeLanguage ).append("\n");
+        result.append("level  " + level ).append("\n");
+        for(MediaItem item : mediaItems){
+            result.append("Item : "+"\n" + item);
+        }
+        return result.toString();
     }
 }

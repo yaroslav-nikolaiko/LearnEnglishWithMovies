@@ -1,9 +1,11 @@
 package yaroslav.entity.media;
 
 import yaroslav.entity.Dictionary;
-import yaroslav.entity.Word;
+import yaroslav.entity.WordCell;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,8 +23,24 @@ public class MediaItem {
     private String filename;
     @ManyToOne
     private Dictionary dictionary;
-    @Transient
-    private List<Word> words;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "mediaItem_id"),
+                                            inverseJoinColumns = @JoinColumn(name = "wordCell_fk"))
+    private List<WordCell> words;
+
+    public MediaItem() {
+        words = new ArrayList<>();
+    }
+
+    public void addWords(Collection<String> words){
+        for(String word : words){
+            this.words.add(new WordCell(word));
+        }
+    }
+
+    /********************************************************************************************
+     *                                              Getters and Setters
+     ********************************************************************************************/
 
     public Long getId() {
         return id;
@@ -62,5 +80,25 @@ public class MediaItem {
 
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
+    }
+
+    public List<WordCell> getWords() {
+        return words;
+    }
+
+    public void setWords(List<WordCell> words) {
+        this.words = words;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("name  " + name ).append("\n");
+        result.append("dictionary  " + dictionary.getId() ).append("\n");
+        result.append("dictionary  " + dictionary ).append("\n");
+        for(WordCell word : words){
+            result.append("Item : "+"\n" + word);
+        }
+        return result.toString();
     }
 }

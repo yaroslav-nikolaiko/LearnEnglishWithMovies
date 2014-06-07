@@ -41,7 +41,7 @@ public class Main {
         TimedTextObject tto = parser.getTto();
 
 
-        List<String> content = new ArrayList<>();
+        List<String> content = new ArrayList<String>();
         int counter=0;
         for(Caption caption : tto.captions.values()) {
             //System.out.println(caption.content);

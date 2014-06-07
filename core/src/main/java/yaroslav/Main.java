@@ -8,12 +8,10 @@ import yaroslav.entity.media.TVShow;
 import yaroslav.subtitles.SubtitlesManager;
 import yaroslav.subtitles.bridge.Subtitles;
 import yaroslav.subtitles.exception.SubtitlesParserException;
+import yaroslav.util.Language;
 import yaroslav.util.Level;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,37 +35,41 @@ public class Main {
 
 
 
-        User user = new User();
-        Dictionary dictionary = new Dictionary();
-        TVShow item = new TVShow();
-        item.setDictionary(dictionary);
-        item.setContent(content);
+//        User user = new User();
+//        Dictionary dictionary = new Dictionary();
+//        TVShow item = new TVShow();
+//        item.setDictionary(dictionary);
+//        item.setContent(content);
+//
+//
+//        dictionary.setLearningLanguage(Language.en);
+//        dictionary.setLevel(Level.INTERMEDIATE);
+//        dictionary.setNativeLanguage(Language.ru);
+//
+//        item.addWords(subtitles.getAllWords());
+//        List<MediaItem> items = new ArrayList<>();
+//        items.add(item);
+//        dictionary.setMediaItems(items);
+//
+//        List<Dictionary> dictionaries = new ArrayList<>();
+//        dictionaries.add(dictionary);
+//
+//        user.setDictionaries(dictionaries);
+//
+//        user.setName("yaroslav");
+//        user.setEmail("rachmaninov@bigmir.net");
+//        user.setPassword("admin");
+//
+//
+//        tx.begin();
+//        em.persist(user);
+//        em.persist(dictionary);
+//        em.persist(item);
+//        tx.commit();
 
-
-        dictionary.setLearningLanguage("en");
-        dictionary.setLevel(Level.INTERMEDIATE);
-        dictionary.setNativeLanguage("ru");
-
-        dictionary.addWords(subtitles.getAllWords());
-        List<MediaItem> items = new ArrayList<>();
-        items.add(item);
-        dictionary.setMediaItems(items);
-
-        List<Dictionary> dictionaries = new ArrayList<>();
-        dictionaries.add(dictionary);
-
-        user.setDictionaries(dictionaries);
-
-        user.setName("yaroslav");
-        user.setEmail("rachmaninov@bigmir.net");
-        user.setPassword("admin");
-
-
-        tx.begin();
-        em.persist(user);
-        em.persist(dictionary);
-        em.persist(item);
-        tx.commit();
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.name='yaroslav' ");
+        User user = (User) query.getSingleResult();
+        System.out.println(user);
 
 
     }

@@ -61,4 +61,15 @@ public class User {
     public void setDictionaries(List<Dictionary> dictionaries) {
         this.dictionaries = dictionaries;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("name  " + name ).append("\n");
+        result.append("email  " + email ).append("\n");
+        for(Dictionary dict : dictionaries){
+            result.append("Dictionary : "+"\n" + dict);
+        }
+        return result.toString();
+    }
 }
