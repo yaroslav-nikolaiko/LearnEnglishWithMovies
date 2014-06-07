@@ -2,11 +2,6 @@ package yaroslav.controller;
 
 
 import yaroslav.entity.User;
-import yaroslav.service.UserManager;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -24,34 +19,17 @@ import java.io.Serializable;
 @Named
 @RequestScoped
 public class UserController implements Serializable {
-
-
     @PersistenceContext( unitName = "LearnEnglishWithMovies")
     private EntityManager em;
 
     private User user;
-    @EJB
-    private UserManager manager;
 
-//    @PostConstruct
-//    void init(){
-//        hiberinit();
-//    }
-
-//    @Transactional
-//    private void hiberinit(){
-//        Query query = em.createQuery("SELECT u FROM User u WHERE u.name='yaroslav' ");
-//        user = (User) query.getSingleResult();
-//    }
-
-
+    @Transactional
     public User getUser(){
-        return manager.getUser();
+        //return manager.getUser();
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.name='yaroslav' ");
+        user = (User) query.getSingleResult();
+        return user;
     }
-
-//    public void insertData(){
-//
-//    }
-
 
 }
