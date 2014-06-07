@@ -1,0 +1,10 @@
+#!/bin/bash
+curl -s -S \
+    --user admin:admin \
+    --insecure \
+    -H "Accept: application/json" \
+    -H "X-Requested-By: dummy" \
+    -X POST \
+    -F id=@/home/yaroslav/workspace/LearnEnglishWithMovies/core/target/core-1.0-SNAPSHOT.war \
+    -F force=true \
+    https://192.168.32.242:4848/management/domain/applications/application
