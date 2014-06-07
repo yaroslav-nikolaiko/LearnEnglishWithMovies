@@ -69,7 +69,7 @@ public class Main {
 
         Query query = em.createQuery("SELECT u FROM User u WHERE u.name='yaroslav' ");
         User user = (User) query.getSingleResult();
-        System.out.println(user);
+        System.out.println(user.getName());
 
 
     }
