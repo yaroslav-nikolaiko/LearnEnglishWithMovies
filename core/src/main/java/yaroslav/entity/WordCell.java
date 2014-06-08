@@ -10,6 +10,7 @@ import java.util.List;
  * Created by yaroslav on 6/6/14.
  */
 @Entity
+@Table(name = "WordCell")
 public class WordCell {
     @Id
     @GeneratedValue

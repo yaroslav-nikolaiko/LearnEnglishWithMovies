@@ -2,6 +2,8 @@ package yaroslav.controller;
 
 
 import yaroslav.entity.User;
+import yaroslav.entity.WordCell;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -12,6 +14,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by yaroslav on 6/7/14.
@@ -30,6 +33,10 @@ public class UserController implements Serializable {
         Query query = em.createQuery("SELECT u FROM User u WHERE u.name='yaroslav' ");
         user = (User) query.getSingleResult();
         return user;
+    }
+
+    public List<WordCell> getAllWords(){
+        return user.getDictionaries().get(0).getMediaItems().get(0).getWords();
     }
 
 }

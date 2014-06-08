@@ -12,6 +12,7 @@ import java.util.List;
  * Created by yaroslav on 6/2/14.
  */
 @Entity
+@Table(name = "MediaItem")
 public class MediaItem {
     @Id
     @GeneratedValue

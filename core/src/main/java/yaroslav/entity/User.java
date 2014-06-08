@@ -14,10 +14,11 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
     private String password;
+    @Column(unique = true)
     private String email;
     @OneToMany
     @JoinColumn(name = "user_fk")

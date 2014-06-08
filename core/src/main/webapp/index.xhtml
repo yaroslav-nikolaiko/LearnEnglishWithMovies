@@ -15,5 +15,12 @@
     <h:outputText value="#{userController.user.name}"/>
     <p/>
     <h:outputText value="#{userController.user.email}"/>
+
+    <p/>
+    <h:dataTable value="#{userController.allWords}" var="word">
+        <h:column>
+            #{word.word}
+        </h:column>
+    </h:dataTable>
 </h:body>
 </html>
