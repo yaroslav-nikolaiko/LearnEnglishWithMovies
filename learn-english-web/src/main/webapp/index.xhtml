@@ -51,11 +51,11 @@
 
             <p:submenu label="Actions" icon="ui-icon-gear">
                 <p:submenu label="Ajax" icon="ui-icon-refresh">
-                    <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
-                    <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+                    <p:menuitem value="Save"  icon="ui-icon-disk" update="messages"/>
+                    <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" update="messages"/>
                 </p:submenu>
                 <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                    <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
+                    <p:menuitem value="Delete"  icon="ui-icon-close" update="messages" ajax="false"/>
                 </p:submenu>
             </p:submenu>
 
@@ -67,6 +67,7 @@
                     <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
                         <p:graphicImage name="image/login.png" style="height: 25px;width: 70px"/>
                     </h:outputLink>
+                    <p:button label="Don't have an account?" value="Sign Up" outcome="signUp.xhtml" />
                     <!--<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />-->
                 </h:panelGrid>
             </f:facet>
@@ -86,11 +87,13 @@
                     <f:facet name="footer">
                         <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
                                          oncomplete="handleLoginRequest(xhr, status, args)" />
+                        <p:button id="sgnUp" label="Don't have an account?" value="Sign Up" action="signUp.xhtml" onclick="dlg.hide()"/>
                     </f:facet>
+
                 </h:panelGrid>
+
             </p:dialog>
         </h:form>
-
 
     </h:form>
 

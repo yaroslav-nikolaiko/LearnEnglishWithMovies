@@ -1,4 +1,7 @@
 #!/bin/bash
+mvn clean install
+STATUS=$?
+if [ $STATUS -eq 0 ]; then
 curl -s -S \
     --user admin:admin \
     --insecure \
@@ -8,3 +11,5 @@ curl -s -S \
     -F id=@/home/yaroslav/workspace/LearnEnglishWithMovies/learn-english-web/target/learn-english-web-1.0-SNAPSHOT.war \
     -F force=true \
     https://192.168.32.242:4848/management/domain/applications/application
+fi
+

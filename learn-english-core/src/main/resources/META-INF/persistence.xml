@@ -4,6 +4,9 @@
              version="1.0">
     <persistence-unit name="LearnEnglishWithMovies" transaction-type="JTA">
         <jta-data-source>jdbc/LearningEnglish</jta-data-source>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+        </properties>
         <!--<properties>-->
             <!--<property name="URL" value="jdbc:mysql://localhost:3306/LearnEnglishWithMovies" />-->
             <!--&lt;!&ndash;<property name="javax.persistence.jdbc.user" value="root" />&ndash;&gt;-->
