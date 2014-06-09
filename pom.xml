@@ -9,9 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>subtitles-parser</module>
-        <module>translator</module>
-        <module>core</module>
+        <module>learn-english-subtitles-parser</module>
+        <module>learn-english-translator</module>
+        <module>learn-english-core</module>
+        <module>learn-english-web</module>
     </modules>
 
     <properties>
