@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_fk")
     private List<Dictionary> dictionaries;
+
+    public void addDictionary(Dictionary dictionary){
+        if(dictionaries==null)
+            dictionaries = new ArrayList<>();
+        dictionaries.add(dictionary);
+    }
 
     public Long getId() {
         return id;

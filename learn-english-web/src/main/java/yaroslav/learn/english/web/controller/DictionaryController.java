@@ -1,5 +1,6 @@
 package yaroslav.learn.english.web.controller;
 
+import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.service.UserService;
 import yaroslav.learn.english.core.util.Language;
 import yaroslav.learn.english.core.util.Level;
@@ -21,14 +22,19 @@ import java.io.Serializable;
 @Named
 @RequestScoped
 public class DictionaryController implements Serializable {
-    @EJB
-    private UserService userService;
-
     private Language learningLanguage;
     private Language nativeLanguage;
     private Level level;
     private String name;
 
+    public Dictionary createDictionary(){
+        Dictionary dict = new Dictionary();
+        dict.setName(name);
+        dict.setLevel(level);
+        dict.setNativeLanguage(nativeLanguage);
+        dict.setLearningLanguage(learningLanguage);
+        return dict;
+    }
 
     public Language[] getAvailableLearningLanguages() {
         return Language.values();

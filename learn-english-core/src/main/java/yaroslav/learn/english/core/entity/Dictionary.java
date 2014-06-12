@@ -92,13 +92,6 @@ public class Dictionary {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("learningLanguage  ").append(learningLanguage).append("\n");
-        result.append("nativeLanguage  ").append(nativeLanguage).append("\n");
-        result.append("level  ").append(level).append("\n");
-        for(MediaItem item : mediaItems){
-            result.append("Item : " + "\n").append(item);
-        }
-        return result.toString();
+        return name;
     }
 }

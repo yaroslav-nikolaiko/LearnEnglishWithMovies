@@ -7,20 +7,20 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-        <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
-                if(args.validationFailed  ) {
-                    PF('dlg').jq.effect("shake", {times:5}, 100);
-                }
-                else {
-                    PF('dlg').hide();
-                    $('#loginLink').fadeOut();
-                }
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if(args.validationFailed || !args.crossValidation) {
+                PF('dlg').jq.effect("shake", {times:5}, 100);
             }
-        </script>
+            else {
+                PF('dlg').hide();
+                $('#loginLink').fadeOut();
+            }
+        }
+    </script>
 </h:head>
 <h:body>
-    <h:form>
+    <h:form id="main-form">
 
         <p:growl id="messages"/>
 
@@ -60,8 +60,12 @@
                 </p:submenu>
             </p:submenu>
 
-            <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
-            <p:menuitem value="Add Dictionary"  onclick="PF('dlgAddDictionary').show();"  />
+            <p:menuitem value="Set Dictionary" >
+                <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}">
+                    <f:selectItems value="#{sessionController.allDictionaries}" />
+                </p:selectOneMenu>
+            </p:menuitem>
+            <p:menuitem value="Add Dictionary"  onclick="PF('dictionary-dlg').show();"  />
 
             <f:facet name="options">
                 <h:panelGrid columns="2">
@@ -77,21 +81,25 @@
 
 
         <h:form >
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growl" sticky="true" showDetail="false" life="3000" />
 
             <p:dialog header="Login" widgetVar="dlg" resizable="false" >
-                <h:panelGrid columns="3" cellpadding="5">
+                <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="username" value="Username:" />
                     <p:inputText id="username" value="#{userController.name}" required="true" label="username" />
-                    <p:message for="username"  />
+
 
                     <h:outputLabel for="password" value="Password:" />
                     <p:password id="password" value="#{userController.password}" required="true" label="password"  />
-                    <p:message for="password"  />
+
+                    <p:messages />
 
                     <f:facet name="footer">
-                        <p:commandButton value="Login"  action="#{sessionController.login}"
+                        <p:commandButton value="Login" update="growl :main-form:current-dictionary" process="@form"
+                                         actionListener="#{sessionController.login}"
                                          oncomplete="handleLoginRequest(xhr, status, args)"/>
+                        <p:messages />
+
                     </f:facet>
 
                 </h:panelGrid>
@@ -100,6 +108,39 @@
         </h:form>
 
 
+        <h:form>
+
+            <p:growl id="dict-growl" sticky="true" showDetail="false" life="3000" />
+
+            <p:dialog header="Create your Dictionary" widgetVar="dictionary-dlg" resizable="false" >
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                <h:outputLabel for="dictionary-name" value="Name: " />
+                <p:inputText id="dictionary-name" value="#{dictionaryController.name}" label="name" />
+
+                <h:outputLabel for="dictionary-learning-language" value="Learning Language: " />
+                <p:selectOneMenu id="dictionary-learning-language" value="#{dictionaryController.learningLanguage}">
+                    <f:selectItems value="#{dictionaryController.availableLearningLanguages}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="dictionary-native-language" value="Native Language: " />
+                <p:selectOneMenu id="dictionary-native-language" value="#{dictionaryController.nativeLanguage}">
+                    <f:selectItems value="#{dictionaryController.availableNativeLanguages}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="dictionary-level" value="Level: " />
+                <p:selectOneMenu id="dictionary-level" value="#{dictionaryController.level}">
+                    <f:selectItems value="#{dictionaryController.availableLevels}" />
+                </p:selectOneMenu>
+
+                <p:commandButton value="Add dictionary" update="dict-growl :main-form:current-dictionary" process="@form"
+                                 actionListener="#{sessionController.createDictionary}"
+                                 oncomplete="PF('dictionary-dlg').hide()"/>
+
+            </h:panelGrid>
+
+            </p:dialog>
+        </h:form>
 
 
     </h:form>
