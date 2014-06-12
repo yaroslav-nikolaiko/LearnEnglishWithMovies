@@ -5,6 +5,7 @@ import yaroslav.learn.english.core.util.Language;
 import yaroslav.learn.english.core.util.Level;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class Dictionary {
     @Id
     @GeneratedValue
     private Long id;
+    @Size(max=20)
+    private String name;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Language learningLanguage;
@@ -79,14 +82,22 @@ public class Dictionary {
         this.mediaItems = mediaItems;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("learningLanguage  " + learningLanguage ).append("\n");
-        result.append("nativeLanguage  " + nativeLanguage ).append("\n");
-        result.append("level  " + level ).append("\n");
+        result.append("learningLanguage  ").append(learningLanguage).append("\n");
+        result.append("nativeLanguage  ").append(nativeLanguage).append("\n");
+        result.append("level  ").append(level).append("\n");
         for(MediaItem item : mediaItems){
-            result.append("Item : "+"\n" + item);
+            result.append("Item : " + "\n").append(item);
         }
         return result.toString();
     }

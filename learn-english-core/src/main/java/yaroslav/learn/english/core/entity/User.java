@@ -12,13 +12,13 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, unique = true)
     private String name;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String password;
     @Column(unique = true)
     private String email;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_fk")
     private List<Dictionary> dictionaries;
 

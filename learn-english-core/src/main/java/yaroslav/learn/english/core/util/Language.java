@@ -5,6 +5,15 @@ package yaroslav.learn.english.core.util;
  */
 public enum Language {
     en, ru
-
-
+//    en("en"), ru("ru");
+//
+//    private String label;
+//
+//    private Language(String label) {
+//        this.label = label;
+//    }
+//
+//    public String getLabel() {
+//        return label;
+//    }
 }
