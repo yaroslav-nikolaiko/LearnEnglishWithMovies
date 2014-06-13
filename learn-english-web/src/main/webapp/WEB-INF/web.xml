@@ -19,7 +19,7 @@
     </welcome-file-list>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>bootstrap</param-value>
+        <param-value>afterdark</param-value>
     </context-param>
     <context-param>
         <description>Path to images</description>
