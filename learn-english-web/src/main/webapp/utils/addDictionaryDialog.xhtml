@@ -14,12 +14,12 @@
         <p:dialog header="Login" widgetVar="dlg" resizable="false">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="name" value="Username:" />
-                <p:inputText id="name" value="#{dictionaryController.name}"  label="name" />
+                <p:inputText id="name" value="#{dictionaryBean.name}"  label="name" />
 
 
                 <h:outputLabel for="name" value="Name:" />
-                <p:selectOneMenu value="#{dictionaryController.learningLanguage}">
-                    <f:selectItems value="#{dictionaryController.availableLearningLanguages}"/>
+                <p:selectOneMenu value="#{dictionaryBean.learningLanguage}">
+                    <f:selectItems value="#{dictionaryBean.availableLearningLanguages}"/>
                 </p:selectOneMenu>
 
 

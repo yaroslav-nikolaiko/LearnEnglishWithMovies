@@ -15,17 +15,17 @@
 
         <h:panelGrid id="grid" columns="3" cellpadding="5">
             <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
-            <p:inputText  id="name" value="#{userController.name}"
-                          validator="#{userController.validateName}" required="true" label="Name" />
+            <p:inputText  id="name" value="#{userBean.user.name}"
+                          validator="#{userBean.validateName}" required="true" label="Name" />
             <p:message for="name" />
 
             <h:outputLabel for="email" value="Email:" style="font-weight:bold"/>
-            <h:inputText id="email" value="#{userController.email}"
-                         validator="#{userController.validateEmail}" required="true" label="Email"/>
+            <h:inputText id="email" value="#{userBean.user.email}"
+                         validator="#{userBean.validateEmail}" required="true" label="Email"/>
             <p:message for="email" />
 
             <h:outputLabel for="password" value="Password:" style="font-weight:bold"/>
-            <p:inputText id="password" value="#{userController.password}"  required="true" label="Password"/>
+            <p:inputText id="password" value="#{userBean.user.password}"  required="true" label="Password"/>
             <p:message for="password" />
         </h:panelGrid>
 

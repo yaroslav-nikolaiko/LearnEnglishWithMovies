@@ -1,6 +1,8 @@
 package yaroslav.learn.english.core.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +15,19 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Size(max=20)
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Size(min=3, max=20)
     @Column(nullable = false)
     private String password;
+
+    @Pattern(regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)", message = "Email is not in valid format")
     @Column(unique = true)
     private String email;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_fk")
     private List<Dictionary> dictionaries;

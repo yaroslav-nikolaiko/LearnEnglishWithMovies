@@ -12,7 +12,7 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class MediaItemController {
+public class MediaItemBean {
     private MediaItem mediaItem;
     private MediaItemType type;
 

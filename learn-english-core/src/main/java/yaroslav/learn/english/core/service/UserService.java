@@ -28,14 +28,6 @@ public class UserService {
         if(list.size() != 1)
             return null;
         return list.get(0);
-//        User user = null;
-//        try{
-//            user = query.getSingleResult();
-//            query.getResultList()
-//        }catch (NoResultException e){
-//            //NOP
-//        }
-//        return user;
     }
 
     public boolean nameExist(String name){
@@ -48,6 +40,14 @@ public class UserService {
         Query query = em.createQuery("SELECT COUNT(u.email) FROM User u WHERE u.email=:email");
         query.setParameter("email",email);
         return (Long) query.getSingleResult() > 0;
+    }
+
+    public void addDictionary(User user, Dictionary dictionary){
+        if( user != null && dictionary != null){
+            user.addDictionary(dictionary);
+            //TODO: should I add validation user.id == getUserWithName(user.name).id ?
+            merge(user);
+        }
     }
 
     public void merge(User user) {

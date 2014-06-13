@@ -23,37 +23,24 @@ public class SessionController implements Serializable {
     @EJB
     private UserService userService;
     @Inject
-    private UserController userController;
+    private UserBean userBean;
     @Inject
-    private DictionaryController dictionaryController;
+    private DictionaryBean dictionaryBean;
     private User user;
     private Dictionary currentDictionary;
 
     public String singUp(){
-        user =  userController.buildNewUser();
+        user =  userBean.getUser();
         return "index";
     }
 
     public void login(){
-        user =  userController.login();
-        RequestContext context = RequestContext.getCurrentInstance();
-        FacesMessage message = null;
-        boolean loggedIn = false;
-
-        if(user==null)
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-        else{
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", user.getName());
-            loggedIn=true;
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        context.addCallbackParam("crossValidation", loggedIn);
+        user =  userBean.login();
     }
 
     public void createDictionary(){
         if(user!=null){
-            this.currentDictionary = dictionaryController.createDictionary();
+            this.currentDictionary = dictionaryBean.getDictionary();
             user.addDictionary(currentDictionary);
             userService.merge(user);
         }
