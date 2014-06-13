@@ -51,15 +51,18 @@
                 </p:submenu>
             </p:submenu>
 
+
             <p:menuitem value="Set Dictionary" >
-                <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}">
-                    <f:selectItems value="#{sessionController.allDictionaries}" />
+                <h:form id="current-dictionary">
+                <p:selectOneMenu  value="#{sessionController.currentDictionary}"  converter="#{dictionaryConverter}">
+                    <f:selectItems value="#{sessionController.allDictionaries}" var="dict" itemValue="#{dict}" itemLabel="#{dict.name}" />
                 </p:selectOneMenu>
+                </h:form>
             </p:menuitem>
             <p:menuitem value="Add Dictionary"  onclick="PF('dictionary-dlg').show();"  />
 
             <f:facet name="options">
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="3">
                     <p:inputText style="margin-right:10px" placeholder="Search"/>
                     <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
                         <p:graphicImage name="image/login.png" style="height: 25px;width: 70px"/>

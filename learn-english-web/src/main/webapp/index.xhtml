@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+
 <h:head>
     <script type="text/javascript">
         function handleLoginRequest(xhr, status, args) {
@@ -18,132 +19,86 @@
             }
         }
     </script>
+
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <title>PrimeFaces - ShowCase</title>
+    </f:facet>
+
+    <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+    <style type="text/css">
+        .ui-layout-north {
+            z-index:20 !important;
+            overflow:visible !important;;
+        }
+
+        .ui-layout-north .ui-layout-unit-content {
+            overflow:visible !important;
+        }
+    </style>
+
+
+
 </h:head>
+
 <h:body>
-    <h:form id="main-form">
 
-        <p:growl id="messages"/>
+    <p:layout fullPage="true" >
 
-        <p:menubar>
-            <p:submenu label="File" icon="ui-icon-document">
-                <p:submenu label="New" icon="ui-icon-contact">
-                    <p:menuitem value="Project" url="#" />
-                    <p:menuitem value="Other" url="#" />
-                </p:submenu>
-                <p:menuitem value="Open" url="#" />
-                <p:separator />
-                <p:menuitem value="Quit" url="#" />
-            </p:submenu>
+        <p:layoutUnit id="top" position="north" size="50">
+            <ui:include src="components/menuabr.xhtml"/>
+            <ui:include src="components/dialogs/login.xhtml"/>
+            <ui:include src="components/dialogs/addDictionary.xhtml"/>
 
-            <p:submenu label="Edit" icon="ui-icon-pencil">
-                <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-                <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
-            </p:submenu>
+        </p:layoutUnit>
 
-            <p:submenu label="Help" icon="ui-icon-help">
-                <p:menuitem value="Contents" url="#" />
-                <p:submenu label="Search" icon="ui-icon-search">
-                    <p:submenu label="Text">
-                        <p:menuitem value="Workspace" url="#" />
-                    </p:submenu>
-                    <p:menuitem value="File" url="#" />
-                </p:submenu>
-            </p:submenu>
+        <p:layoutUnit id="left" position="west" size="300" resizable="true"  collapsible="true" header="Options" minSize="200">
 
-            <p:submenu label="Actions" icon="ui-icon-gear">
-                <p:submenu label="Ajax" icon="ui-icon-refresh">
-                    <p:menuitem value="Save"  icon="ui-icon-disk" update="messages"/>
-                    <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" update="messages"/>
-                </p:submenu>
-                <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                    <p:menuitem value="Delete"  icon="ui-icon-close" update="messages" ajax="false"/>
-                </p:submenu>
-            </p:submenu>
+            <p:accordionPanel id="accordeon-left">
+                <p:tab title="Media Items">
+                   <ui:include src="components/mediaItemTable.xhtml"/>
 
-            <p:menuitem value="Set Dictionary" >
-                <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}">
-                    <f:selectItems value="#{sessionController.allDictionaries}" />
-                </p:selectOneMenu>
-            </p:menuitem>
-            <p:menuitem value="Add Dictionary"  onclick="PF('dictionary-dlg').show();"  />
+                </p:tab>
 
-            <f:facet name="options">
-                <h:panelGrid columns="2">
-                    <p:inputText style="margin-right:10px" placeholder="Search"/>
-                    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
-                        <p:graphicImage name="image/login.png" style="height: 25px;width: 70px"/>
-                    </h:outputLink>
-                    <p:button label="Don't have an account?" value="Sign Up" outcome="signUp.xhtml" />
-                    <!--<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />-->
-                </h:panelGrid>
-            </f:facet>
-        </p:menubar>
+                <p:tab title="Menu 2">
+                    <br />
+                    <p:calendar mode="inline" navigator="none"/>
+                    <br />
+                </p:tab>
+
+                <p:tab title="Menu 3">
+                    <h:outputText value="Menu 3 Content" />
+                </p:tab>
+            </p:accordionPanel>
+        </p:layoutUnit>
+
+        <p:layoutUnit id="right" position="east" size="250" header="Gallery" resizable="true" collapsible="true"
+                      style="text-align:center">
 
 
-        <h:form >
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+        </p:layoutUnit>
 
-            <p:dialog header="Login" widgetVar="dlg" resizable="false" >
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText id="username" value="#{userBean.user.name}" required="true" label="username" />
+        <p:layoutUnit id="center" position="center">
+            <ui:include src="components/dialogs/loadMedia.xhtml"/>
+        </p:layoutUnit>
 
+        <p:layoutUnit id="bottom" position="south" size="60">
+            <h:outputLink value="http://code.google.com/p/primefaces/source/browse/examples/trunk/showcase/src/main/webapp/ui/layoutComplex.xhtml">
+                View Page Source (layoutComplex.xhtml)
+            </h:outputLink>
 
-                    <h:outputLabel for="password" value="Password:" />
-                    <p:password id="password" value="#{userBean.user.password}" required="true" label="password"  />
+            <br />
 
-                    <p:messages />
+            <h:outputLink value="http://code.google.com/p/primefaces/source/browse/examples/trunk/showcase/src/main/java/org/primefaces/examples/view/LayoutBean.java">
+                View Backing Bean Source (LayoutBean.java)
+            </h:outputLink>
+        </p:layoutUnit>
 
-                    <f:facet name="footer">
-                        <p:commandButton value="Login" update="growl :main-form:current-dictionary" process="@form"
-                                         actionListener="#{sessionController.login}"
-                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
-                        <p:messages />
-
-                    </f:facet>
-
-                </h:panelGrid>
-
-            </p:dialog>
-        </h:form>
-
-
-        <h:form>
-
-            <p:growl id="dict-growl" sticky="true" showDetail="false" life="3000" />
-
-            <p:dialog header="Create your Dictionary" widgetVar="dictionary-dlg" resizable="false" >
-            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-
-                <h:outputLabel for="dictionary-name" value="Name: " />
-                <p:inputText id="dictionary-name" value="#{dictionaryBean.dictionary.name}" label="name" />
-
-                <h:outputLabel for="dictionary-learning-language" value="Learning Language: " />
-                <p:selectOneMenu id="dictionary-learning-language" value="#{dictionaryBean.dictionary.learningLanguage}">
-                    <f:selectItems value="#{generalProperties.availableLearningLanguages}" />
-                </p:selectOneMenu>
-
-                <h:outputLabel for="dictionary-native-language" value="Native Language: " />
-                <p:selectOneMenu id="dictionary-native-language" value="#{dictionaryBean.dictionary.nativeLanguage}">
-                    <f:selectItems value="#{generalProperties.availableNativeLanguages}" />
-                </p:selectOneMenu>
-
-                <h:outputLabel for="dictionary-level" value="Level: " />
-                <p:selectOneMenu id="dictionary-level" value="#{dictionaryBean.dictionary.level}">
-                    <f:selectItems value="#{generalProperties.availableLevels}" />
-                </p:selectOneMenu>
-
-                <p:commandButton value="Add dictionary" update="dict-growl :main-form:current-dictionary" process="@form"
-                                 actionListener="#{sessionController.createDictionary}"
-                                 oncomplete="PF('dictionary-dlg').hide()"/>
-
-            </h:panelGrid>
-
-            </p:dialog>
-        </h:form>
-
-
-    </h:form>
+    </p:layout>
 
 </h:body>
+
 </html>

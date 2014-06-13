@@ -86,4 +86,21 @@ public class WordCell {
         }
         return result.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WordCell wordCell = (WordCell) o;
+
+        if (id != null ? !id.equals(wordCell.id) : wordCell.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

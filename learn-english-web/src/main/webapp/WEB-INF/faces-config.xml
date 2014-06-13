@@ -5,4 +5,9 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
               version="2.2">
 
+    <converter>
+        <converter-for-class>yaroslav.learn.english.core.entity.Dictionary</converter-for-class>
+        <converter-class>yaroslav.learn.english.web.units.DictionaryConverter</converter-class>
+    </converter>
+
 </faces-config>

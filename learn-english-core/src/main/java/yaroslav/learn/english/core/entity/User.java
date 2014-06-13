@@ -80,12 +80,30 @@ public class User {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("name  " + name ).append("\n");
-        result.append("email  " + email ).append("\n");
-        for(Dictionary dict : dictionaries){
-            result.append("Dictionary : "+"\n" + dict);
-        }
-        return result.toString();
+//        StringBuilder result = new StringBuilder();
+//        result.append("name  " + name ).append("\n");
+//        result.append("email  " + email ).append("\n");
+//        for(Dictionary dict : dictionaries){
+//            result.append("Dictionary : "+"\n" + dict);
+//        }
+//        return result.toString();
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

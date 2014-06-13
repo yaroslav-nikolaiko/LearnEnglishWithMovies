@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition>
+        <h:form id="media-item-form">
+            <p:dataTable id="media-item-table" var="item" value="#{sessionController.currentDictionary.mediaItems}" selection="#{sessionController.selectedMediaItems}" style="margin-bottom:0">
+                <f:facet name="header">
+                    <p:panelGrid columns="2">
+                        <p:commandButton immediate="true"   value="Load" onclick="PF('media-item-dlg').show();" />
+                    </p:panelGrid>
+                </f:facet>
+                <p:column selectionMode="multiple" style="width:20%;text-align:center"/>
+                <p:column >
+                    <h:outputText value="#{item.name}" />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton process="media-item-table"  icon="ui-icon-search" value="View"  />
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+    </ui:composition>
+
+</h:body>
+</html>

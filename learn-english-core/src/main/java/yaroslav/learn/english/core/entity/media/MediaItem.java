@@ -93,13 +93,14 @@ public class MediaItem {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("name  " + name ).append("\n");
-        result.append("dictionary  " + dictionary.getId() ).append("\n");
-        result.append("dictionary  " + dictionary ).append("\n");
-        for(WordCell word : words){
-            result.append("Item : "+"\n" + word);
-        }
-        return result.toString();
+//        StringBuilder result = new StringBuilder();
+//        result.append("name  " + name ).append("\n");
+//        result.append("dictionary  " + dictionary.getId() ).append("\n");
+//        result.append("dictionary  " + dictionary ).append("\n");
+//        for(WordCell word : words){
+//            result.append("Item : "+"\n" + word);
+//        }
+//        return result.toString();
+        return name;
     }
 }
