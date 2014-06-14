@@ -29,8 +29,12 @@ public class User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_fk")
+    @JoinColumn(name = "USER_FK")
     private List<Dictionary> dictionaries;
+
+    public User() {
+        dictionaries = new ArrayList<>();
+    }
 
     public void addDictionary(Dictionary dictionary){
         if(dictionaries==null)
@@ -97,13 +101,13 @@ public class User {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return name != null ? name.hashCode() : 0;
     }
 }

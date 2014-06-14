@@ -12,11 +12,12 @@ import java.util.List;
  * Created by yaroslav on 6/2/14.
  */
 @Entity
-@Table(name = "MediaItem")
+@Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
 public class MediaItem {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String name;
     @Basic(fetch = FetchType.LAZY)
     @Lob
@@ -25,8 +26,8 @@ public class MediaItem {
     @ManyToOne
     private Dictionary dictionary;
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "mediaItem_id"),
-                                            inverseJoinColumns = @JoinColumn(name = "wordCell_fk"))
+    @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
+                                            inverseJoinColumns = @JoinColumn(name = "WORDCELL_FK"))
     private List<WordCell> words;
 
     public MediaItem() {
@@ -102,5 +103,25 @@ public class MediaItem {
 //        }
 //        return result.toString();
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MediaItem mediaItem = (MediaItem) o;
+
+        if (dictionary != null ? !dictionary.equals(mediaItem.dictionary) : mediaItem.dictionary != null) return false;
+        if (name != null ? !name.equals(mediaItem.name) : mediaItem.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (dictionary != null ? dictionary.hashCode() : 0);
+        return result;
     }
 }

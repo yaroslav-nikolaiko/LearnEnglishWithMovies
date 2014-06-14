@@ -11,23 +11,29 @@
 <h:body>
     <ui:composition>
         <h:form enctype="multipart/form-data">
+
+
             <p:growl id="load-media-growl" sticky="true" showDetail="false" life="3000" />
 
             <p:dialog header="Load Media Item" widgetVar="media-item-dlg" resizable="false" >
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
                     <h:outputLabel for="media-item-name" value="Name: " />
-                    <p:inputText id="media-item-name" value="#{mediaItemBean.mediaItem.name}" label="name" />
+                    <p:inputText id="media-item-name" value="#{mediaItemBean.mediaItem.name}" label="name" required="true"/>
 
-                    <p:fileUpload value="#{mediaItemBean.file}" mode="simple" required="true"/>
 
-                    <p:commandButton ajax="false" value="Create" update="load-media-growl" process="@form"
+
+                    <p:commandButton value="Create" update="load-media-growl" process="@form"
                                      actionListener="#{sessionController.loadMediaItem}"
-                                     oncomplete="PF('media-item-dlg').hide()"/>
+                                     oncomplete="if(args.validationFailed){
+                                        PF('media-item-dlg').jq.effect('shake', {times:5}, 100);
+                                     }else{
+                                        PF('media-item-dlg').hide();} "/>
 
                 </h:panelGrid>
-
             </p:dialog>
+
+
         </h:form>
     </ui:composition>
 

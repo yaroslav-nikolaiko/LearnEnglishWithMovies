@@ -13,12 +13,13 @@ import java.util.List;
  * Created by yaroslav on 6/2/14.
  */
 @Entity
-@Table(name = "Dictionary")
+@Table(name = "Dictionary", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "USER_FK"}))
 public class Dictionary {
     @Id
     @GeneratedValue
     private Long id;
     @Size(max=20)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -35,6 +36,7 @@ public class Dictionary {
     }
 
     public void addMediaItem(MediaItem item) {
+        item.setDictionary(this);
         mediaItems.add(item);
     }
 
@@ -102,13 +104,20 @@ public class Dictionary {
 
         Dictionary that = (Dictionary) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (learningLanguage != that.learningLanguage) return false;
+        if (level != that.level) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (nativeLanguage != that.nativeLanguage) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (learningLanguage != null ? learningLanguage.hashCode() : 0);
+        result = 31 * result + (nativeLanguage != null ? nativeLanguage.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        return result;
     }
 }

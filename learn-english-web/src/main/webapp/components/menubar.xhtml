@@ -53,13 +53,24 @@
 
 
             <p:menuitem value="Set Dictionary" >
-                <h:form id="current-dictionary">
-                <p:selectOneMenu  value="#{sessionController.currentDictionary}"  converter="#{dictionaryConverter}">
+                <h:form id="current-dictionary-form">
+                <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}" converter="#{dictionaryConverter}"
+                                 panelStyle="width:180px" effect="fade" var="d" style="width:160px" filter="true" filterMatchMode="startsWith"
+                                 label="Select Dictionary">
+                    <p:ajax update=":main-form:debug-current-dictionary"/>
+                    <f:selectItem noSelectionOption="true" itemLabel="Select Dictionary"/>
                     <f:selectItems value="#{sessionController.allDictionaries}" var="dict" itemValue="#{dict}" itemLabel="#{dict.name}" />
+                    <p:column>
+                        <h:outputText value="#{d.name}" />
+                    </p:column>
                 </p:selectOneMenu>
                 </h:form>
             </p:menuitem>
             <p:menuitem value="Add Dictionary"  onclick="PF('dictionary-dlg').show();"  />
+            <p:menuitem >
+                <h:outputText id="debug-current-dictionary" value="#{sessionController.currentDictionary}" />
+            </p:menuitem>
+
 
             <f:facet name="options">
                 <h:panelGrid columns="3">
