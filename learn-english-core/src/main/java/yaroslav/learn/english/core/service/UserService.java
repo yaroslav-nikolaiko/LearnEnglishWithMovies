@@ -5,6 +5,7 @@ import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
 import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 
+import javax.ejb.ApplicationException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Stateless
 @ValidationHandlerEjb
+@ApplicationException(rollback = false)
 public class UserService {
     @Inject
     private EntityManager em;
@@ -61,15 +63,16 @@ public class UserService {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
-                throw new EJBIllegalArgumentsException(String.format("Dictionary with name = %s already exist", dName),
+                throw new EJBIllegalArgumentsException(String.format("Dictionary with name %s already exist", dName),
                                                                         EJBIllegalArgumentsException.MessageType.INFO);
         user.addDictionary(dictionary);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
-        //merge(user);
-        if( ! em.contains(user))
-            em.persist(user);
-        else
-            em.persist(dictionary);
+        em.persist(dictionary);
+        em.merge(user);
+//        if( ! em.contains(user))
+//            em.merge(user);
+//        else
+//            em.persist(dictionary);
     }
 
 //    public void merge(User user) {

@@ -13,7 +13,7 @@
         <h:form id="media-item-form">
 
             <p:dataTable id="media-item-table" value="#{sessionController.currentDictionary.mediaItems}" var="item"
-                         rowKey="#{item.id}" selection="#{sessionController.selectedMediaItems}" style="margin-bottom: 0">
+                         rowKey="#{item.name}" selection="#{sessionController.selectedMediaItems}" style="margin-bottom: 0">
                 <f:facet name="header">
                     <p:panelGrid columns="2">
                         <p:commandButton immediate="true" value="Load" onclick="PF('media-item-dlg').show();" />

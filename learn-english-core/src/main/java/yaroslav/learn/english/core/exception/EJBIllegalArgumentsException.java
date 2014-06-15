@@ -10,11 +10,13 @@ public class EJBIllegalArgumentsException extends Exception{
 
     public EJBIllegalArgumentsException(String message){
         super(message);
+        messageType = MessageType.INFO;
     }
 
 
     public EJBIllegalArgumentsException(String message, Throwable cause) {
         super(message, cause);
+        messageType = MessageType.INFO;
         //type_message_map = new HashMap<>();
     }
 

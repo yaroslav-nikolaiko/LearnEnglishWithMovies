@@ -63,23 +63,10 @@ public class SessionController implements Serializable {
 
     @DialogValidation
     public void loadMediaItem()throws EJBIllegalArgumentsException{
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage message = null;
-        if(currentDictionary != null){
-            MediaItem item = mediaItemBean.getMediaItem();
-            dictionaryService.addMediaItem(currentDictionary, item);
-        }
-        else if(user==null){
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, String.format("Please, Log in or Sign Up"),"");
-            context.addMessage(null,message);
-            return;
-        }else {
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO,String.format("No dictionary selected"),"");
-            context.addMessage(null,message);
-        }
-
-//        MediaItem item = mediaItemBean.getMediaItem();
-//        dictionaryService.addMediaItem(currentDictionary, item);
+        MediaItem item = mediaItemBean.getMediaItem();
+        byte[] content = mediaItemBean.getFile().getContents();
+        item.setContent(content);
+        dictionaryService.addMediaItem(currentDictionary, item);
     }
 
     /*********************************************************************************************

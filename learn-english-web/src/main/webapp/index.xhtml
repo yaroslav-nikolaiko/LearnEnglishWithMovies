@@ -21,15 +21,26 @@
     </script>
 
     <script type="text/javascript">
-        function handleGeneralDialog(xhr, status, args, dialogName) {
+        function handleCreateDictionary(xhr, status, args) {
             if(args.validationFailed || !args.crossValidation) {
-                dialogName.jq.effect("shake", {times:5}, 100);
+                PF('dictionary-dlg').jq.effect("shake", {times:5}, 100);
             }
             else {
-                PF(dialogName).hide();
+                PF('dictionary-dlg').hide();
             }
         }
     </script>
+    <script type="text/javascript">
+        function handleAddMediaItem(xhr, status, args) {
+            if(args.validationFailed || !args.crossValidation) {
+                PF('media-item-dlg').jq.effect("shake", {times:5}, 100);
+            }
+            else {
+                PF('media-item-dlg').hide();
+            }
+        }
+    </script>
+
 
     <f:facet name="first">
         <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />

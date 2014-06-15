@@ -28,7 +28,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_FK")
     private List<Dictionary> dictionaries;
 

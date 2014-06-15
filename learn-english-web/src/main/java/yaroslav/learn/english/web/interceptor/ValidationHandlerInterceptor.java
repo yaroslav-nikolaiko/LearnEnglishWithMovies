@@ -39,6 +39,8 @@ public class ValidationHandlerInterceptor implements Serializable {
     }
 
     private FacesMessage.Severity transformMessageType(EJBIllegalArgumentsException.MessageType type){
+        if(type==null)
+            return FacesMessage.SEVERITY_INFO;
         switch(type){
             case ERROR:
                 return FacesMessage.SEVERITY_ERROR;
