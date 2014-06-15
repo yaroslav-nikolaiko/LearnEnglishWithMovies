@@ -1,40 +1,42 @@
-package yaroslav.learn.english.core.exception;
+package yaroslav.learn.english.web.exception;
+
+import javax.faces.application.FacesMessage;
 
 /**
- * Created by yaroslav on 6/14/14.
+ * Created by yaroslav on 6/15/14.
  */
-public class EJBIllegalArgumentsException extends Exception{
+public class WebException extends IllegalArgumentException {
     //Map<Type, String> type_message_map;
-    MessageType messageType;
+    FacesMessage.Severity messageType;
     String explanation;
 
-    public EJBIllegalArgumentsException(String message){
+    public WebException(String message){
         super(message);
     }
 
 
-    public EJBIllegalArgumentsException(String message, Throwable cause) {
+    public WebException(String message, Throwable cause) {
         super(message, cause);
         //type_message_map = new HashMap<>();
     }
 
-    public EJBIllegalArgumentsException(String message, MessageType messageType, Throwable cause) {
+    public WebException(String message, FacesMessage.Severity messageType, Throwable cause) {
         this(message, cause);
         this.messageType = messageType;
         //type_message_map = new HashMap<>();
     }
 
-    public EJBIllegalArgumentsException(String message, MessageType messageType) {
+    public WebException(String message, FacesMessage.Severity messageType) {
         this(message);
         this.messageType = messageType;
         //type_message_map = new HashMap<>();
     }
 
-    public MessageType getMessageType() {
+    public FacesMessage.Severity getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(MessageType messageType) {
+    public void setMessageType(FacesMessage.Severity messageType) {
         this.messageType = messageType;
     }
 
@@ -44,9 +46,5 @@ public class EJBIllegalArgumentsException extends Exception{
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
-    }
-
-    public static enum MessageType {
-        INFO, WARN, ERROR
     }
 }

@@ -37,8 +37,6 @@ public class User {
     }
 
     public void addDictionary(Dictionary dictionary){
-        if(dictionaries==null)
-            dictionaries = new ArrayList<>();
         dictionaries.add(dictionary);
     }
 

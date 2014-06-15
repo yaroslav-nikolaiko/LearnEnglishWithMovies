@@ -3,6 +3,7 @@ package yaroslav.learn.english.web.controller;
 import org.primefaces.context.RequestContext;
 import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.service.UserService;
+import yaroslav.learn.english.web.exception.WebException;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -60,21 +61,15 @@ public class UserBean implements Serializable{
     }
 
     public User login() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        FacesMessage message = null;
-        boolean loggedIn = false;
-
-        User user = userService.findByName(this.user.getName());
-
-        if(user != null && user.getPassword().equals(this.user.getPassword())){
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", user.getName());
-            loggedIn=true;
-        }else
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        context.addCallbackParam("crossValidation", loggedIn);
-
+        User user = userService.findByNameAndPassword(this.user.getName(),  this.user.getPassword());
+        if(user!=null){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", user.getName());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            WebException e = new WebException("Loggin Error", FacesMessage.SEVERITY_WARN);
+            e.setExplanation("Invalid credentials");
+            throw e;
+        }
         return user;
     }
 

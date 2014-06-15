@@ -16,21 +16,20 @@ import java.io.Serializable;
 @ValidationHandlerEjb
 @Priority(1010)
 public class ValidationHandlerInterceptorEjb implements Serializable {
-
     @AroundInvoke
     Object perform(InvocationContext ic) throws EJBIllegalArgumentsException {
         try {
             return ic.proceed();
         } catch (ConstraintViolationException e) {
-            //throw new Error("Its Fucking works! from EJB");
-            throw new EJBIllegalArgumentsException("It's fucking work from ejb", e);
-        }catch(EJBIllegalArgumentsException e) {
-            throw e;
+
+            EJBIllegalArgumentsException myException = new EJBIllegalArgumentsException("Constraint Violations in EJB module ", e);
+            myException.setExplanation(e.getMessage());
+            myException.setMessageType(EJBIllegalArgumentsException.MessageType.INFO);
+            throw myException;
+
         }
-        catch (Exception e) {
-            //log
-            e.printStackTrace();
-        }
+        catch(EJBIllegalArgumentsException e) {throw e;}
+        catch (Exception e) {e.printStackTrace(); /*log*/ }
         return null;
     }
 }

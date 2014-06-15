@@ -6,6 +6,7 @@ import yaroslav.learn.english.core.entity.media.MediaItem;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
 import yaroslav.learn.english.core.service.DictionaryService;
 import yaroslav.learn.english.core.service.UserService;
+import yaroslav.learn.english.web.interceptor.DialogValidation;
 import yaroslav.learn.english.web.interceptor.ValidationHandler;
 
 import javax.ejb.EJB;
@@ -15,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.ExcludeClassInterceptors;
 import java.io.Serializable;
 import java.util.*;
 
@@ -39,44 +41,28 @@ public class SessionController implements Serializable {
 
     public String singUp(){
         user =  userBean.getUser();
+        userService.add(user);
         return "index";
     }
 
+    @DialogValidation
     public void login(){
         user =  userBean.login();
         if( user!=null && user.getDictionaries().size() > 0)
             currentDictionary = user.getDictionaries().get(0);
     }
 
+    @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentsException {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        FacesMessage message = null;
-//        if(user!=null){
-//            Dictionary dictionary = dictionaryBean.getDictionary();
-//            try{
-//                userService.addDictionary(user, dictionary);
-//            }catch(EJBIllegalArgumentsException e){
-//                message = new FacesMessage(e.getMessage());
-//                context.addMessage(null,message);
-//                return;
-//            }
-//            this.currentDictionary = dictionary;
-//        }
-//        else{
-//            message = new FacesMessage(String.format("Please, Log in or Sign Up"));
-//            context.addMessage(null,message);
-//        }
-//        try{
 
             Dictionary dictionary = dictionaryBean.getDictionary();
             userService.addDictionary(user, dictionary);
             this.currentDictionary = dictionary;
-//        }catch(EJBIllegalArgumentsException e){
-//           throw new Error("Its fucking warking");
-//       }
+
     }
 
-    public void loadMediaItem(){
+    @DialogValidation
+    public void loadMediaItem()throws EJBIllegalArgumentsException{
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage message = null;
         if(currentDictionary != null){
@@ -96,31 +82,42 @@ public class SessionController implements Serializable {
 //        dictionaryService.addMediaItem(currentDictionary, item);
     }
 
+    /*********************************************************************************************
+     **************************************** Getters and Setters ********************************
+     *********************************************************************************************/
+
+    @ExcludeClassInterceptors
     public List<MediaItem> getSelectedMediaItems() {
         return selectedMediaItems;
     }
 
+    @ExcludeClassInterceptors
     public void setSelectedMediaItems(List<MediaItem> selectedMediaItems) {
         this.selectedMediaItems = selectedMediaItems;
     }
 
+    @ExcludeClassInterceptors
     public User getUser() {
         return user;
     }
 
+    @ExcludeClassInterceptors
     public void setUser(User user) {
         this.user = user;
     }
 
+    @ExcludeClassInterceptors
     public Dictionary getCurrentDictionary() {
         return currentDictionary;
     }
 
+    @ExcludeClassInterceptors
     public void setCurrentDictionary(Dictionary currentDictionary) {
         this.currentDictionary = currentDictionary;
     }
 
     @Produces
+    @ExcludeClassInterceptors
     public List<Dictionary> getAllDictionaries(){
         return user != null ? user.getDictionaries() : null;
     }

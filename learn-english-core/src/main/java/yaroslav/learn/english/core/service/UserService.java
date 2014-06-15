@@ -8,7 +8,6 @@ import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
-import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -35,6 +34,16 @@ public class UserService {
         return list.get(0);
     }
 
+    public User findByNameAndPassword(String name, String password){
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.password=:password", User.class);
+        query.setParameter("name",name);
+        query.setParameter("password",password);
+        List<User> list = query.getResultList();
+        if(list.size() != 1)
+            return null;
+        return list.get(0);
+    }
+
     public boolean nameExist(String name){
         Query query = em.createQuery("SELECT COUNT(u.name) FROM User u WHERE u.name=:name");
         query.setParameter("name",name);
@@ -52,7 +61,8 @@ public class UserService {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
-                throw new ValidationException(String.format("Dictionary with name = %s already exist", dName));
+                throw new EJBIllegalArgumentsException(String.format("Dictionary with name = %s already exist", dName),
+                                                                        EJBIllegalArgumentsException.MessageType.INFO);
         user.addDictionary(dictionary);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
         //merge(user);
@@ -66,8 +76,8 @@ public class UserService {
 //        em.merge(user);
 //    }
 
-    public EntityManager getEntityManager() {
-        return em;
-    }
+//    public EntityManager getEntityManager() {
+//        return em;
+//    }
 
 }

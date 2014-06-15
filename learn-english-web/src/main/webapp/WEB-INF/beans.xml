@@ -8,5 +8,6 @@
 
     <interceptors>
         <class>yaroslav.learn.english.web.interceptor.ValidationHandlerInterceptor</class>
+        <class>yaroslav.learn.english.web.interceptor.DialogValidationInterceptor</class>
     </interceptors>
 </beans>

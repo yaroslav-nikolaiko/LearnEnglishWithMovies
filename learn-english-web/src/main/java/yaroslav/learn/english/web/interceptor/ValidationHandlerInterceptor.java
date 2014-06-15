@@ -1,8 +1,10 @@
 package yaroslav.learn.english.web.interceptor;
 
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
+import yaroslav.learn.english.web.exception.WebException;
 
-import javax.annotation.Priority;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -16,25 +18,35 @@ import java.io.Serializable;
 public class ValidationHandlerInterceptor implements Serializable {
 
     @AroundInvoke
-    Object perform(InvocationContext ic) {
+    Object perform(InvocationContext ic) throws Exception{
+        Object proceed = null;
         try {
-            return ic.proceed();
+            proceed = ic.proceed();
+        } catch (WebException e){
+
+            FacesMessage message = new FacesMessage(e.getMessageType(), e.getMessage(), e.getExplanation());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
         } catch (EJBIllegalArgumentsException e) {
 
-            //throw new Error("It's fucking working from interceptor",e);
+            FacesMessage.Severity severityWarn = transformMessageType(e.getMessageType());
+            FacesMessage message = new FacesMessage(severityWarn, e.getMessage(), e.getExplanation());
+            FacesContext.getCurrentInstance().addMessage(null, message);
 
-//            if(e.getCause().getClass()==ConstraintViolationException.class){
-//                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-//                FacesContext context = FacesContext.getCurrentInstance();
-//                FacesMessage message = new FacesMessage(e.getMessage());
-//                context.addMessage(null, message);
-//            }else
-//                e.printStackTrace();
-
-        } catch (Exception e) {
-            //log
-            e.printStackTrace();
         }
-        return null;
+
+        return proceed;
+    }
+
+    private FacesMessage.Severity transformMessageType(EJBIllegalArgumentsException.MessageType type){
+        switch(type){
+            case ERROR:
+                return FacesMessage.SEVERITY_ERROR;
+            case WARN:
+                return FacesMessage.SEVERITY_WARN;
+            case INFO:
+                return FacesMessage.SEVERITY_INFO;
+        }
+        return FacesMessage.SEVERITY_INFO;
     }
 }

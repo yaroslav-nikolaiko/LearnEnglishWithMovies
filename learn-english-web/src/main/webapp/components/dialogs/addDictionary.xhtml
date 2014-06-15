@@ -38,7 +38,7 @@
 
                     <p:commandButton value="Add dictionary" update="dict-growl :main-form:current-dictionary-form:current-dictionary" process="@form"
                                      actionListener="#{sessionController.createDictionary}"
-                                     oncomplete="PF('dictionary-dlg').hide()"/>
+                                     oncomplete="handleGeneralDialog(xhr, status, args, dictionary-dlg)"/>
 
                 </h:panelGrid>
 

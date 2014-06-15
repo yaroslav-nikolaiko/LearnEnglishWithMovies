@@ -20,6 +20,17 @@
         }
     </script>
 
+    <script type="text/javascript">
+        function handleGeneralDialog(xhr, status, args, dialogName) {
+            if(args.validationFailed || !args.crossValidation) {
+                dialogName.jq.effect("shake", {times:5}, 100);
+            }
+            else {
+                PF(dialogName).hide();
+            }
+        }
+    </script>
+
     <f:facet name="first">
         <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
         <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
