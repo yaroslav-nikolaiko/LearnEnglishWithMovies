@@ -25,7 +25,6 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-@ValidationHandler
 public class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
@@ -45,28 +44,28 @@ public class SessionController implements Serializable {
         return "index";
     }
 
-    @DialogValidation
+    @ValidationHandler @DialogValidation
     public void login(){
         user =  userBean.login();
         if( user!=null && user.getDictionaries().size() > 0)
             currentDictionary = user.getDictionaries().get(0);
     }
 
-    @DialogValidation
+    @ValidationHandler @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentsException {
 
             Dictionary dictionary = dictionaryBean.getDictionary();
-            userService.addDictionary(user, dictionary);
+            user = userService.addDictionary(user, dictionary);
             this.currentDictionary = dictionary;
 
     }
 
-    @DialogValidation
+    @ValidationHandler @DialogValidation
     public void loadMediaItem()throws EJBIllegalArgumentsException{
         MediaItem item = mediaItemBean.getMediaItem();
         byte[] content = mediaItemBean.getFile().getContents();
         item.setContent(content);
-        dictionaryService.addMediaItem(currentDictionary, item);
+        currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
     }
 
     /*********************************************************************************************
@@ -78,33 +77,32 @@ public class SessionController implements Serializable {
         return selectedMediaItems;
     }
 
-    @ExcludeClassInterceptors
+
     public void setSelectedMediaItems(List<MediaItem> selectedMediaItems) {
         this.selectedMediaItems = selectedMediaItems;
     }
 
-    @ExcludeClassInterceptors
+
     public User getUser() {
         return user;
     }
 
-    @ExcludeClassInterceptors
+
     public void setUser(User user) {
         this.user = user;
     }
 
-    @ExcludeClassInterceptors
+
     public Dictionary getCurrentDictionary() {
         return currentDictionary;
     }
 
-    @ExcludeClassInterceptors
+
     public void setCurrentDictionary(Dictionary currentDictionary) {
         this.currentDictionary = currentDictionary;
     }
 
     @Produces
-    @ExcludeClassInterceptors
     public List<Dictionary> getAllDictionaries(){
         return user != null ? user.getDictionaries() : null;
     }

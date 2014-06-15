@@ -38,6 +38,5 @@ public class MediaItemBean implements Serializable {
 
     public void setFile(UploadedFile file) {
         this.file = file;
-        //mediaItem.setContent(file.getContents());
     }
 }
