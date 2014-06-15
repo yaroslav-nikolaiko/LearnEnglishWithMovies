@@ -1,22 +1,20 @@
 package yaroslav.learn.english.web.controller;
 
-import org.primefaces.context.RequestContext;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.entity.media.MediaItem;
-import yaroslav.learn.english.core.exception.EntityIllegalArgumentsException;
+import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
 import yaroslav.learn.english.core.service.DictionaryService;
 import yaroslav.learn.english.core.service.UserService;
+import yaroslav.learn.english.web.interceptor.ValidationHandler;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.*;
 
@@ -25,6 +23,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
+@ValidationHandler
 public class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
@@ -49,14 +48,14 @@ public class SessionController implements Serializable {
             currentDictionary = user.getDictionaries().get(0);
     }
 
-    public void createDictionary(){
+    public void createDictionary() throws EJBIllegalArgumentsException {
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        FacesMessage message = null;
 //        if(user!=null){
 //            Dictionary dictionary = dictionaryBean.getDictionary();
 //            try{
 //                userService.addDictionary(user, dictionary);
-//            }catch(EntityIllegalArgumentsException e){
+//            }catch(EJBIllegalArgumentsException e){
 //                message = new FacesMessage(e.getMessage());
 //                context.addMessage(null,message);
 //                return;
@@ -67,10 +66,14 @@ public class SessionController implements Serializable {
 //            message = new FacesMessage(String.format("Please, Log in or Sign Up"));
 //            context.addMessage(null,message);
 //        }
+//        try{
 
             Dictionary dictionary = dictionaryBean.getDictionary();
             userService.addDictionary(user, dictionary);
             this.currentDictionary = dictionary;
+//        }catch(EJBIllegalArgumentsException e){
+//           throw new Error("Its fucking warking");
+//       }
     }
 
     public void loadMediaItem(){

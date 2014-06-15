@@ -7,10 +7,10 @@ import java.util.Map;
 /**
  * Created by yaroslav on 6/14/14.
  */
-public class EntityIllegalArgumentsException extends IllegalArgumentException{
+public class EJBIllegalArgumentsException extends Exception{
     Map<Type, String> type_message_map;
-    public EntityIllegalArgumentsException(String message) {
-        super(message);
+    public EJBIllegalArgumentsException(String message, Throwable cause) {
+        super(message, cause);
         type_message_map = new HashMap<>();
 
     }

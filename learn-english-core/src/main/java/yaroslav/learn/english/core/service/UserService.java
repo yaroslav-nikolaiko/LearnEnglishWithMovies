@@ -2,9 +2,8 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
-import yaroslav.learn.english.core.entity.media.MediaItem;
-import yaroslav.learn.english.core.exception.EntityIllegalArgumentsException;
-import yaroslav.learn.english.core.interceptor.NotNullParameters;
+import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
+import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,6 +16,7 @@ import java.util.List;
  * Created by yaroslav on 6/8/14.
  */
 @Stateless
+@ValidationHandlerEjb
 public class UserService {
     @Inject
     private EntityManager em;
@@ -48,7 +48,7 @@ public class UserService {
     }
 
 
-    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) {
+    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentsException {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))

@@ -6,7 +6,8 @@
                       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
     bean-discovery-mode="all">
 
-    <interceptors>
-        <class>yaroslav.learn.english.core.interceptor.NotNullParametersInterceptor</class>
-    </interceptors>
+    <!--<interceptors>-->
+        <!--&lt;!&ndash;<class>yaroslav.learn.english.core.interceptor.NotNullParametersInterceptor</class>&ndash;&gt;-->
+        <!--<class>yaroslav.learn.english.core.interceptor.ValidationHandlerInterceptorEjb</class>-->
+    <!--</interceptors>-->
 </beans>

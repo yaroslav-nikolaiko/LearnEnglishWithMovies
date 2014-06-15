@@ -2,10 +2,7 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.media.MediaItem;
-import yaroslav.learn.english.core.exception.EntityIllegalArgumentsException;
-import yaroslav.learn.english.core.interceptor.NotNullParameters;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
