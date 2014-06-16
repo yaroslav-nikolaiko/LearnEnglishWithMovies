@@ -20,7 +20,7 @@ public class DictionaryService {
     @Inject
     EntityManager em;
 
-    public Dictionary addMediaItem(@NotNull Dictionary dictionary, @NotNull MediaItem item) throws EJBIllegalArgumentsException{
+    public void addMediaItem(@NotNull Dictionary dictionary, @NotNull MediaItem item) throws EJBIllegalArgumentsException{
         String iName = item.getName();
         for (MediaItem i : dictionary.getMediaItems())
             if (i.getName().equals(iName))
@@ -28,7 +28,7 @@ public class DictionaryService {
         dictionary.addMediaItem(item);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
         em.persist(item);
-        return em.merge(dictionary);
+        //return em.merge(dictionary);
 
 //        if( ! em.contains(dictionary))
 //            em.persist(dictionary);

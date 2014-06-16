@@ -10,25 +10,48 @@
 </h:head>
 <h:body>
     <ui:composition>
-        <h:form enctype="multipart/form-data">
-
+        <h:form >
 
             <p:growl id="load-media-growl" sticky="true" showDetail="true" life="3000" />
 
             <p:dialog header="Load Media Item" widgetVar="media-item-dlg" resizable="false" >
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
-                    <h:outputLabel for="media-item-name" value="Name: " />
-                    <p:inputText id="media-item-name" value="#{mediaItemBean.mediaItem.name}" label="name" required="true"/>
 
-                    <h:outputLabel for="media-item-file" value="File: " />
-                    <p:fileUpload id="media-item-file" value="#{mediaItemBean.file}" mode="advanced"  />
+                <h:outputLabel for="media-item-name" value="Name: " />
+                <p:inputText id="media-item-name" value="#{mediaItemBean.mediaItem.name}" label="name" required="true"/>
 
-                    <p:commandButton value="Create" update="load-media-growl @([id$=media-item-form])" process="@form"
-                                     actionListener="#{sessionController.loadMediaItem}"
-                                     oncomplete="handleDialog(xhr, status, args, 'media-item-dlg')"/>
 
-                </h:panelGrid>
+                <h:commandButton value="Choose File" id="butt_choose"
+                                 style="position: relative; "
+
+                                 action="#">
+                </h:commandButton>
+
+                <h:form id="load-media-form-file-upload" enctype="multipart/form-data">
+                <h:inputFile id="fileid"
+                             style="position:
+                                        relative; margin-left: -150px;
+                                        opacity:0;
+                                        height: 34px;
+                                        width: 150px;"
+                             title="Please choose file"
+                             value="#{mediaItemBean.file}">
+                </h:inputFile>
+                </h:form>
+
+
+                <h:commandButton id="upload_button"
+                                 value="Upload"
+                                 actionListener="#{sessionController.loadMediaItem}"
+                                 onclick="uploadXML.hide()">
+                    <f:ajax execute="@form load-media-form-file-upload"/>
+                </h:commandButton>
+
+
+
+
+
+
             </p:dialog>
 
 

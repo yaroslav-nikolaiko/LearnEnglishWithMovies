@@ -59,7 +59,7 @@ public class UserService {
     }
 
 
-    public User addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentsException {
+    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentsException {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
@@ -68,7 +68,8 @@ public class UserService {
         user.addDictionary(dictionary);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
         em.persist(dictionary);
-        return em.merge(user);
+        //return em.merge(user);
+
 //        if( ! em.contains(user))
 //            em.merge(user);
 //        else

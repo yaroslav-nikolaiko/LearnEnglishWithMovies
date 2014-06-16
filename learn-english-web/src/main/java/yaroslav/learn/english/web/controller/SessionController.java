@@ -1,5 +1,6 @@
 package yaroslav.learn.english.web.controller;
 
+import org.apache.commons.io.IOUtils;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.entity.media.MediaItem;
@@ -17,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.ExcludeClassInterceptors;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -55,16 +57,25 @@ public class SessionController implements Serializable {
     @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentsException {
         Dictionary dictionary = dictionaryBean.getDictionary();
-        user = userService.addDictionary(user, dictionary);
+        //user = userService.addDictionary(user, dictionary);
+        userService.addDictionary(user, dictionary);
         this.currentDictionary = dictionary;
     }
 
     @ValidationHandler @DialogValidation
     public void loadMediaItem()throws EJBIllegalArgumentsException{
         MediaItem item = mediaItemBean.getMediaItem();
-        byte[] content = mediaItemBean.getFile().getContents();
+
+        byte[] content = new byte[0];
+        try {
+            content = IOUtils.toByteArray(mediaItemBean.getFile().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         item.setContent(content);
-        currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
+        //currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
+        dictionaryService.addMediaItem(currentDictionary, item);
+        //mediaItemBean.endConversation();
     }
 
     /*********************************************************************************************
