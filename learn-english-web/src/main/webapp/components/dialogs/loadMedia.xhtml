@@ -22,11 +22,11 @@
                     <p:inputText id="media-item-name" value="#{mediaItemBean.mediaItem.name}" label="name" required="true"/>
 
                     <h:outputLabel for="media-item-file" value="File: " />
-                    <p:fileUpload id="media-item-file" value="#{mediaItemBean.file}" mode="simple"  />
+                    <p:fileUpload id="media-item-file" value="#{mediaItemBean.file}" mode="advanced"  />
 
-                    <p:commandButton value="Create" ajax="false" update="load-media-growl" process="@form"
+                    <p:commandButton value="Create" update="load-media-growl @([id$=media-item-form])" process="@form"
                                      actionListener="#{sessionController.loadMediaItem}"
-                                     oncomplete="handleAddMediaItem(xhr, status, args)"/>
+                                     oncomplete="handleDialog(xhr, status, args, 'media-item-dlg')"/>
 
                 </h:panelGrid>
             </p:dialog>

@@ -11,7 +11,7 @@
 </h:head>
 <h:body>
     <ui:composition>
-    <h:form id="main-form">
+    <h:form>
 
         <p:growl id="messages"/>
 
@@ -57,7 +57,7 @@
                 <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}" converter="#{dictionaryConverter}"
                                  panelStyle="width:180px" effect="fade" var="d" style="width:160px" filter="true" filterMatchMode="startsWith"
                                  label="Select Dictionary">
-                    <p:ajax update=":main-form:debug-current-dictionary"/>
+                    <p:ajax update="@([id$=debug-current-dictionary]) @([id$=media-item-form])"/>
                     <f:selectItem noSelectionOption="true" itemLabel="Select Dictionary"/>
                     <f:selectItems value="#{sessionController.allDictionaries}" var="dict" itemValue="#{dict}" itemLabel="#{dict.name}" />
                     <p:column>

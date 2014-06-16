@@ -19,7 +19,7 @@
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
                     <h:outputLabel for="dictionary-name" value="Name: " />
-                    <p:inputText id="dictionary-name" value="#{dictionaryBean.dictionary.name}" label="name" />
+                    <p:inputText id="dictionary-name" value="#{dictionaryBean.dictionary.name}" label="name" required="true" />
 
                     <h:outputLabel for="dictionary-learning-language" value="Learning Language: " />
                     <p:selectOneMenu id="dictionary-learning-language" value="#{dictionaryBean.dictionary.learningLanguage}">
@@ -36,9 +36,9 @@
                         <f:selectItems value="#{generalProperties.availableLevels}" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="Add dictionary" update="dict-growl :main-form:current-dictionary-form:current-dictionary" process="@form"
+                    <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary])" process="@form"
                                      actionListener="#{sessionController.createDictionary}"
-                                     oncomplete="handleCreateDictionary(xhr, status, args)"/>
+                                     oncomplete="handleAddMediaItem(xhr, status, args, 'dictionary-dlg')"/>
 
                 </h:panelGrid>
 

@@ -51,13 +51,12 @@ public class SessionController implements Serializable {
             currentDictionary = user.getDictionaries().get(0);
     }
 
-    @ValidationHandler @DialogValidation
+    @ValidationHandler
+    @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentsException {
-
-            Dictionary dictionary = dictionaryBean.getDictionary();
-            user = userService.addDictionary(user, dictionary);
-            this.currentDictionary = dictionary;
-
+        Dictionary dictionary = dictionaryBean.getDictionary();
+        user = userService.addDictionary(user, dictionary);
+        this.currentDictionary = dictionary;
     }
 
     @ValidationHandler @DialogValidation

@@ -31,12 +31,23 @@
         }
     </script>
     <script type="text/javascript">
-        function handleAddMediaItem(xhr, status, args) {
+        function handleAddMediaItem(xhr, status, args, dialogName) {
             if(args.validationFailed || !args.crossValidation) {
-                PF('media-item-dlg').jq.effect("shake", {times:5}, 100);
+                PF(dialogName).jq.effect("shake", {times:5}, 100);
             }
             else {
-                PF('media-item-dlg').hide();
+                PF(dialogName).hide();
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function handleDialog(xhr, status, args, dialogName) {
+            if(args.validationFailed || !args.crossValidation) {
+                PF(dialogName).jq.effect("shake", {times:5}, 100);
+            }
+            else {
+                PF(dialogName).hide();
             }
         }
     </script>

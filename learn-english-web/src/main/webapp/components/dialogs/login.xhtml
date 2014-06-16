@@ -25,7 +25,7 @@
                 <p:messages />
 
                 <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl :main-form:current-dictionary-form:current-dictionary" process="@form"
+                    <p:commandButton value="Login" update="growl @([id$=current-dictionary]) @([id$=media-item-form]) " process="@form"
                                      actionListener="#{sessionController.login}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
                     <p:messages />
