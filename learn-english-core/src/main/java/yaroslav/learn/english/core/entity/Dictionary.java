@@ -7,6 +7,7 @@ import yaroslav.learn.english.core.util.Level;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,6 +39,14 @@ public class Dictionary {
     public void addMediaItem(MediaItem item) {
         item.setDictionary(this);
         mediaItems.add(item);
+    }
+
+    public void removeMediaItems(Collection<MediaItem> items){
+        mediaItems.removeAll(items);
+    }
+
+    public void removeMediaItem(MediaItem item){
+        mediaItems.remove(item);
     }
 
     /********************************************************************************************

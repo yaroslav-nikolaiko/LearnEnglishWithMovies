@@ -1,6 +1,6 @@
 package yaroslav.learn.english.web.interceptor;
 
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
+import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 import yaroslav.learn.english.web.exception.WebException;
 
 import javax.faces.application.FacesMessage;
@@ -27,7 +27,7 @@ public class ValidationHandlerInterceptor implements Serializable {
             FacesMessage message = new FacesMessage(e.getMessageType(), e.getMessage(), e.getExplanation());
             FacesContext.getCurrentInstance().addMessage(null, message);
 
-        } catch (EJBIllegalArgumentsException e) {
+        } catch (EJBIllegalArgumentException e) {
 
             FacesMessage.Severity severityWarn = transformMessageType(e.getMessageType());
             FacesMessage message = new FacesMessage(severityWarn, e.getMessage(), e.getExplanation());
@@ -38,7 +38,7 @@ public class ValidationHandlerInterceptor implements Serializable {
         return proceed;
     }
 
-    private FacesMessage.Severity transformMessageType(EJBIllegalArgumentsException.MessageType type){
+    private FacesMessage.Severity transformMessageType(EJBIllegalArgumentException.MessageType type){
         if(type==null)
             return FacesMessage.SEVERITY_INFO;
         switch(type){

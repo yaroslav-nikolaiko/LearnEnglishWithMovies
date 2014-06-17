@@ -1,6 +1,6 @@
 package yaroslav.learn.english.core.interceptor;
 
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
+import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 
 import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
@@ -17,18 +17,18 @@ import java.io.Serializable;
 @Priority(1010)
 public class ValidationHandlerInterceptorEjb implements Serializable {
     @AroundInvoke
-    Object perform(InvocationContext ic) throws EJBIllegalArgumentsException {
+    Object perform(InvocationContext ic) throws EJBIllegalArgumentException {
         try {
             return ic.proceed();
         } catch (ConstraintViolationException e) {
 
-            EJBIllegalArgumentsException myException = new EJBIllegalArgumentsException("Constraint Violations in EJB module ", e);
+            EJBIllegalArgumentException myException = new EJBIllegalArgumentException("Constraint Violations in EJB module ", e);
             myException.setExplanation(e.getMessage());
-            myException.setMessageType(EJBIllegalArgumentsException.MessageType.INFO);
+            myException.setMessageType(EJBIllegalArgumentException.MessageType.INFO);
             throw myException;
 
         }
-        catch(EJBIllegalArgumentsException e) {throw e;}
+        catch(EJBIllegalArgumentException e) {throw e;}
         catch (Exception e) {e.printStackTrace(); /*log*/ }
         return null;
     }

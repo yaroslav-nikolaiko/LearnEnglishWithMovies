@@ -14,13 +14,22 @@
 
             <p:dataTable id="media-item-table" value="#{sessionController.currentDictionary.mediaItems}" var="item"
                          rowKey="#{item.name}" selection="#{sessionController.selectedMediaItems}" style="margin-bottom: 0">
+                <p:ajax event="rowSelect" update="delete-btn" />
+                <p:ajax event="rowUnselect" update="delete-btn"  />
+                <p:ajax event="rowSelectCheckbox" update="delete-btn"  />
+                <p:ajax event="rowUnselectCheckbox" update="delete-btn"   />
+
                 <f:facet name="header">
                     <p:panelGrid columns="2">
-                        <p:commandButton immediate="true" value="Load" onclick="PF('media-item-dlg').show();" />
+                        <p:commandButton immediate="true" value="Load" onclick="PF('confirm-dialog').show();" />
+
+                        <p:commandButton id="delete-btn" value="Remove" onclick="PF('confirm-dialog').show()"
+                                         disabled="#{sessionController.selectedMediaItems ==null || sessionController.selectedMediaItems.size()==0}"/>
+
                     </p:panelGrid>
                 </f:facet>
 
-                <p:column selectionMode="multiple" style="width:20%;text-align:center"/>
+                <p:column selectionMode="multiple" style="width:20%;text-align:center"  />
                 <p:column >
                     <h:outputText value="#{item.name}" />
                 </p:column>
@@ -30,8 +39,11 @@
                 </f:facet>
             </p:dataTable>
 
+            </h:form>
 
-        </h:form>
+
+
+
     </ui:composition>
 </h:body>
 </html>

@@ -2,7 +2,7 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
+import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 
 import javax.ejb.ApplicationException;
@@ -59,29 +59,17 @@ public class UserService {
     }
 
 
-    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentsException {
+    public User addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentException {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
-                throw new EJBIllegalArgumentsException(String.format("Dictionary with name %s already exist", dName),
-                                                                        EJBIllegalArgumentsException.MessageType.INFO);
+                throw new EJBIllegalArgumentException(String.format("Dictionary with name %s already exist", dName),
+                                                                        EJBIllegalArgumentException.MessageType.INFO);
         user.addDictionary(dictionary);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
         em.persist(dictionary);
-        //return em.merge(user);
-
-//        if( ! em.contains(user))
-//            em.merge(user);
-//        else
-//            em.persist(dictionary);
+        return em.merge(user);
     }
 
-//    public void merge(User user) {
-//        em.merge(user);
-//    }
-
-//    public EntityManager getEntityManager() {
-//        return em;
-//    }
 
 }

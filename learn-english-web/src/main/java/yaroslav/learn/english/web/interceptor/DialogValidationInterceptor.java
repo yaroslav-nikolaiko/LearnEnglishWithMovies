@@ -1,11 +1,7 @@
 package yaroslav.learn.english.web.interceptor;
 
 import org.primefaces.context.RequestContext;
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentsException;
-import yaroslav.learn.english.web.exception.WebException;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;

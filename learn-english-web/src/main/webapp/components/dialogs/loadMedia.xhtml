@@ -10,7 +10,7 @@
 </h:head>
 <h:body>
     <ui:composition>
-        <h:form >
+        <h:form enctype="multipart/form-data">
 
             <p:growl id="load-media-growl" sticky="true" showDetail="true" life="3000" />
 
@@ -27,7 +27,7 @@
                                  action="#">
                 </h:commandButton>
 
-                <h:form id="load-media-form-file-upload" enctype="multipart/form-data">
+                <!--<h:form id="load-media-form-file-upload" enctype="multipart/form-data">-->
                 <h:inputFile id="fileid"
                              style="position:
                                         relative; margin-left: -150px;
@@ -37,14 +37,14 @@
                              title="Please choose file"
                              value="#{mediaItemBean.file}">
                 </h:inputFile>
-                </h:form>
+                <!--</h:form>-->
 
 
                 <h:commandButton id="upload_button"
                                  value="Upload"
-                                 actionListener="#{sessionController.loadMediaItem}"
-                                 onclick="uploadXML.hide()">
-                    <f:ajax execute="@form load-media-form-file-upload"/>
+                                 action="#{sessionController.loadMediaItem}"
+                                 >
+
                 </h:commandButton>
 
 
