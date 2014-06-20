@@ -6,6 +6,7 @@ import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.entity.media.MediaItem;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 import yaroslav.learn.english.core.service.DictionaryService;
+import yaroslav.learn.english.core.service.MediaItemService;
 import yaroslav.learn.english.core.service.UserService;
 import yaroslav.learn.english.web.interceptor.DialogValidation;
 import yaroslav.learn.english.web.interceptor.ValidationHandler;
@@ -28,6 +29,7 @@ import java.util.*;
 public class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
+    @EJB    private MediaItemService mediaItemService;
 
     @Inject private UserBean userBean;
     @Inject private DictionaryBean dictionaryBean;
@@ -41,7 +43,7 @@ public class SessionController implements Serializable {
     public String singUp(){
         user =  userBean.getUser();
         userService.add(user);
-        return "index";
+        return "index?faces-redirect=true";
     }
 
     @ValidationHandler @DialogValidation
@@ -55,7 +57,8 @@ public class SessionController implements Serializable {
     @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryBean.getDictionary();
-        user = userService.addDictionary(user, dictionary);
+        //user = userService.addDictionary(user, dictionary);
+        userService.addDictionary(user, dictionary);
         this.currentDictionary = dictionary;
     }
 
@@ -70,14 +73,15 @@ public class SessionController implements Serializable {
             e.printStackTrace();
         }
         item.setContent(content);
-        currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
+        //currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
+        dictionaryService.addMediaItem(currentDictionary, item);
 
-        return "index";
+        return "index?faces-redirect=true";
     }
 
     @ValidationHandler
     public void deleteMediaItems() throws EJBIllegalArgumentException {
-        dictionaryService.removeMediaItems(currentDictionary,selectedMediaItems);
+        mediaItemService.removeMediaItems(selectedMediaItems);
     }
 
     /*********************************************************************************************

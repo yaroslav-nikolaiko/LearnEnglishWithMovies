@@ -11,15 +11,15 @@
 <h:body>
     <ui:composition>
         <h:form >
-            <p:confirmDialog message="Are you sure about destroying the world?"
-                             header="Initiating destroy process" severity="alert"
-                             widgetVar="confirm-dialog" >
+            <p:dialog message="Are you sure about destroying the world?"
+                      header="Initiating destroy process" severity="alert"
+                      widgetVar="confirm-dialog" >
 
                 <p:commandButton value="Yes Sure" actionListener="#{sessionController.deleteMediaItems}"
                                  update="@([id$=media-item-form])" oncomplete="PF('confirm-dialog').hide()"/>
                 <p:commandButton value="Not Yet" onclick="PF('confirm-dialog').hide();" type="button" />
 
-            </p:confirmDialog>
+            </p:dialog>
         </h:form>
     </ui:composition>
 

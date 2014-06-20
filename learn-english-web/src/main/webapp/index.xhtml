@@ -116,7 +116,7 @@
 
         <p:layoutUnit id="center" position="center">
             <ui:include src="components/dialogs/loadMedia.xhtml"/>
-            <ui:include src="components/dialogs/deleteMediaItemConfirmDialog.xhtml"/>
+
         </p:layoutUnit>
 
         <p:layoutUnit id="bottom" position="south" size="60">
@@ -133,6 +133,8 @@
 
     </p:layout>
 
+    <!-- cannot include modal dialogs (and with appendTo option) inside layouts, accardeons, etc. -->
+    <ui:include src="components/dialogs/deleteMediaItemConfirmDialog.xhtml"/>
 </h:body>
 
 </html>

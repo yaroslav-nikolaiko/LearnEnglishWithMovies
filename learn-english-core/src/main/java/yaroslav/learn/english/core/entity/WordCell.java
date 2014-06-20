@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "WordCell")
 public class WordCell {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String word;
     @Enumerated(EnumType.STRING)

@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "Dictionary", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "USER_FK"}))
 public class Dictionary {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Size(max=20)
     @Column(nullable = false)
@@ -29,7 +29,7 @@ public class Dictionary {
     private Language nativeLanguage;
     @Enumerated(EnumType.STRING)
     private Level level;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dictionary", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dictionary", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MediaItem> mediaItems;
 
     public Dictionary() {
@@ -46,6 +46,8 @@ public class Dictionary {
     }
 
     public void removeMediaItem(MediaItem item){
+        // replaced with orphanRemoval = true
+        //item.setDictionary(null);
         mediaItems.remove(item);
     }
 

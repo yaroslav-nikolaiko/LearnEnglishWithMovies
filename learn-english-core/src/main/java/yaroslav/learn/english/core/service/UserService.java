@@ -37,6 +37,7 @@ public class UserService {
     }
 
     public User findByNameAndPassword(String name, String password){
+        //em.getEntityManagerFactory().getCache().evictAll();
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.password=:password", User.class);
         query.setParameter("name",name);
         query.setParameter("password",password);
@@ -59,7 +60,7 @@ public class UserService {
     }
 
 
-    public User addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentException {
+    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentException {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
@@ -68,7 +69,8 @@ public class UserService {
         user.addDictionary(dictionary);
         //TODO: should I add validation user.id == getUserWithName(user.name).id ?
         em.persist(dictionary);
-        return em.merge(user);
+        em.merge(user);
+        //return em.merge(user);
     }
 
 

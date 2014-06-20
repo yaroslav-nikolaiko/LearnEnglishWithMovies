@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
 public class MediaItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
@@ -27,7 +27,7 @@ public class MediaItem {
     private Dictionary dictionary;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
-                                            inverseJoinColumns = @JoinColumn(name = "WORDCELL_FK"))
+                                            inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
     private List<WordCell> words;
 
     public MediaItem() {
