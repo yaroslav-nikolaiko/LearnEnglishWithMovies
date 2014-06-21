@@ -38,7 +38,7 @@
 
                     <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary])" process="@form"
                                      actionListener="#{sessionController.createDictionary}"
-                                     oncomplete="handleAddMediaItem(xhr, status, args, 'dictionary-dlg')"/>
+                                     oncomplete="handleDialog(xhr, status, args, 'dictionary-dlg')"/>
 
                 </h:panelGrid>
 

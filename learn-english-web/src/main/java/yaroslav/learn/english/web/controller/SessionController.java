@@ -40,6 +40,11 @@ public class SessionController implements Serializable {
 
     private List<MediaItem> selectedMediaItems;
 
+    void init(){
+        currentDictionary = null;
+        selectedMediaItems = new ArrayList<>();
+    }
+
     public String singUp(){
         user =  userBean.getUser();
         userService.add(user);
@@ -48,6 +53,7 @@ public class SessionController implements Serializable {
 
     @ValidationHandler @DialogValidation
     public void login(){
+        init();
         user =  userBean.login();
         if( user!=null && user.getDictionaries().size() > 0)
             currentDictionary = user.getDictionaries().get(0);
@@ -57,7 +63,6 @@ public class SessionController implements Serializable {
     @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryBean.getDictionary();
-        //user = userService.addDictionary(user, dictionary);
         userService.addDictionary(user, dictionary);
         this.currentDictionary = dictionary;
     }
@@ -74,7 +79,6 @@ public class SessionController implements Serializable {
             e.printStackTrace();
         }
         item.setContent(content);
-        //currentDictionary = dictionaryService.addMediaItem(currentDictionary, item);
         dictionaryService.addMediaItem(currentDictionary, item);
 
         return "index?faces-redirect=true";
@@ -83,6 +87,12 @@ public class SessionController implements Serializable {
     @ValidationHandler
     public void deleteMediaItems() throws EJBIllegalArgumentException {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
+        selectedMediaItems = null;
+    }
+
+    @ValidationHandler @DialogValidation
+    public void updateDictionary()throws EJBIllegalArgumentException{
+        dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
     }
 
@@ -112,7 +122,7 @@ public class SessionController implements Serializable {
 
 
     public Dictionary getCurrentDictionary() {
-        return currentDictionary;
+        return currentDictionary!=null ? currentDictionary : new Dictionary();
     }
 
 

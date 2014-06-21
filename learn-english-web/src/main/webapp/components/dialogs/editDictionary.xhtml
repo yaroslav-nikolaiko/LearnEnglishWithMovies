@@ -12,35 +12,47 @@
 <h:body>
     <ui:composition>
         <h:form>
+            <p:growl id="dict-edit-growl" sticky="true" showDetail="true" life="3000" />
+            <p:dialog header="Edit Dictionary" widgetVar="edit-dictionary-dlg" resizable="true" >
 
-            <p:growl id="dict-growl" sticky="true" showDetail="true" life="3000" />
 
-            <p:dialog header="Create your Dictionary" widgetVar="dictionary-dlg" resizable="false" >
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
-                    <h:outputLabel for="dictionary-name" value="Name: " />
-                    <p:inputText id="dictionary-name" value="#{dictionaryBean.dictionary.name}" label="name" required="true" />
+                <p:outputLabel for="dictionary-name" value="Name: " />
+                <p:inputText id="dictionary-name" value="#{sessionController.currentDictionary.name}" label="name"
+                             required="true" />
 
-                    <h:outputLabel for="dictionary-learning-language" value="Learning Language: " />
-                    <p:selectOneMenu id="dictionary-learning-language" value="#{dictionaryBean.dictionary.learningLanguage}">
-                        <f:selectItems value="#{generalProperties.availableLearningLanguages}" />
-                    </p:selectOneMenu>
+                <p:outputLabel for="dictionary-learning-language" value="Learning Language: " />
+                <p:selectOneMenu id="dictionary-learning-language" value="#{sessionController.currentDictionary.learningLanguage}" >
+                    <f:selectItems value="#{generalProperties.availableLearningLanguages}"  />
+                </p:selectOneMenu>
 
-                    <h:outputLabel for="dictionary-native-language" value="Native Language: " />
-                    <p:selectOneMenu id="dictionary-native-language" value="#{dictionaryBean.dictionary.nativeLanguage}">
-                        <f:selectItems value="#{generalProperties.availableNativeLanguages}" />
-                    </p:selectOneMenu>
+                <p:outputLabel for="dictionary-native-language" value="Native Language: "  />
+                <p:selectOneMenu id="dictionary-native-language" value="#{sessionController.currentDictionary.nativeLanguage}" >
+                    <f:selectItems value="#{generalProperties.availableNativeLanguages}" />
+                </p:selectOneMenu>
 
-                    <h:outputLabel for="dictionary-level" value="Level: " />
-                    <p:selectOneMenu id="dictionary-level" value="#{dictionaryBean.dictionary.level}">
-                        <f:selectItems value="#{generalProperties.availableLevels}" />
-                    </p:selectOneMenu>
+                <p:outputLabel for="dictionary-level" value="Level: " />
+                <p:selectOneMenu id="dictionary-level" value="#{sessionController.currentDictionary.level}">
+                    <f:selectItems value="#{generalProperties.availableLevels}" />
+                </p:selectOneMenu>
 
-                    <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary])" process="@form"
-                                     actionListener="#{sessionController.createDictionary}"
-                                     oncomplete="handleAddMediaItem(xhr, status, args, 'dictionary-dlg')"/>
+            </p:panelGrid>
 
-                </h:panelGrid>
+
+            <p:accordionPanel dynamic="true" value="#{sessionController.currentDictionary.mediaItems}" var="item" >
+                    <p:tab title="#{item.name}">
+                        <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel for="item-name" value="Name: " />
+                            <p:inputText id="item-name" value="#{item.name}" label="name" required="true" />
+                        </p:panelGrid>
+                    </p:tab>
+            </p:accordionPanel>
+
+
+                <p:commandButton value="Complete" update="dict-edit-growl @([id$=current-dictionary])" process="@form"
+                                 actionListener="#{sessionController.updateDictionary}"
+                                 oncomplete="handleDialog(xhr, status, args, 'edit-dictionary-dlg')"/>
 
             </p:dialog>
         </h:form>

@@ -47,6 +47,7 @@ public class Dictionary {
 
     public void removeMediaItem(MediaItem item){
         mediaItems.remove(item);
+        item.setDictionary(null);
     }
 
     /********************************************************************************************
@@ -128,5 +129,13 @@ public class Dictionary {
         result = 31 * result + (nativeLanguage != null ? nativeLanguage.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
         return result;
+    }
+
+    public void update(Dictionary managedDictionary) {
+        this.name = managedDictionary.name;
+        this.learningLanguage = managedDictionary.learningLanguage;
+        this.nativeLanguage = managedDictionary.nativeLanguage;
+        this.level = managedDictionary.level;
+        this.mediaItems = managedDictionary.mediaItems;
     }
 }

@@ -73,5 +73,8 @@ public class UserService {
         //return em.merge(user);
     }
 
+    public User update(@NotNull User user) {
+        return em.merge(user);
+    }
 
 }
