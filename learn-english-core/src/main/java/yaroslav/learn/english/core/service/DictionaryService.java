@@ -28,7 +28,7 @@ public class DictionaryService {
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
         //Dictionary newDictionary = em.merge(dictionary);
         dictionary.addMediaItem(item);
-        //em.persist(item);
+        em.persist(item);
         em.merge(dictionary);
         //return newDictionary;
         //return newDictionary;
