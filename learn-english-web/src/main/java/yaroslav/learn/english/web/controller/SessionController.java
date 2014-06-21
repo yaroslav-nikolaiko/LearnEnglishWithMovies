@@ -66,9 +66,10 @@ public class SessionController implements Serializable {
     public String loadMediaItem() throws EJBIllegalArgumentException {
         MediaItem item = mediaItemBean.getMediaItem();
 
-        byte[] content = new byte[0];
+        byte[] content = null;
         try {
-            content = IOUtils.toByteArray(mediaItemBean.getFile().getInputStream());
+            if(mediaItemBean.getFile()!=null)
+                content = IOUtils.toByteArray(mediaItemBean.getFile().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +82,7 @@ public class SessionController implements Serializable {
 
     @ValidationHandler
     public void deleteMediaItems() throws EJBIllegalArgumentException {
-        mediaItemService.removeMediaItems(selectedMediaItems);
+        dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
     }
 
     /*********************************************************************************************

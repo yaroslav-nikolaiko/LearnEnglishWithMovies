@@ -45,10 +45,13 @@ public class Dictionary {
         mediaItems.removeAll(items);
     }
 
-    public void removeMediaItem(MediaItem item){
+    public MediaItem removeMediaItem(MediaItem item){
         // replaced with orphanRemoval = true
         //item.setDictionary(null);
+        MediaItem removed = mediaItems.get(mediaItems.indexOf(item));
         mediaItems.remove(item);
+        removed.setDictionary(null);
+        return removed;
     }
 
     /********************************************************************************************

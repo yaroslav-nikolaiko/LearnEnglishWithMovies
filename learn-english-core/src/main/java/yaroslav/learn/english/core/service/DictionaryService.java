@@ -29,12 +29,31 @@ public class DictionaryService {
         //Dictionary newDictionary = em.merge(dictionary);
         dictionary.addMediaItem(item);
         em.persist(item);
+        //em.merge(dictionary);
         //return newDictionary;
-        //em.flush();
         //return newDictionary;
         //em.contains(dictionary);
         //Dictionary newDic = em.merge(dictionary);
         //return em.merge(dictionary);
+    }
+
+    public void removeMediaItems(@NotNull Dictionary dictionary,@NotNull Collection<MediaItem> items) throws EJBIllegalArgumentException {
+        for (MediaItem item : items)
+            removeMediaItem(dictionary,item);
+    }
+
+    public void removeMediaItem(@NotNull Dictionary dictionary, @NotNull MediaItem item) throws EJBIllegalArgumentException{
+//        if( dictionary==null)
+//            throw new EJBIllegalArgumentException(String.format("You are trying to delete item %s which is not present in any dictionary" ,
+//                    item.toString()), EJBIllegalArgumentException.MessageType.ERROR  );
+        item = dictionary.removeMediaItem(item);
+        em.remove(item);
+        //em.merge(dictionary);
+        //if (em.contains(item))
+        //em.remove(item);
+//        else if (isExist(item))
+//            em.remove(em.merge(item));
+
     }
 
 

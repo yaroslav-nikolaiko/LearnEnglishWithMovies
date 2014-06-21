@@ -28,21 +28,5 @@ public class MediaItemService {
         return findById(item.getId())!=null;
     }
 
-    public void removeMediaItems(@NotNull Collection<MediaItem> items) throws EJBIllegalArgumentException {
-        for (MediaItem item : items)
-            removeMediaItem(item);
-    }
 
-    public void removeMediaItem(@NotNull MediaItem item) throws EJBIllegalArgumentException{
-        Dictionary dictionary = item.getDictionary();
-        if( dictionary==null)
-            throw new EJBIllegalArgumentException(String.format("You are trying to delete item %s which is not present in any dictionary" ,
-                    item.toString()), EJBIllegalArgumentException.MessageType.ERROR  );
-        dictionary.removeMediaItem(item);
-        if (em.contains(item))
-            em.remove(item);
-        else if (isExist(item))
-            em.remove(em.merge(item));
-        //em.merge(item.getDictionary());
-    }
 }
