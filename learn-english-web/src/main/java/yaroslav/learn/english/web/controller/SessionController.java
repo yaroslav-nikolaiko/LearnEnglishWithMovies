@@ -83,6 +83,7 @@ public class SessionController implements Serializable {
     @ValidationHandler
     public void deleteMediaItems() throws EJBIllegalArgumentException {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
+        selectedMediaItems = null;
     }
 
     /*********************************************************************************************

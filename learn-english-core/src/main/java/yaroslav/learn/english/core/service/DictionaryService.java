@@ -28,8 +28,8 @@ public class DictionaryService {
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
         //Dictionary newDictionary = em.merge(dictionary);
         dictionary.addMediaItem(item);
-        em.persist(item);
-        //em.merge(dictionary);
+        //em.persist(item);
+        em.merge(dictionary);
         //return newDictionary;
         //return newDictionary;
         //em.contains(dictionary);
@@ -46,8 +46,9 @@ public class DictionaryService {
 //        if( dictionary==null)
 //            throw new EJBIllegalArgumentException(String.format("You are trying to delete item %s which is not present in any dictionary" ,
 //                    item.toString()), EJBIllegalArgumentException.MessageType.ERROR  );
-        item = dictionary.removeMediaItem(item);
-        em.remove(item);
+        dictionary.removeMediaItem(item);
+        em.remove(em.merge(item));
+        //em.remove(item);
         //em.merge(dictionary);
         //if (em.contains(item))
         //em.remove(item);
