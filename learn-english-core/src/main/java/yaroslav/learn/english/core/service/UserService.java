@@ -26,15 +26,6 @@ public class UserService extends AbstractService<User> {
         this.em = em;
     }
 
-/*    public User findByName(String name){
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.name=:name", User.class);
-        query.setParameter("name",name);
-        List<User> list = query.getResultList();
-        if(list.size() != 1)
-            return null;
-        return list.get(0);
-    }*/
-
     public User findByNameAndPassword(String name, String password) {
         return singeResult(User.FIND_BY_NAME_AND_PASSWORD, name, password);
     }

@@ -46,9 +46,4 @@ public class DictionaryService extends AbstractService<Dictionary> {
         //em.remove(em.merge(item));
     }
 
-/*    public Dictionary update(@NotNull Dictionary dictionary) {
-        Dictionary managedDictionary =  em.merge(dictionary);
-        dictionary.update(managedDictionary);
-    }*/
-
 }
