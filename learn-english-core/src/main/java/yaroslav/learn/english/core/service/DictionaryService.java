@@ -17,9 +17,13 @@ import java.util.Collection;
  */
 @Stateless
 @ValidationHandlerEjb
-public class DictionaryService {
+public class DictionaryService extends AbstractService<Dictionary> {
+
     @Inject
-    EntityManager em;
+    public DictionaryService(EntityManager em) {
+        super(Dictionary.class);
+        this.em = em;
+    }
 
     public void addMediaItem(@NotNull Dictionary dictionary, @NotNull MediaItem item) throws EJBIllegalArgumentException {
         String iName = item.getName();
@@ -42,9 +46,9 @@ public class DictionaryService {
         //em.remove(em.merge(item));
     }
 
-    public void update(@NotNull Dictionary dictionary) {
+/*    public Dictionary update(@NotNull Dictionary dictionary) {
         Dictionary managedDictionary =  em.merge(dictionary);
         dictionary.update(managedDictionary);
-    }
+    }*/
 
 }

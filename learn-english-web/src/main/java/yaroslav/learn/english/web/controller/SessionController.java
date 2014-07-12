@@ -47,7 +47,7 @@ public class SessionController implements Serializable {
 
     public String singUp(){
         user =  userBean.getUser();
-        userService.add(user);
+        userService.addToDataBase(user);
         return "index?faces-redirect=true";
     }
 
@@ -93,6 +93,13 @@ public class SessionController implements Serializable {
     @ValidationHandler @DialogValidation
     public void updateDictionary()throws EJBIllegalArgumentException{
         dictionaryService.update(currentDictionary);
+        selectedMediaItems = null;
+    }
+
+    @ValidationHandler @DialogValidation
+    public void removeDictionary()throws EJBIllegalArgumentException{
+        userService.removeDictionary(user, currentDictionary);
+        currentDictionary = null;
         selectedMediaItems = null;
     }
 

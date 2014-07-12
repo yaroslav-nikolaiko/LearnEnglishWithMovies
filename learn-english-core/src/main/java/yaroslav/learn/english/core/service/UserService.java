@@ -18,44 +18,34 @@ import java.util.List;
 @Stateless
 @ValidationHandlerEjb
 @ApplicationException(rollback = false)
-public class UserService {
+public class UserService extends AbstractService<User> {
+
     @Inject
-    private EntityManager em;
-
-
-    public void add(User user){
-        em.persist(user);
+    public UserService(EntityManager em) {
+        super(User.class);
+        this.em = em;
     }
 
-    public User findByName(String name){
+/*    public User findByName(String name){
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.name=:name", User.class);
         query.setParameter("name",name);
         List<User> list = query.getResultList();
         if(list.size() != 1)
             return null;
         return list.get(0);
-    }
+    }*/
 
-    public User findByNameAndPassword(String name, String password){
-        //em.getEntityManagerFactory().getCache().evictAll();
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.password=:password", User.class);
-        query.setParameter("name",name);
-        query.setParameter("password",password);
-        List<User> list = query.getResultList();
-        if(list.size() != 1)
-            return null;
-        return list.get(0);
+    public User findByNameAndPassword(String name, String password) {
+        return singeResult(User.FIND_BY_NAME_AND_PASSWORD, name, password);
     }
 
     public boolean nameExist(String name){
-        Query query = em.createQuery("SELECT COUNT(u.name) FROM User u WHERE u.name=:name");
-        query.setParameter("name",name);
+        Query query = buildSimpleQuery(User.COUNT_BY_NAME, name);
         return (Long) query.getSingleResult() > 0;
     }
 
     public boolean emailExist(String email){
-        Query query = em.createQuery("SELECT COUNT(u.email) FROM User u WHERE u.email=:email");
-        query.setParameter("email",email);
+        Query query = buildSimpleQuery(User.COUNT_BY_EMAIL, email);
         return (Long) query.getSingleResult() > 0;
     }
 
@@ -73,8 +63,8 @@ public class UserService {
         //return em.merge(user);
     }
 
-    public User update(@NotNull User user) {
-        return em.merge(user);
+    public void removeDictionary(@NotNull User user,@NotNull Dictionary dictionary){
+        user.removeDictionary(dictionary);
+        update(user);
     }
-
 }

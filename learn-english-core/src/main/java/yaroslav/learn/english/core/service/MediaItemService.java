@@ -16,17 +16,16 @@ import java.util.Collection;
  */
 @Stateless
 @ValidationHandlerEjb
-public class MediaItemService {
-    @Inject
-    EntityManager em;
+public class MediaItemService extends AbstractService<MediaItem> {
 
-    public MediaItem findById(@NotNull Long id){
-        return em.find(MediaItem.class, id);
+    @Inject
+    public MediaItemService(EntityManager em) {
+        super(MediaItem.class);
+        this.em = em;
     }
 
     public boolean isExist(@NotNull MediaItem item){
-        return findById(item.getId())!=null;
+        return find(item.getId())!=null;
     }
-
 
 }

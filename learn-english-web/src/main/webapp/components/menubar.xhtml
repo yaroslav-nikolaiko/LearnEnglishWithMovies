@@ -15,7 +15,7 @@
 
         <p:growl id="messages"/>
 
-        <p:menubar>
+        <p:menubar id="main-menu">
             <p:submenu label="File" icon="ui-icon-document">
                 <p:submenu label="New" icon="ui-icon-contact">
                     <p:menuitem value="Project" url="#" />
@@ -57,7 +57,7 @@
                 <p:selectOneMenu id="current-dictionary" value="#{sessionController.currentDictionary}" converter="#{dictionaryConverter}"
                                  panelStyle="width:180px" effect="fade" var="d" style="width:160px" filter="true" filterMatchMode="startsWith"
                                  label="Select Dictionary">
-                    <p:ajax update="@([id$=debug-current-dictionary]) @([id$=media-item-form])"/>
+                    <p:ajax update="@([id$=debug-current-dictionary]) @([id$=media-item-form]) @([id$=dict-edit-form])"/>
                     <f:selectItem noSelectionOption="true" itemLabel="Select Dictionary"/>
                     <f:selectItems value="#{sessionController.allDictionaries}" var="dict" itemValue="#{dict}" itemLabel="#{dict.name}" />
                     <p:column>

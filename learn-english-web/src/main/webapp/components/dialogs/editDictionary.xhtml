@@ -11,9 +11,9 @@
 </h:head>
 <h:body>
     <ui:composition>
-        <h:form>
+        <h:form id="dict-edit-form">
             <p:growl id="dict-edit-growl" sticky="true" showDetail="true" life="3000" />
-            <p:dialog header="Edit Dictionary" widgetVar="edit-dictionary-dlg" resizable="true" >
+            <p:dialog header="Edit Dictionary" widgetVar="edit-dictionary-dlg" resizable="true" dynamic="true">
 
 
             <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
@@ -40,7 +40,7 @@
             </p:panelGrid>
 
 
-            <p:accordionPanel dynamic="true" value="#{sessionController.currentDictionary.mediaItems}" var="item" >
+            <p:accordionPanel dynamic="true" value="#{sessionController.currentDictionary.mediaItems}" var="item">
                     <p:tab title="#{item.name}">
                         <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                             <p:outputLabel for="item-name" value="Name: " />
@@ -50,8 +50,13 @@
             </p:accordionPanel>
 
 
-                <p:commandButton value="Complete" update="dict-edit-growl @([id$=current-dictionary])" process="@form"
+                <p:commandButton value="Complete" update="dict-edit-growl @([id$=current-dictionary]) @([id$=media-item-form])" process="@form"
                                  actionListener="#{sessionController.updateDictionary}"
+                                 oncomplete="handleDialog(xhr, status, args, 'edit-dictionary-dlg')"/>
+
+                <p:commandButton value="Delete" update="dict-edit-growl @([id$=current-dictionary]) @([id$=media-item-form])
+                                                         @([id$=dict-edit-form])  "
+                                 actionListener="#{sessionController.removeDictionary}"
                                  oncomplete="handleDialog(xhr, status, args, 'edit-dictionary-dlg')"/>
 
             </p:dialog>

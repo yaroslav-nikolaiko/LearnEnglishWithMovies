@@ -36,7 +36,8 @@
                         <f:selectItems value="#{generalProperties.availableLevels}" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary])" process="@form"
+                    <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary]) @([id$=media-item-form])
+                                                        @([id$=dict-edit-form]) " process="@form"
                                      actionListener="#{sessionController.createDictionary}"
                                      oncomplete="handleDialog(xhr, status, args, 'dictionary-dlg')"/>
 

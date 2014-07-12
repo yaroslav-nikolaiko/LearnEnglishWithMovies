@@ -40,11 +40,11 @@ public class Main {
 //
 //        item.addWords(subtitles.getAllWords());
 //        List<MediaItem> items = new ArrayList<>();
-//        items.add(item);
+//        items.addToDataBase(item);
 //        dictionary.setMediaItems(items);
 //
 //        List<Dictionary> dictionaries = new ArrayList<>();
-//        dictionaries.add(dictionary);
+//        dictionaries.addToDataBase(dictionary);
 //
 //        user.setDictionaries(dictionaries);
 //

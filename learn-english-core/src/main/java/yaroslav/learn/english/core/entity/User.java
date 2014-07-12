@@ -11,7 +11,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "User")
+@NamedQueries({@NamedQuery(name=User.FIND_BY_NAME_AND_PASSWORD, query = "SELECT u from User u WHERE u.name=?1 AND u.password=?2"),
+               @NamedQuery(name=User.COUNT_BY_NAME, query = "SELECT COUNT(u.name) FROM User u WHERE u.name=?1"),
+               @NamedQuery(name=User.COUNT_BY_EMAIL, query = "SELECT COUNT(u.email) FROM User u WHERE u.email=?1")})
 public class User {
+    public static final String FIND_BY_NAME_AND_PASSWORD = "User.findByLoginAndPassword";
+    public static final String COUNT_BY_NAME = "User.countByLogin";
+    public static final String COUNT_BY_EMAIL = "User.countByEmail";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +34,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @OneToMany( cascade = CascadeType.ALL)
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "USER_FK")
     private List<Dictionary> dictionaries;
 
@@ -38,6 +44,10 @@ public class User {
 
     public void addDictionary(Dictionary dictionary){
         dictionaries.add(dictionary);
+    }
+
+    public void removeDictionary(Dictionary dictionary) {
+        dictionaries.remove(dictionary);
     }
 
     public Long getId() {
