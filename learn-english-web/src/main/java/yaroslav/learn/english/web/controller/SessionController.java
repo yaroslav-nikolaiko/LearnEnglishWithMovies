@@ -1,5 +1,6 @@
 package yaroslav.learn.english.web.controller;
 
+import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
@@ -26,7 +27,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-public class SessionController implements Serializable {
+public @Data class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
     @EJB    private MediaItemService mediaItemService;
@@ -103,38 +104,9 @@ public class SessionController implements Serializable {
         selectedMediaItems = null;
     }
 
-    /*********************************************************************************************
-     **************************************** Getters and Setters ********************************
-     *********************************************************************************************/
-
-    @ExcludeClassInterceptors
-    public List<MediaItem> getSelectedMediaItems() {
-        return selectedMediaItems;
-    }
-
-
-    public void setSelectedMediaItems(List<MediaItem> selectedMediaItems) {
-        this.selectedMediaItems = selectedMediaItems;
-    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
 
     public Dictionary getCurrentDictionary() {
         return currentDictionary!=null ? currentDictionary : new Dictionary();
-    }
-
-
-    public void setCurrentDictionary(Dictionary currentDictionary) {
-        this.currentDictionary = currentDictionary;
     }
 
     @Produces

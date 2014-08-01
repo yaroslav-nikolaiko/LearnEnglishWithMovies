@@ -1,6 +1,10 @@
 package yaroslav.learn.english.core.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import yaroslav.learn.english.core.entity.media.MediaItem;
+import yaroslav.learn.english.core.util.Persistent;
 import yaroslav.learn.english.core.util.Language;
 import yaroslav.learn.english.core.util.Level;
 
@@ -15,7 +19,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Dictionary", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "USER_FK"}))
-public class Dictionary {
+@Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name", "learningLanguage", "nativeLanguage", "level"})
+public class Dictionary implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,86 +55,6 @@ public class Dictionary {
         item.setDictionary(null);
     }
 
-    /********************************************************************************************
-     *                                              Getters and Setters
-     ********************************************************************************************/
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Language getLearningLanguage() {
-        return learningLanguage;
-    }
-
-    public void setLearningLanguage(Language learningLanguage) {
-        this.learningLanguage = learningLanguage;
-    }
-
-    public Language getNativeLanguage() {
-        return nativeLanguage;
-    }
-
-    public void setNativeLanguage(Language nativeLanguage) {
-        this.nativeLanguage = nativeLanguage;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public List<MediaItem> getMediaItems() {
-        return mediaItems;
-    }
-
-    public void setMediaItems(List<MediaItem> mediaItems) {
-        this.mediaItems = mediaItems;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Dictionary that = (Dictionary) o;
-
-        if (learningLanguage != that.learningLanguage) return false;
-        if (level != that.level) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (nativeLanguage != that.nativeLanguage) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (learningLanguage != null ? learningLanguage.hashCode() : 0);
-        result = 31 * result + (nativeLanguage != null ? nativeLanguage.hashCode() : 0);
-        result = 31 * result + (level != null ? level.hashCode() : 0);
-        return result;
-    }
 
     public void update(Dictionary managedDictionary) {
         this.name = managedDictionary.name;

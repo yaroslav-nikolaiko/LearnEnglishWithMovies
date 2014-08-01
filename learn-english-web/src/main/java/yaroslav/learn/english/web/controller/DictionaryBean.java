@@ -1,5 +1,6 @@
 package yaroslav.learn.english.web.controller;
 
+import lombok.Data;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.service.UserService;
 import yaroslav.learn.english.core.util.Language;
@@ -22,20 +23,12 @@ import java.io.Serializable;
  */
 @Named
 @RequestScoped
-public class DictionaryBean implements Serializable {
+public @Data class DictionaryBean implements Serializable {
     private Dictionary dictionary;
 
     @PostConstruct
     void init(){
         dictionary = new Dictionary();
-    }
-
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
     }
 
 }

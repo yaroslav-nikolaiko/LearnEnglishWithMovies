@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition>
+        <h:form id="load-media-type-form">
+            <p:growl id="load-media-type-growl" sticky="true" showDetail="true" life="3000" />
+            <p:dialog header="Edit Dictionary" widgetVar="load-media-type-dlg" resizable="true" dynamic="true">
+                <p:selectOneMenu id="select-media-type" value="#{mediaItemBean.type}">
+                    <f:selectItems value="#{generalProperties.availableMediaItemTypes}" />
+                </p:selectOneMenu>
+                <p/>
+                <p:commandButton value="Load" oncomplete="PF('media-item-dlg').show(); PF('load-media-type-dlg').hide();" />
+            </p:dialog>
+        </h:form>
+
+    </ui:composition>
+
+</h:body>
+</html>

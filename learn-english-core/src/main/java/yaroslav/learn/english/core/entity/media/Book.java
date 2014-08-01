@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.entity.media;
 
 import javax.persistence.Entity;
+import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.
@@ -9,11 +10,13 @@ import javax.persistence.Entity;
 public class Book extends MediaItem {
     private String author;
 
-    public String getAuthor() {
-        return author;
+    @Override
+    public Map<String, String> getAttributes() {
+        return null;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    @Override
+    public void setAttributes(Map<String, String> attributes) {
+
     }
 }

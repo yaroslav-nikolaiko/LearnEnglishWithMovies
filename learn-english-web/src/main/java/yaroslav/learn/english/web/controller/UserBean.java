@@ -1,5 +1,6 @@
 package yaroslav.learn.english.web.controller;
 
+import lombok.Data;
 import org.primefaces.context.RequestContext;
 import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.service.UserService;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 @Named
 @RequestScoped
-public class UserBean implements Serializable{
+public @Data class UserBean implements Serializable{
     @EJB
     private UserService userService;
     private User user;
@@ -34,14 +35,6 @@ public class UserBean implements Serializable{
     @PostConstruct
     void init(){
         user = new User();
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public void validateName(FacesContext context, UIComponent component, Object value){

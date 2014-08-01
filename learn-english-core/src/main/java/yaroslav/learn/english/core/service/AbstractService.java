@@ -21,11 +21,11 @@ public abstract class AbstractService<T> {
         return em.find(entityClass, id);
     }
 
-    public T update(@NotNull T entity) {
+    public T update(T entity) {
         return em.merge(entity);
     }
 
-    public void addToDataBase(@NotNull T entity){
+    public void addToDataBase(T entity){
         em.persist(entity);
     }
 

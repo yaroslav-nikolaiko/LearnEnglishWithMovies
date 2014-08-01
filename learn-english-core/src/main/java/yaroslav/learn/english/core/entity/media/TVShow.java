@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.entity.media;
 
 import javax.persistence.Entity;
+import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.
@@ -10,19 +11,13 @@ public class TVShow extends MediaItem {
     private String season;
     private String episode;
 
-    public String getSeason() {
-        return season;
+    @Override
+    public Map<String, String> getAttributes() {
+        return null;
     }
 
-    public void setSeason(String season) {
-        this.season = season;
-    }
+    @Override
+    public void setAttributes(Map<String, String> attributes) {
 
-    public String getEpisode() {
-        return episode;
-    }
-
-    public void setEpisode(String episode) {
-        this.episode = episode;
     }
 }

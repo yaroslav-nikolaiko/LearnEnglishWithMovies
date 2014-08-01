@@ -1,5 +1,6 @@
 package yaroslav.learn.english.core.service;
 
+import yaroslav.learn.english.core.constraint.ExistInDB;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.User;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
@@ -41,7 +42,7 @@ public class UserService extends AbstractService<User> {
     }
 
 
-    public void addDictionary(@NotNull User user,@NotNull Dictionary dictionary) throws EJBIllegalArgumentException {
+    public void addDictionary(@ExistInDB User user, Dictionary dictionary) throws EJBIllegalArgumentException {
         String dName = dictionary.getName();
         for (Dictionary d : user.getDictionaries())
             if (d.getName().equals(dName))
@@ -54,7 +55,7 @@ public class UserService extends AbstractService<User> {
         //return em.merge(user);
     }
 
-    public void removeDictionary(@NotNull User user,@NotNull Dictionary dictionary){
+    public void removeDictionary(@ExistInDB User user, Dictionary dictionary){
         user.removeDictionary(dictionary);
         update(user);
     }

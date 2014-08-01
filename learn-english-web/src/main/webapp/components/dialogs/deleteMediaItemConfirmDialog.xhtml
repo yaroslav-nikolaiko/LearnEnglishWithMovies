@@ -16,7 +16,7 @@
                       widgetVar="confirm-dialog" >
 
                 <p:commandButton value="Yes Sure" actionListener="#{sessionController.deleteMediaItems}"
-                                 update="@([id$=media-item-form])" oncomplete="PF('confirm-dialog').hide()"/>
+                                 update="@([id$=media-item-form]) @([id$=menu-bar])" oncomplete="PF('confirm-dialog').hide()"/>
                 <p:commandButton value="Not Yet" onclick="PF('confirm-dialog').hide();" type="button" />
 
             </p:dialog>

@@ -7,6 +7,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,6 +20,7 @@ public class ValidationHandlerInterceptorEjb implements Serializable {
     @AroundInvoke
     Object perform(InvocationContext ic) throws EJBIllegalArgumentException {
         try {
+            checkParameters(ic.getParameters());
             return ic.proceed();
         } catch (ConstraintViolationException e) {
 
@@ -32,4 +34,14 @@ public class ValidationHandlerInterceptorEjb implements Serializable {
         catch (Exception e) {e.printStackTrace(); /*log*/ }
         return null;
     }
+
+    private void checkParameters(Object[] parameters){
+        for (Object parameter : parameters)
+            checkParameter(parameter);
+    }
+
+    private void checkParameter(@NotNull Object parameter){
+        //NOP
+    }
+
 }

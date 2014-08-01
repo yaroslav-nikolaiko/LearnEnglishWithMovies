@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.entity.media;
 
 import javax.persistence.Entity;
+import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.
@@ -11,27 +12,13 @@ public class Song extends MediaItem {
     private String album;
     private String year;
 
-    public String getAuthor() {
-        return author;
+    @Override
+    public Map<String, String> getAttributes() {
+        return null;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    @Override
+    public void setAttributes(Map<String, String> attributes) {
 
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 }

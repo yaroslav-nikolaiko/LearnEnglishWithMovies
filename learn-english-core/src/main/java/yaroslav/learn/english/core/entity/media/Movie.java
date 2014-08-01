@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.entity.media;
 
 import javax.persistence.Entity;
+import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.
@@ -9,11 +10,14 @@ import javax.persistence.Entity;
 public class Movie extends MediaItem {
     private String year;
 
-    public String getYear() {
-        return year;
+
+    @Override
+    public Map<String, String> getAttributes() {
+        return null;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    @Override
+    public void setAttributes(Map<String, String> attributes) {
+
     }
 }

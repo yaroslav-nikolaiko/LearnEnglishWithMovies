@@ -2,7 +2,10 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.util.Language;
 import yaroslav.learn.english.core.util.Level;
+import yaroslav.learn.english.core.util.MediaItemType;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -11,6 +14,7 @@ import javax.inject.Named;
  */
 @Singleton
 @Named
+@Lock(LockType.READ)
 public class GeneralProperties {
 
     public  Language[] getAvailableLearningLanguages() {
@@ -25,5 +29,7 @@ public class GeneralProperties {
         return Level.values();
     }
 
-
+    public MediaItemType[] getAvailableMediaItemTypes() {
+        return MediaItemType.values();
+    }
 }

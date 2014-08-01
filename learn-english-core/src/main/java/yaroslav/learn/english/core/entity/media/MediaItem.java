@@ -1,19 +1,25 @@
 package yaroslav.learn.english.core.entity.media;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import yaroslav.learn.english.core.entity.Dictionary;
+import yaroslav.learn.english.core.util.Persistent;
 import yaroslav.learn.english.core.entity.WordCell;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.
  */
 @Entity
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
-public class MediaItem {
+@Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name", "dictionary"})
+public abstract class MediaItem implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,88 +46,8 @@ public class MediaItem {
         }
     }
 
-    /********************************************************************************************
-     *                                              Getters and Setters
-     ********************************************************************************************/
+    public abstract Map<String, String> getAttributes();
 
-    public Long getId() {
-        return id;
-    }
+    public abstract void setAttributes(Map<String, String> attributes);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
-
-    public List<WordCell> getWords() {
-        return words;
-    }
-
-    public void setWords(List<WordCell> words) {
-        this.words = words;
-    }
-
-    @Override
-    public String toString() {
-//        StringBuilder result = new StringBuilder();
-//        result.append("name  " + name ).append("\n");
-//        result.append("dictionary  " + dictionary.getId() ).append("\n");
-//        result.append("dictionary  " + dictionary ).append("\n");
-//        for(WordCell word : words){
-//            result.append("Item : "+"\n" + word);
-//        }
-//        return result.toString();
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MediaItem mediaItem = (MediaItem) o;
-
-        if (dictionary != null ? !dictionary.equals(mediaItem.dictionary) : mediaItem.dictionary != null) return false;
-        if (name != null ? !name.equals(mediaItem.name) : mediaItem.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (dictionary != null ? dictionary.hashCode() : 0);
-        return result;
-    }
 }
