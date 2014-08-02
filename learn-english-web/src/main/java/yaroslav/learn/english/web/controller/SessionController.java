@@ -27,6 +27,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
+@ValidationHandler
 public @Data class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
@@ -52,7 +53,7 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @ValidationHandler @DialogValidation
+    @DialogValidation
     public void login(){
         init();
         user =  userBean.login();
@@ -60,7 +61,7 @@ public @Data class SessionController implements Serializable {
             currentDictionary = user.getDictionaries().get(0);
     }
 
-    @ValidationHandler
+
     @DialogValidation
     public void createDictionary() throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryBean.getDictionary();
@@ -68,7 +69,7 @@ public @Data class SessionController implements Serializable {
         this.currentDictionary = dictionary;
     }
 
-    @ValidationHandler @DialogValidation
+    @DialogValidation
     public String loadMediaItem() throws EJBIllegalArgumentException {
         MediaItem item = mediaItemBean.getMediaItem();
 
@@ -85,19 +86,19 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @ValidationHandler
+
     public void deleteMediaItems() throws EJBIllegalArgumentException {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
         selectedMediaItems = null;
     }
 
-    @ValidationHandler @DialogValidation
+    @DialogValidation
     public void updateDictionary()throws EJBIllegalArgumentException{
         dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
     }
 
-    @ValidationHandler @DialogValidation
+    @DialogValidation
     public void removeDictionary()throws EJBIllegalArgumentException{
         userService.removeDictionary(user, currentDictionary);
         currentDictionary = null;

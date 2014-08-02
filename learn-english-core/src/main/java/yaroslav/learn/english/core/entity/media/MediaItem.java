@@ -1,5 +1,6 @@
 package yaroslav.learn.english.core.entity.media;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -8,16 +9,16 @@ import yaroslav.learn.english.core.util.Persistent;
 import yaroslav.learn.english.core.entity.WordCell;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Created by yaroslav on 6/2/14.
  */
 @Entity
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
+@Access(AccessType.FIELD)
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name", "dictionary"})
 public abstract class MediaItem implements Persistent {
     @Id
@@ -46,8 +47,46 @@ public abstract class MediaItem implements Persistent {
         }
     }
 
-    public abstract Map<String, String> getAttributes();
+    public Collection<Attribute> getAttributes() {
+        List<Attribute> list = new ArrayList<>();
+        for (Field field : this.getClass().getDeclaredFields())
+            if ( ! "serialVersionUID".equals(field.getName()))
+                list.add(new AttributeReflection(this, field));
+        return list;
+    }
 
-    public abstract void setAttributes(Map<String, String> attributes);
+    public static interface Attribute{
+        String getName();
+        Object getValue();
+        void setValue(Object value);
+    }
+
+    public @AllArgsConstructor() static class AttributeReflection implements Attribute{
+        private MediaItem holder;
+        private Field field;
+
+        public String getName(){
+            return field.getName();
+        }
+
+        public Object getValue(){
+            try {
+                return field.get(holder);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public void setValue(Object value){
+            try {
+                if (value != null)
+                    field.set(holder, value);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
 }

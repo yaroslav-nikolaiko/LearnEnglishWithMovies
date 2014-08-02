@@ -46,6 +46,12 @@
                             <p:outputLabel for="item-name" value="Name: " />
                             <p:inputText id="item-name" value="#{item.name}" label="name" required="true" />
                         </p:panelGrid>
+                        <p:dataGrid columns="1" var="entry" value="#{item.attributes}" >
+                            <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <p:outputLabel for="attribute" value="#{entry.name}" />
+                                <p:inputText id="attribute" value="#{entry.value}" />
+                            </p:panelGrid>
+                        </p:dataGrid>
                     </p:tab>
             </p:accordionPanel>
 

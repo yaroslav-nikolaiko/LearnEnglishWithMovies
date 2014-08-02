@@ -14,7 +14,7 @@
 
             <p:growl id="load-media-growl" sticky="true" showDetail="true" life="3000" />
 
-            <p:dialog header="Load Media Item" widgetVar="media-item-dlg" resizable="false" >
+            <p:dialog header="Load Media Item" widgetVar="media-item-dlg" resizable="false" dynamic="true">
 
 
                 <h:outputLabel for="media-item-name" value="Name: " />
@@ -39,6 +39,14 @@
                 </h:inputFile>
                 <!--</h:form>-->
 
+                <p:dataGrid columns="1" var="entry" value="#{mediaItemBean.mediaItem.attributes}" >
+                    <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="attribute" value="#{entry.name}" />
+                        <p:inputText id="attribute" value="#{entry.value}" />
+                    </p:panelGrid>
+                </p:dataGrid>
+
+
 
                 <h:commandButton id="upload_button"
                                  value="Upload"
@@ -46,11 +54,6 @@
                                  >
 
                 </h:commandButton>
-
-
-
-
-
 
             </p:dialog>
 
