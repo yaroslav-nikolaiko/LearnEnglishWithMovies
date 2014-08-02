@@ -1,6 +1,7 @@
 package yaroslav.learn.english.core.constraint;
 
 import yaroslav.learn.english.core.entity.User;
+import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 import yaroslav.learn.english.core.util.Persistent;
 
 import javax.inject.Inject;
@@ -23,6 +24,8 @@ public class ExistInDatabaseConstraint implements ConstraintValidator<ExistInDB,
 
     @Override
     public boolean isValid(Persistent entity, ConstraintValidatorContext context) {
+        if(entity==null)
+            return false;
         if(entity.getId()==null)
             return false;
         return em.find(entity.getClass(), entity.getId()) != null;
