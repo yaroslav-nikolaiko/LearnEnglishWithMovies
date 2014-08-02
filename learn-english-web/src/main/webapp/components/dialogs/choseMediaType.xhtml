@@ -12,7 +12,7 @@
 <h:body>
     <ui:composition>
         <h:form id="load-media-type-form">
-            <p:growl id="load-media-type-growl" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="load-media-type-growl" showDetail="true" life="3000" />
             <p:dialog header="Edit Dictionary" widgetVar="load-media-type-dlg" resizable="true" dynamic="true">
                 <p:selectOneMenu id="select-media-type" value="#{mediaItemBean.type}">
                     <f:selectItems value="#{generalProperties.availableMediaItemTypes}" />
