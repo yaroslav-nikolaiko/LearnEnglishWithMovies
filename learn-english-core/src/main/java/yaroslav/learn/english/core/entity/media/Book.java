@@ -1,11 +1,9 @@
 package yaroslav.learn.english.core.entity.media;
 
 import lombok.Data;
+import yaroslav.learn.english.core.entity.MediaItem;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.

@@ -2,15 +2,13 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.constraint.ExistInDB;
 import yaroslav.learn.english.core.entity.Dictionary;
-import yaroslav.learn.english.core.entity.media.MediaItem;
+import yaroslav.learn.english.core.entity.MediaItem;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.Cacheable;
 import javax.persistence.EntityManager;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**

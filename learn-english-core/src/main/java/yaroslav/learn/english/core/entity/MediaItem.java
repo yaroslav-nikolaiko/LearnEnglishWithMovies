@@ -1,13 +1,10 @@
-package yaroslav.learn.english.core.entity.media;
+package yaroslav.learn.english.core.entity;
 
 import lombok.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.util.Persistent;
-import yaroslav.learn.english.core.entity.WordCell;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -66,7 +63,6 @@ public abstract class MediaItem implements Persistent {
 
         public Object getValue(){
             try {
-                //return field.get(holder);
                 return PropertyUtils.getProperty(holder, name);
             } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                 e.printStackTrace();

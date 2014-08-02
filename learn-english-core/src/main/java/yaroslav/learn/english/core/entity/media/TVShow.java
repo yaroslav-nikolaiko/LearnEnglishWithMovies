@@ -1,14 +1,9 @@
 package yaroslav.learn.english.core.entity.media;
 
 import lombok.Data;
+import yaroslav.learn.english.core.entity.MediaItem;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.validation.constraints.NotNull;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by yaroslav on 6/2/14.

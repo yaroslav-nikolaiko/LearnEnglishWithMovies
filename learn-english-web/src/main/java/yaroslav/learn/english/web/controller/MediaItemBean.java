@@ -1,18 +1,15 @@
 package yaroslav.learn.english.web.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import yaroslav.learn.english.core.entity.media.MediaItem;
+import yaroslav.learn.english.core.entity.MediaItem;
 import yaroslav.learn.english.core.service.MediaItemService;
 import yaroslav.learn.english.core.util.MediaItemType;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.servlet.http.Part;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
 
 /**
  * Created by yaroslav on 6/13/14.

@@ -2,7 +2,6 @@ package yaroslav.learn.english.core.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import yaroslav.learn.english.core.entity.media.MediaItem;
 import yaroslav.learn.english.core.util.Persistent;
 import yaroslav.learn.english.core.util.Category;
 
@@ -14,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "WordCell")
-@Data @EqualsAndHashCode(of = {"id"})
+@Data @EqualsAndHashCode(of = {"word","rootWord"})
 public  class WordCell implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
