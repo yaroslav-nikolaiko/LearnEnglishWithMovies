@@ -1,9 +1,7 @@
 package yaroslav.learn.english.core.entity.media;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import org.apache.commons.beanutils.PropertyUtils;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.util.Persistent;
 import yaroslav.learn.english.core.entity.WordCell;
@@ -11,6 +9,7 @@ import yaroslav.learn.english.core.entity.WordCell;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -51,7 +50,7 @@ public abstract class MediaItem implements Persistent {
         List<Attribute> list = new ArrayList<>();
         for (Field field : this.getClass().getDeclaredFields())
             if ( ! "serialVersionUID".equals(field.getName()))
-                list.add(new AttributeReflection(this, field));
+                list.add(new AttributeReflection(this, field.getName()));
         return list;
     }
 
@@ -63,16 +62,13 @@ public abstract class MediaItem implements Persistent {
 
     public @AllArgsConstructor() static class AttributeReflection implements Attribute{
         private MediaItem holder;
-        private Field field;
-
-        public String getName(){
-            return field.getName();
-        }
+        private @Getter String name;
 
         public Object getValue(){
             try {
-                return field.get(holder);
-            } catch (IllegalAccessException e) {
+                //return field.get(holder);
+                return PropertyUtils.getProperty(holder, name);
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                 e.printStackTrace();
             }
             return null;
@@ -81,8 +77,8 @@ public abstract class MediaItem implements Persistent {
         public void setValue(Object value){
             try {
                 if (value != null)
-                    field.set(holder, value);
-            } catch (IllegalAccessException e) {
+                    PropertyUtils.setProperty(holder, name, value);
+            } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
