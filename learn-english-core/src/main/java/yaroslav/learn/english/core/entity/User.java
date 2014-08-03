@@ -3,7 +3,7 @@ package yaroslav.learn.english.core.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import yaroslav.learn.english.core.util.Persistent;
+import yaroslav.learn.english.core.utils.Persistent;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;

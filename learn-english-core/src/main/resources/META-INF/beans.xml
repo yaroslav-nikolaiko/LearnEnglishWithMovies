@@ -8,6 +8,6 @@
 
     <!--<interceptors>-->
         <!--&lt;!&ndash;<class>yaroslav.learn.english.core.interceptor.NotNullParametersInterceptor</class>&ndash;&gt;-->
-        <!--<class>yaroslav.learn.english.core.interceptor.ValidationHandlerInterceptorEjb</class>-->
+        <!--<class>yaroslav.learn.english.core.validation.ValidationHandlerInterceptorEjb</class>-->
     <!--</interceptors>-->
 </beans>

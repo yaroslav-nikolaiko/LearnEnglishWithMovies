@@ -3,7 +3,7 @@ package yaroslav.learn.english.web.controller;
 import lombok.Data;
 import yaroslav.learn.english.core.entity.MediaItem;
 import yaroslav.learn.english.core.service.MediaItemService;
-import yaroslav.learn.english.core.util.MediaItemType;
+import yaroslav.learn.english.core.utils.MediaItemType;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

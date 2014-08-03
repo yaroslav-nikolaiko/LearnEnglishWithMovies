@@ -2,8 +2,8 @@ package yaroslav.learn.english.core.service;
 
 import yaroslav.learn.english.core.entity.MediaItem;
 import yaroslav.learn.english.core.entity.media.*;
-import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
-import yaroslav.learn.english.core.util.MediaItemType;
+import yaroslav.learn.english.core.validation.ValidationHandlerEjb;
+import yaroslav.learn.english.core.utils.MediaItemType;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

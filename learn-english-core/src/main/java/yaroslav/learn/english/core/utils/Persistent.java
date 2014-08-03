@@ -1,4 +1,4 @@
-package yaroslav.learn.english.core.util;
+package yaroslav.learn.english.core.utils;
 
 /**
  * Created by yaroslav on 7/23/14.

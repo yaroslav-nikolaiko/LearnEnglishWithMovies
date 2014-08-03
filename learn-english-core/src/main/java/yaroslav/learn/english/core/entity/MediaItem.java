@@ -2,7 +2,7 @@ package yaroslav.learn.english.core.entity;
 
 import lombok.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import yaroslav.learn.english.core.util.Persistent;
+import yaroslav.learn.english.core.utils.Persistent;
 
 import javax.persistence.*;
 import java.lang.reflect.Field;
@@ -50,6 +50,8 @@ public abstract class MediaItem implements Persistent {
                 list.add(new AttributeReflection(this, field.getName()));
         return list;
     }
+
+
 
     public static interface Attribute{
         String getName();

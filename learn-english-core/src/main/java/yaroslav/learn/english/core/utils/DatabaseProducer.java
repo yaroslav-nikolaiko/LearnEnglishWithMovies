@@ -1,4 +1,4 @@
-package yaroslav.learn.english.core.util;
+package yaroslav.learn.english.core.utils;
 
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;

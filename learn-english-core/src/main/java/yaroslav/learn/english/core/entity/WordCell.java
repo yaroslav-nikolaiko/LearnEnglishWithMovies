@@ -2,8 +2,8 @@ package yaroslav.learn.english.core.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import yaroslav.learn.english.core.util.Persistent;
-import yaroslav.learn.english.core.util.Category;
+import yaroslav.learn.english.core.utils.Persistent;
+import yaroslav.learn.english.core.utils.Category;
 
 import javax.persistence.*;
 import java.util.List;

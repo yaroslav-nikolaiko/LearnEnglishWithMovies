@@ -1,8 +1,8 @@
 package yaroslav.learn.english.core.service;
 
-import yaroslav.learn.english.core.util.Language;
-import yaroslav.learn.english.core.util.Level;
-import yaroslav.learn.english.core.util.MediaItemType;
+import yaroslav.learn.english.core.utils.Language;
+import yaroslav.learn.english.core.utils.Level;
+import yaroslav.learn.english.core.utils.MediaItemType;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;

@@ -1,5 +1,8 @@
 package yaroslav.learn.english.subtitles.bridge;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yaroslav on 5/31/14.
  */
-public class SubtitlesUnit implements Comparable<SubtitlesUnit>{
+public @Data @EqualsAndHashCode(of={"startTime"}) class SubtitlesUnit implements Comparable<SubtitlesUnit>{
     private String fullText;
     /**
      * Text with removed html tags (<br/> etc.)
@@ -31,22 +34,6 @@ public class SubtitlesUnit implements Comparable<SubtitlesUnit>{
         this.startTime = startTime;
     }
 
-    public String getFullText() {
-        return fullText;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public List<String> getWords() {
-        return words;
-    }
-
-    public Integer getStartTime() {
-        return startTime;
-    }
-
     String removeHtmlTags(String sample){
         return sample.replaceAll("\\<[^>]*>"," ");
     }
@@ -63,25 +50,6 @@ public class SubtitlesUnit implements Comparable<SubtitlesUnit>{
         }
         return result;
     }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SubtitlesUnit that = (SubtitlesUnit) o;
-
-        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return startTime != null ? startTime.hashCode() : 0;
-    }
-
 
     @Override
     public int compareTo(SubtitlesUnit o) {

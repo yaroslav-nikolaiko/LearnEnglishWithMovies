@@ -1,4 +1,4 @@
-package yaroslav.learn.english.core.interceptor;
+package yaroslav.learn.english.core.validation;
 
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
 

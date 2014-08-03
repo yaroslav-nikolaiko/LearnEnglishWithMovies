@@ -2,18 +2,12 @@ package yaroslav.learn.english.web.controller;
 
 import lombok.Data;
 import yaroslav.learn.english.core.entity.Dictionary;
-import yaroslav.learn.english.core.service.UserService;
-import yaroslav.learn.english.core.util.Language;
-import yaroslav.learn.english.core.util.Level;
 
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 

@@ -1,12 +1,9 @@
-package yaroslav.learn.english.core.constraint;
+package yaroslav.learn.english.core.validation;
 
-import yaroslav.learn.english.core.entity.User;
-import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
-import yaroslav.learn.english.core.util.Persistent;
+import yaroslav.learn.english.core.utils.Persistent;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

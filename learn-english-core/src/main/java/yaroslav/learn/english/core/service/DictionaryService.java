@@ -1,10 +1,10 @@
 package yaroslav.learn.english.core.service;
 
-import yaroslav.learn.english.core.constraint.ExistInDB;
+import yaroslav.learn.english.core.validation.ExistInDB;
 import yaroslav.learn.english.core.entity.Dictionary;
 import yaroslav.learn.english.core.entity.MediaItem;
 import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
-import yaroslav.learn.english.core.interceptor.ValidationHandlerEjb;
+import yaroslav.learn.english.core.validation.ValidationHandlerEjb;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -29,9 +29,14 @@ public class DictionaryService extends AbstractService<Dictionary> {
         for (MediaItem i : dictionary.getMediaItems())
             if (i.getName().equals(iName))
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
+        processText(item);
         dictionary.addMediaItem(item);
         em.persist(item);
         em.merge(dictionary);
+    }
+
+    private void processText(MediaItem item) {
+
     }
 
     public void removeMediaItems(@ExistInDB Dictionary dictionary, Collection<MediaItem> items) throws EJBIllegalArgumentException {

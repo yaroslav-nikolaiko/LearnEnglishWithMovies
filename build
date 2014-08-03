@@ -1,6 +1,11 @@
 #!/bin/bash
 # Use ./build web to build just web module and deploy, ./build core to build core, than web and deploy.
 
+if [[ $JAVA_HOME != *jdk1.8* ]]; then
+    export JAVA_HOME=/home/yaroslav/usr/jdk1.8.0_05
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 ARG=$1
 
 if [[ $ARG = "web" ]]; then

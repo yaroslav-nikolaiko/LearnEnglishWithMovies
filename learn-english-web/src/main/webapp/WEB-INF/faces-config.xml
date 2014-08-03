@@ -7,7 +7,7 @@
 
     <!--<converter>-->
         <!--<converter-for-class>yaroslav.learn.english.core.entity.Dictionary</converter-for-class>-->
-        <!--<converter-class>yaroslav.learn.english.web.units.DictionaryConverter</converter-class>-->
+        <!--<converter-class>yaroslav.learn.english.web.utils.DictionaryConverter</converter-class>-->
     <!--</converter>-->
 
 </faces-config>

@@ -1,4 +1,4 @@
-package yaroslav.learn.english.core.constraint;
+package yaroslav.learn.english.core.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ METHOD, FIELD, TYPE, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 public @interface ExistInDB {
-    String message() default "{yaroslav.learn.english.core.constraint.existInDb}";
+    String message() default "{yaroslav.learn.english.core.validation.existInDb}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
