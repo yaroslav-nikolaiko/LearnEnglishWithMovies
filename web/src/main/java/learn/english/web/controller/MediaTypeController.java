@@ -1,7 +1,7 @@
 package learn.english.web.controller;
 
 import lombok.Data;
-import yaroslav.learn.english.core.utils.MediaItemType;
+import learn.english.core.utils.MediaItemType;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

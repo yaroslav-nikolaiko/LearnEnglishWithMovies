@@ -2,8 +2,8 @@ package learn.english.web.controller;
 
 import learn.english.web.exception.WebException;
 import lombok.Data;
-import yaroslav.learn.english.core.entity.User;
-import yaroslav.learn.english.core.service.UserService;
+import learn.english.core.entity.User;
+import learn.english.core.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

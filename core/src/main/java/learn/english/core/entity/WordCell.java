@@ -1,9 +1,11 @@
 package learn.english.core.entity;
 
+import learn.english.parser.Parser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import learn.english.core.utils.Persistent;
 import learn.english.core.utils.Category;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "WordCell")
-@Data @EqualsAndHashCode(of = {"word","rootWord"})
+@Data @EqualsAndHashCode(of = {"word","rootWord"}) @NoArgsConstructor()
 public  class WordCell implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +25,18 @@ public  class WordCell implements Persistent {
     private Category category;
     @ManyToMany(mappedBy = "words", cascade = CascadeType.ALL)
     private List<MediaItem> mediaItems;
-    @ManyToOne
-    private Dictionary dictionary;
+    /*@ManyToOne
+    private Dictionary dictionary;*/
     @Transient
     private String rootWord;
-
-    public WordCell() {
-    }
 
     public WordCell(String word) {
         this.word = word;
     }
+
+/*    public WordCell(String word, Dictionary dictionary){
+        this.word = word;
+        this.dictionary = dictionary;
+    }*/
 
 }

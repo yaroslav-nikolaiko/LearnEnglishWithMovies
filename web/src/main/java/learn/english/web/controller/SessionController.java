@@ -2,13 +2,13 @@ package learn.english.web.controller;
 
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
-import yaroslav.learn.english.core.entity.Dictionary;
-import yaroslav.learn.english.core.entity.User;
-import yaroslav.learn.english.core.entity.MediaItem;
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
-import yaroslav.learn.english.core.service.DictionaryService;
-import yaroslav.learn.english.core.service.MediaItemService;
-import yaroslav.learn.english.core.service.UserService;
+import learn.english.core.entity.Dictionary;
+import learn.english.core.entity.User;
+import learn.english.core.entity.MediaItem;
+import learn.english.core.exception.EJBIllegalArgumentException;
+import learn.english.core.service.DictionaryService;
+import learn.english.core.service.MediaItemService;
+import learn.english.core.service.UserService;
 import learn.english.web.interceptor.DialogValidation;
 import learn.english.web.interceptor.ValidationHandler;
 

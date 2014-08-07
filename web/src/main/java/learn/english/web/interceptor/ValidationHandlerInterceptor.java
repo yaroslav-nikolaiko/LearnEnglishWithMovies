@@ -1,7 +1,7 @@
 package learn.english.web.interceptor;
 
 import learn.english.web.exception.WebException;
-import yaroslav.learn.english.core.exception.EJBIllegalArgumentException;
+import learn.english.core.exception.EJBIllegalArgumentException;
 
 
 import javax.faces.application.FacesMessage;
