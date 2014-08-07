@@ -14,63 +14,67 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by yaroslav on 8/6/14.
  */
-
+@Stateless
 public class TextProcessor {
 
-
-    public Collection<WordCell> computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
+    public void computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
         Text text = parseText(item);
         Set<String> words = text.words();
-        Set<String> vocabulary = allWords(dictionary);
-        Set<String> newWords = words.stream().filter(w-> ! vocabulary.contains(w)).collect(toSet());
-        Set<String> oldWords = words.stream().filter(vocabulary::contains).collect(toSet());
-        List<WordCell> list = new ArrayList<>();
-        list.addAll(wordCellForOldWords(oldWords));
-        list.addAll(wordCellforNewWords(newWords));
+        Map<String, WordCell> vocabulary = allWords(dictionary).collect(toMap(WordCell::getWord, cell -> cell));
 
-        return list;
+        item.setWords(
+                words.stream().map(w ->
+                vocabulary.containsKey(w) ?
+                        updateExistedWordCell(vocabulary.get(w), item) :
+                        generateNewWordCell(w, item, dictionary)).
+                collect(toList())
+        );
     }
 
 
     public Category category(@NotNull WordCell wordCell, @NotNull Dictionary dictionary) {
-/*        Set<String> words = allWords(dictionary);
-        if(words.contains(wordCell.getWord()))
-            wordCell.setCategory();*/
-        return null;
-
+        return Category.LEARNING_NOW;
     }
 
-    private Set<String>  allWords(Dictionary dictionary){
+    private Stream<WordCell> allWords(Dictionary dictionary){
         return dictionary.getMediaItems().stream().
-                flatMap((item) -> item.getWords().stream()).
-                map(WordCell::getWord).
-                collect(toSet());
+                flatMap((item) -> item.getWords().stream());
     }
 
     private Text parseText(MediaItem item){
         Text text = null;
         try {
-            text = item.getParser().parse(item.getContent());
+            text = ParserProducer.getParser(item).parse(item.getContent());
         } catch (ParserException e) {
             e.printStackTrace();
         }
         return text;
     }
 
-    private List<WordCell> wordCellForOldWords(Collection<String> words){
-
+    private WordCell generateNewWordCell(String word, MediaItem item, Dictionary dictionary) {
+        WordCell wordCell = new WordCell(word);
+        wordCell.setCategory(category(wordCell, dictionary));
+        wordCell.setMediaItems(Arrays.asList(item));
+        return wordCell;
     }
 
-    private List<WordCell> wordCellforNewWords(Collection<String> words){
-
+    private WordCell updateExistedWordCell(WordCell wordCell, MediaItem item) {
+        wordCell.getMediaItems().add(item);
+        return wordCell;
     }
 
 

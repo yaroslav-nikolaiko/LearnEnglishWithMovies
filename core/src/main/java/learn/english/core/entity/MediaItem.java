@@ -34,11 +34,11 @@ public abstract class MediaItem implements Persistent {
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
     private List<WordCell> words;
-    @Transient Parser parser;
+    //@Transient Parser parser;
 
     public MediaItem() {
         words = new ArrayList<>();
-        parser = ParserProducer.getParser(this);
+        //parser = ParserProducer.getParser(this);
     }
 
     public void addWords(Collection<String> words){

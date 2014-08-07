@@ -1,6 +1,7 @@
 package learn.english.core.service;
 
 import learn.english.core.entity.WordCell;
+import learn.english.core.text.processor.TextProcessor;
 import learn.english.core.validation.ExistInDB;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
@@ -9,6 +10,7 @@ import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 @Stateless
 @ValidationHandlerEjb
 public class DictionaryService extends AbstractService<Dictionary> {
+    @EJB TextProcessor textProcessor;
 
     @Inject
     public DictionaryService(EntityManager em) {
@@ -37,7 +40,7 @@ public class DictionaryService extends AbstractService<Dictionary> {
             if (i.getName().equals(iName))
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
         dictionary.addMediaItem(item);
-        processText(item);
+        textProcessor.computeWordCells(item,dictionary);
         em.persist(item);
         em.merge(dictionary);
     }
@@ -53,7 +56,7 @@ public class DictionaryService extends AbstractService<Dictionary> {
         //em.remove(em.merge(item));
     }
 
-    private void processText(MediaItem item) throws EJBIllegalArgumentException {
+/*    private void processText(MediaItem item) throws EJBIllegalArgumentException {
         try {
             Text text = item.getParser().parse(item.getContent());
             Set<String> words = text.words();
@@ -62,6 +65,6 @@ public class DictionaryService extends AbstractService<Dictionary> {
         } catch (ParserException e) {
             throw new EJBIllegalArgumentException("Error wile parsing text from media item", EJBIllegalArgumentException.MessageType.ERROR, e);
         }
-    }
+    }*/
 
 }
