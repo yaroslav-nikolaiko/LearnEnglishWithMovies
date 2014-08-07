@@ -1,6 +1,7 @@
 package learn.english.parser;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -8,4 +9,7 @@ import java.util.Set;
  */
 public interface Text {
     public Set<String> words();
+    public default boolean contains(String word) {
+        return words().contains(word);
+    }
 }
