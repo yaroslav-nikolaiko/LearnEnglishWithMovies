@@ -30,7 +30,7 @@ public abstract class MediaItem implements Persistent {
     private String filename;
     @ManyToOne
     private Dictionary dictionary;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
     private List<WordCell> words;
@@ -45,6 +45,14 @@ public abstract class MediaItem implements Persistent {
         for(String word : words){
             this.words.add(new WordCell(word));
         }
+    }
+
+    public void destructor(){
+        //words.stream().forEach(w->w.removeMediaItem(this)); /* Currently EclipseLink doesn't support Java 8 */
+        for (WordCell word : words) {
+            word.removeMediaItem(this);
+        }
+        //words = new ArrayList<>(); instead using wordOrphanRemove in DictionaryService
     }
 
     public Collection<Attribute> getAttributes() {

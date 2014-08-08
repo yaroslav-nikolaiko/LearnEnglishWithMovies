@@ -51,6 +51,7 @@ public class Dictionary implements Persistent {
 
     public void removeMediaItem(MediaItem item){
         mediaItems.remove(item);
+        item.destructor();
         item.setDictionary(null);
     }
 

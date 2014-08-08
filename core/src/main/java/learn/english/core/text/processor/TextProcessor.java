@@ -33,11 +33,10 @@ public class TextProcessor {
 
     public void computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
         Text text = parseText(item);
-        Set<String> words = text.words();
-        Map<String, WordCell> vocabulary = allWords(dictionary).collect(toMap(WordCell::getWord, cell -> cell));
+        Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getWord, cell -> cell));
 
         item.setWords(
-                words.stream().map(w ->
+                text.words().stream().map(w ->
                 vocabulary.containsKey(w) ?
                         updateExistedWordCell(vocabulary.get(w), item) :
                         generateNewWordCell(w, item, dictionary)).
@@ -50,9 +49,19 @@ public class TextProcessor {
         return Category.LEARNING_NOW;
     }
 
-    private Stream<WordCell> allWords(Dictionary dictionary){
+/*    private Stream<WordCell> allWords(Dictionary dictionary){
         return dictionary.getMediaItems().stream().
                 flatMap((item) -> item.getWords().stream());
+    }*/
+
+    public Set<WordCell> allWords(Dictionary dictionary){
+        //return dictionary.getMediaItems().stream().flatMap(item -> item.getWords().stream()).collect(toList());
+        List<MediaItem> items = dictionary.getMediaItems();
+        Set<WordCell> cells = new HashSet<>();
+        for (MediaItem item : items) {
+            cells.addAll(item.getWords());
+        }
+        return cells;
     }
 
     private Text parseText(MediaItem item){

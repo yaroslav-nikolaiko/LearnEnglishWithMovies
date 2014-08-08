@@ -40,8 +40,8 @@ public class DictionaryService extends AbstractService<Dictionary> {
             if (i.getName().equals(iName))
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
         dictionary.addMediaItem(item);
-        textProcessor.computeWordCells(item,dictionary);
         em.persist(item);
+        textProcessor.computeWordCells(item,dictionary);
         em.merge(dictionary);
     }
 
@@ -52,8 +52,26 @@ public class DictionaryService extends AbstractService<Dictionary> {
 
     public void removeMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {
         dictionary.removeMediaItem(item);
+        removeItemFromAllWords(item, dictionary);
+        wordOrphanRemove(item);
         em.merge(dictionary);
         //em.remove(em.merge(item));
+    }
+
+    private void wordOrphanRemove(MediaItem item){
+        for (WordCell word : item.getWords()) {
+            //word.removeMediaItem(item);
+            if(word.getMediaItems().isEmpty())
+                em.remove(em.merge(word));
+/*            else
+                em.merge(word);*/
+        }
+    }
+
+    private void removeItemFromAllWords(MediaItem item, Dictionary dictionary) {
+        Collection<WordCell> allWords = textProcessor.allWords(dictionary);
+        for (WordCell word : allWords)
+            word.removeMediaItem(item);
     }
 
 /*    private void processText(MediaItem item) throws EJBIllegalArgumentException {

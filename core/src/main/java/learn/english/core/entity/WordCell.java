@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "WordCell")
-@Data @EqualsAndHashCode(of = {"word","rootWord"}) @NoArgsConstructor()
+@Data @EqualsAndHashCode(of = {"word"}) @NoArgsConstructor()
 public  class WordCell implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public  class WordCell implements Persistent {
     private String word;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @ManyToMany(mappedBy = "words", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "words")
     private List<MediaItem> mediaItems;
     /*@ManyToOne
     private Dictionary dictionary;*/
@@ -32,6 +32,10 @@ public  class WordCell implements Persistent {
 
     public WordCell(String word) {
         this.word = word;
+    }
+
+    public void removeMediaItem(MediaItem item) {
+        mediaItems.remove(item);
     }
 
 /*    public WordCell(String word, Dictionary dictionary){
