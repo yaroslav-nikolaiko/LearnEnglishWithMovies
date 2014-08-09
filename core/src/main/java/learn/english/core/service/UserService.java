@@ -7,6 +7,7 @@ import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
 
 import javax.ejb.ApplicationException;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import javax.persistence.*;
 @ValidationHandlerEjb
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
+    @EJB DictionaryService dictionaryService;
 
     @Inject
     public UserService(EntityManager em) {
@@ -55,6 +57,7 @@ public class UserService extends AbstractService<User> {
 
     public void removeDictionary(@ExistInDB User user, Dictionary dictionary){
         user.removeDictionary(dictionary);
+        dictionaryService.garbageCollector(dictionary);
         update(user);
     }
 }

@@ -67,8 +67,13 @@ public class DictionaryService extends AbstractService<Dictionary> {
             }
             if( noMoreReferenceForWord )
                 em.remove(em.merge(word));
-        }
 
+        }
+    }
+
+    public void garbageCollector( Dictionary dictionary){
+        for (WordCell word : textProcessor.allWords(dictionary)) {
+            em.remove(em.merge(word));}
     }
 
 

@@ -23,7 +23,6 @@ import java.util.List;
 @ValidationHandlerEjb
 public class MediaItemService extends AbstractService<MediaItem> {
 
-
     @Inject
     public MediaItemService(EntityManager em) {
         super(MediaItem.class);
