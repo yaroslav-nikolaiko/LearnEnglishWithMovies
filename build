@@ -1,50 +1,61 @@
 #!/bin/bash
 # Use ./build web to build just web module and deploy, ./build core to build core, than web and deploy.
 
+
+
 if [[ $JAVA_HOME != *jdk1.8* ]]; then
     export JAVA_HOME=/home/yaroslav/usr/jdk1.8.0_05
     export PATH="$JAVA_HOME/bin:$PATH"
 fi
 
+GLASSFISH=/home/yaroslav/usr/latest-glassfish4/bin/asadmin
+ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+ARTIFACT_NAME=web-1.0-SNAPSHOT
+CONTEXT_ROOT=lingvo-movie
+CORE=core
+WEB=web
+PARSER=parser
+TRANSLATOR=translator
+
 ARG=$1
 
 if [[ $ARG = "web" ]]; then
-    mvn -f web/pom.xml clean install
+    mvn -f $WEB/pom.xml clean install
 fi
 
 if [[ $ARG = "deploy" ]]; then
-    sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin deploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+    sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
     exit
 fi
 
 if [[ $ARG = "redeploy" ]]; then
-    sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+    sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
     exit
 fi
 
 if [[ $ARG = "core" ]]; then
-    mvn -f core/pom.xml clean install
+    mvn -f $CORE/pom.xml clean install
     STATUS1=$?
     if [ $STATUS1 -eq 0 ]; then
-        mvn -f web/pom.xml clean install
+        mvn -f $WEB/pom.xml clean install
 
         STATUS=$?
         if [ $STATUS -eq 0 ]; then
-            sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
         fi
     fi
         exit
 fi
 
 if [[ $ARG = "parser" ]]; then
-    mvn -f parser/pom.xml clean install
+    mvn -f $PARSER/pom.xml clean install
     STATUS1=$?
     if [ $STATUS1 -eq 0 ]; then
-        mvn -f web/pom.xml clean install
+        mvn -f $WEB/pom.xml clean install
 
         STATUS=$?
         if [ $STATUS -eq 0 ]; then
-            sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
         fi
     fi
         exit
@@ -54,11 +65,11 @@ if [[ $ARG = "translator" ]]; then
     mvn -f translator/pom.xml clean install
     STATUS1=$?
     if [ $STATUS1 -eq 0 ]; then
-        mvn -f web/pom.xml clean install
+        mvn -f $WEB/pom.xml clean install
 
         STATUS=$?
         if [ $STATUS -eq 0 ]; then
-            sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
         fi
     fi
         exit
@@ -71,6 +82,6 @@ fi
 
 STATUS=$?
 if [ $STATUS -eq 0 ]; then
-sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
 fi
 
