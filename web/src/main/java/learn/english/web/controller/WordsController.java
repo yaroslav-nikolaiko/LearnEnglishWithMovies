@@ -9,7 +9,6 @@ import lombok.Data;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -18,7 +17,6 @@ import java.io.Serializable;
 import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by yaroslav on 8/9/14.
@@ -33,7 +31,7 @@ public @Data class WordsController implements Serializable {
     //Set<WordCell> words;
     Map<String, WordCell> words;
     Category leftCategory = Category.LEARNED;
-    Category rightCategory = Category.LEARNING_NOW;
+    Category rightCategory = Category.NEW_WORD;
 
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
     //List<WordCell> cache = new ArrayList<>();

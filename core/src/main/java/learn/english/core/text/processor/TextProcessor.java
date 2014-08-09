@@ -3,25 +3,14 @@ package learn.english.core.text.processor;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.entity.WordCell;
-import learn.english.core.service.DictionaryService;
 import learn.english.core.utils.Category;
-import learn.english.core.utils.Language;
-import learn.english.parser.Parser;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
-import learn.english.translator.Translator;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
@@ -47,7 +36,7 @@ public class TextProcessor {
 
 
     public Category category(@NotNull WordCell wordCell, @NotNull Dictionary dictionary) {
-        return Category.LEARNING_NOW;
+        return Category.NEW_WORD;
     }
 
 /*    private Stream<WordCell> allWords(Dictionary dictionary){

@@ -33,8 +33,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        System.getProperties().put("http.proxyHost", "proxy2.cht");
-        System.getProperties().put("http.proxyPort", "3128");
+        //System.getProperties().put("http.proxyHost", "proxy2.cht");
+        //System.getProperties().put("http.proxyPort", "3128");
 
 //        String fileName = "Game of Thrones - 4x01 - Two Swords.HDTV.KILLERS.en.srt";
         String fileName = "small_file.srt";
@@ -53,7 +53,7 @@ public class Main {
 
         }
 
-        //translateYandex(content, false);
+        translateYandex(content, false);
         //xmlParser();
     }
 
