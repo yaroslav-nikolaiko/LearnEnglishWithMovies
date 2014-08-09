@@ -72,6 +72,12 @@ public class DictionaryService extends AbstractService<Dictionary> {
     }
 
     public void garbageCollector( Dictionary dictionary){
+        /*
+        Here probably have some performance issue with multiple em.remove call. However commit will be after this method finished
+        and before all operations with Persistence cache. I hope that JPA optimize this multiple deletion in the end.
+
+        Anyway, this operation(deleting the dictionary) is very rare. But deleting an item is not so rare.
+         */
         for (WordCell word : textProcessor.allWords(dictionary)) {
             em.remove(em.merge(word));}
     }
