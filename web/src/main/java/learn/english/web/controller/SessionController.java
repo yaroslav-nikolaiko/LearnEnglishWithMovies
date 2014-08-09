@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-@ValidationHandler
+    @ValidationHandler
 public @Data class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
@@ -92,13 +92,14 @@ public @Data class SessionController implements Serializable {
     }
 
     @DialogValidation
-    public void updateDictionary()throws EJBIllegalArgumentException{
+    public void updateDictionary() throws EJBIllegalArgumentException{
+        System.out.println("Update Dictionary in DB");
         dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
     }
 
     @DialogValidation
-    public void removeDictionary()throws EJBIllegalArgumentException{
+    public void removeDictionary() throws EJBIllegalArgumentException{
         userService.removeDictionary(user, currentDictionary);
         currentDictionary = null;
         selectedMediaItems = null;

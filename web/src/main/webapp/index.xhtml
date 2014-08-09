@@ -73,6 +73,44 @@
         }
     </style>
 
+    <style type="text/css">
+        .ui-picklist .ui-picklist-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow:auto;
+            height:400px;
+            width:300px;
+        }
+
+        .ui-picklist .ui-picklist-list li {
+            margin: 1px;
+            padding: 2px;
+        }
+
+        .ui-picklist .ui-button {
+            display:block;
+            margin-bottom:0.3em;
+        }
+
+        .ui-picklist .ui-picklist-item {
+            cursor:pointer;
+            border:0px none;
+            font-weight: inherit;
+        }
+
+        .ui-picklist .ui-picklist-caption {
+            text-align: center;
+            padding:4px 10px 4px 10px;
+            border-bottom:0px none;
+        }
+
+        .ui-picklist table {
+            width:100%;
+            border-collapse:collapse;
+        }
+    </style>
+
 
 
 </h:head>
@@ -118,6 +156,7 @@
         <p:layoutUnit id="center" position="center">
             <ui:include src="components/dialogs/loadMedia.xhtml"/>
             <ui:include src="components/dialogs/choseMediaType.xhtml"/>
+            <ui:include src="components/centralComponent.xhtml"/>
 
         </p:layoutUnit>
 

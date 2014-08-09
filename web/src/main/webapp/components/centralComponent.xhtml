@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition>
+        <h:form id="words-list-form" >
+            <p:commandButton id="pojoSubmit" rendered="false" value="Submit"  style="margin-top:5px" actionListener="#{wordsController.submit}"/>
+
+            <p:pickList id="pick-list" value="#{wordsController.dualList}" var="cell" effect="bounce"
+                        itemValue="#{cell}" itemLabel="#{cell.word}"
+                        showSourceControls="true" showTargetControls="true" showCheckbox="true" converter="#{wordCellConverter}"
+                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
+                        >
+
+                <f:facet name="sourceCaption">#{wordsController.leftCategory}</f:facet>
+                <f:facet name="targetCaption">#{wordsController.rightCategory}</f:facet>
+
+                <p:ajax event="transfer" listener="#{wordsController.onTransfer}" />
+
+                <p:column style="width:100%;">
+                    <h:outputText value="#{cell.word}" />
+                </p:column>
+            </p:pickList>
+
+
+
+        </h:form>
+    </ui:composition>
+</h:body>
+</html>

@@ -12,6 +12,16 @@ if [[ $ARG = "web" ]]; then
     mvn -f web/pom.xml clean install
 fi
 
+if [[ $ARG = "deploy" ]]; then
+    sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin deploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+    exit
+fi
+
+if [[ $ARG = "redeploy" ]]; then
+    sh /home/yaroslav/usr/latest-glassfish4/bin/asadmin redeploy --name web-1.0-SNAPSHOT /home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+    exit
+fi
+
 if [[ $ARG = "core" ]]; then
     mvn -f core/pom.xml clean install
     STATUS1=$?

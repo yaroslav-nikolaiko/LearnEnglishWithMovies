@@ -20,7 +20,7 @@
                 <p:ajax event="rowUnselectCheckbox" update="delete-btn"   />
 
                 <f:facet name="header">
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="2" >
                         <p:commandButton immediate="true" value="Load" onclick="PF('load-media-type-dlg').show();" />
 
                         <p:commandButton id="delete-btn" value="Remove" onclick="PF('confirm-dialog').show()"
@@ -35,7 +35,8 @@
                 </p:column>
 
                 <f:facet name="footer">
-                    <p:commandButton process="media-item-table"  icon="ui-icon-search" value="View"  />
+                    <p:commandButton process="media-item-table"  icon="ui-icon-search" value="View"
+                                     update="@([id$=words-list-form])" actionListener="#{wordsController.update}" />
                 </f:facet>
             </p:dataTable>
 
