@@ -7,18 +7,15 @@ import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
-import learn.english.parser.Text;
-import learn.english.parser.exception.ParserException;
+
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by yaroslav on 6/12/14.
@@ -52,37 +49,27 @@ public class DictionaryService extends AbstractService<Dictionary> {
 
     public void removeMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {
         dictionary.removeMediaItem(item);
-        removeItemFromAllWords(item, dictionary);
-        wordOrphanRemove(item);
+        garbageCollector(item, dictionary);
         em.merge(dictionary);
         //em.remove(em.merge(item));
     }
 
-    private void wordOrphanRemove(MediaItem item){
-        for (WordCell word : item.getWords()) {
-            //word.removeMediaItem(item);
-            if(word.getMediaItems().isEmpty())
+    void garbageCollector(MediaItem item, Dictionary dictionary){
+        // garbage collector (remove word which have no more reference at all)
+        Set<WordCell> words = item.getWords();
+        for (WordCell word : words) {
+            boolean noMoreReferenceForWord = true;
+            for (MediaItem i : dictionary.getMediaItems()) {
+                if(i.contains(word)){
+                    noMoreReferenceForWord = false;
+                    break;
+                }
+            }
+            if( noMoreReferenceForWord )
                 em.remove(em.merge(word));
-/*            else
-                em.merge(word);*/
         }
+
     }
 
-    private void removeItemFromAllWords(MediaItem item, Dictionary dictionary) {
-        Collection<WordCell> allWords = textProcessor.allWords(dictionary);
-        for (WordCell word : allWords)
-            word.removeMediaItem(item);
-    }
-
-/*    private void processText(MediaItem item) throws EJBIllegalArgumentException {
-        try {
-            Text text = item.getParser().parse(item.getContent());
-            Set<String> words = text.words();
-            List<WordCell> cells = words.stream().map(WordCell::new).collect(toList());
-            item.setWords(cells);
-        } catch (ParserException e) {
-            throw new EJBIllegalArgumentException("Error wile parsing text from media item", EJBIllegalArgumentException.MessageType.ERROR, e);
-        }
-    }*/
 
 }

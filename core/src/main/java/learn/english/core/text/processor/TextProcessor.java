@@ -38,9 +38,10 @@ public class TextProcessor {
         item.setWords(
                 text.words().stream().map(w ->
                 vocabulary.containsKey(w) ?
-                        updateExistedWordCell(vocabulary.get(w), item) :
+                        /*updateExistedWordCell(vocabulary.get(w), item) :*/
+                        vocabulary.get(w):
                         generateNewWordCell(w, item, dictionary)).
-                collect(toList())
+                collect(toSet())
         );
     }
 
@@ -65,9 +66,10 @@ public class TextProcessor {
     }
 
     private Text parseText(MediaItem item){
-        Text text = null;
+        Text text = HashSet::new;
         try {
-            text = ParserProducer.getParser(item).parse(item.getContent());
+            if(item.getContent() != null)
+                text = ParserProducer.getParser(item).parse(item.getContent());
         } catch (ParserException e) {
             e.printStackTrace();
         }
@@ -77,14 +79,14 @@ public class TextProcessor {
     private WordCell generateNewWordCell(String word, MediaItem item, Dictionary dictionary) {
         WordCell wordCell = new WordCell(word);
         wordCell.setCategory(category(wordCell, dictionary));
-        wordCell.setMediaItems(Arrays.asList(item));
+        //wordCell.setMediaItems(new HashSet<MediaItem>(Arrays.asList(item)));
         return wordCell;
     }
 
-    private WordCell updateExistedWordCell(WordCell wordCell, MediaItem item) {
+/*    private WordCell updateExistedWordCell(WordCell wordCell, MediaItem item) {
         wordCell.getMediaItems().add(item);
         return wordCell;
-    }
+    }*/
 
 
 

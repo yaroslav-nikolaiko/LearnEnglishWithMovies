@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yaroslav on 6/6/14.
@@ -23,10 +24,6 @@ public  class WordCell implements Persistent {
     private String word;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @ManyToMany(mappedBy = "words")
-    private List<MediaItem> mediaItems;
-    /*@ManyToOne
-    private Dictionary dictionary;*/
     @Transient
     private String rootWord;
 
@@ -34,13 +31,9 @@ public  class WordCell implements Persistent {
         this.word = word;
     }
 
-    public void removeMediaItem(MediaItem item) {
-        mediaItems.remove(item);
-    }
-
-/*    public WordCell(String word, Dictionary dictionary){
-        this.word = word;
-        this.dictionary = dictionary;
-    }*/
 
 }
+/*
+@NamedQueries({@NamedQuery(name=WordCell.GET_ALL_WORDS_WHICH_HAVE_ITEM, query =
+        "SELECT w FROM WordCell w WHERE ?1 MEMBER OF w.mediaItems")})
+*/

@@ -1,12 +1,11 @@
 package learn.english.core.entity;
 
-import learn.english.core.text.processor.ParserProducer;
-import learn.english.parser.Parser;
 import lombok.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import learn.english.core.utils.Persistent;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -33,26 +32,14 @@ public abstract class MediaItem implements Persistent {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
-    private List<WordCell> words;
-    //@Transient Parser parser;
+    private Set<WordCell> words;
 
     public MediaItem() {
-        words = new ArrayList<>();
-        //parser = ParserProducer.getParser(this);
+        words = new HashSet<>();
     }
 
-    public void addWords(Collection<String> words){
-        for(String word : words){
-            this.words.add(new WordCell(word));
-        }
-    }
-
-    public void destructor(){
-        //words.stream().forEach(w->w.removeMediaItem(this)); /* Currently EclipseLink doesn't support Java 8 */
-        for (WordCell word : words) {
-            word.removeMediaItem(this);
-        }
-        //words = new ArrayList<>(); instead using wordOrphanRemove in DictionaryService
+    public boolean contains(@NotNull WordCell word) {
+        return words.contains(word);
     }
 
     public Collection<Attribute> getAttributes() {
