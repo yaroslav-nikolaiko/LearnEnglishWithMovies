@@ -20,13 +20,38 @@
                         showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
                         >
 
-                <f:facet name="sourceCaption">#{wordsController.leftCategory}</f:facet>
-                <f:facet name="targetCaption">#{wordsController.rightCategory}</f:facet>
+                <f:facet name="sourceCaption">
+                    <p:selectOneMenu value="#{wordsController.leftCategory}">
+                        <f:selectItems value="#{generalProperties.availableCategories}" />
+                        <p:ajax update="pick-list" listener="#{wordsController.updateDualList}"/>
+                    </p:selectOneMenu>
+
+                    <p:selectBooleanCheckbox value="#{wordsController.leftTranslation}">
+                        <p:ajax update="pick-list" />
+                    </p:selectBooleanCheckbox>
+
+                </f:facet>
+                <f:facet name="targetCaption">
+                    <p:selectOneMenu value="#{wordsController.rightCategory}">
+                        <f:selectItems value="#{generalProperties.availableCategories}" />
+                        <p:ajax update="pick-list" />
+                    </p:selectOneMenu>
+
+                    <p:selectBooleanCheckbox value="#{wordsController.rightTranslation}">
+                        <p:ajax update="pick-list" />
+                    </p:selectBooleanCheckbox>
+
+                </f:facet>
 
                 <p:ajax event="transfer" listener="#{wordsController.onTransfer}" />
 
-                <p:column style="width:100%;">
-                    <h:outputText value="#{cell.word}" />
+                <p:column style="width:70%;">
+                    <p:outputLabel value="#{cell.word}"  >
+                    </p:outputLabel>
+                </p:column>
+                <p:column style="width:30%; text-align: right;">
+                    <p:outputLabel value="#{wordsController.translate(cell.word)}"  rendered="#{wordsController.isTranslate(cell)}">
+                    </p:outputLabel>
                 </p:column>
             </p:pickList>
 

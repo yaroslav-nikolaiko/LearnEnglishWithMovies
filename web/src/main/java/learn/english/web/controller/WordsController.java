@@ -1,16 +1,21 @@
 package learn.english.web.controller;
 
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.WordCell;
+import learn.english.core.entity.*;
+import learn.english.core.entity.Dictionary;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.utils.Category;
+import learn.english.translator.Translator;
+import learn.english.translator.core.TranslatorManager;
 import learn.english.web.interceptor.ValidationHandler;
 import lombok.Data;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -27,11 +32,15 @@ import static java.util.stream.Collectors.toMap;
 public @Data class WordsController implements Serializable {
     @Inject
     SessionController sessionController;
+    @EJB TranslatorManager translatorManager;
 
     //Set<WordCell> words;
     Map<String, WordCell> words;
     Category leftCategory = Category.LEARNED;
     Category rightCategory = Category.NEW_WORD;
+
+    boolean leftTranslation;
+    boolean rightTranslation;
 
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
     //List<WordCell> cache = new ArrayList<>();
@@ -43,7 +52,7 @@ public @Data class WordsController implements Serializable {
         updateDualList();
     }
 
-    void updateDualList() {
+    public void updateDualList() {
         List<WordCell> sourceLeftList = new ArrayList<>();
         List<WordCell> targetRightList = new ArrayList<>();
         words.values().stream().forEach(w -> {
@@ -68,6 +77,34 @@ public @Data class WordsController implements Serializable {
 
     public void submit()throws EJBIllegalArgumentException{
         sessionController.updateDictionary() ;
+    }
+
+    public String translate(String word){
+        Dictionary d = sessionController.getCurrentDictionary();
+        return translatorManager.translator(d.getLearningLanguage().toString(), d.getNativeLanguage().toString()).
+                          translate(word);
+
+    }
+
+    public boolean isTranslate(WordCell word){
+        if( leftTranslation==rightTranslation )
+            return leftTranslation;
+        boolean contains;
+        if(leftTranslation) {
+            contains = dualList.getSource().contains(word);
+            if(contains)
+                return true;
+            else{
+                if(rightTranslation){
+                    return dualList.getTarget().contains(word);
+                }else
+                    return false;
+            }
+        }
+        if( rightTranslation){
+            return dualList.getTarget().contains(word);
+        }
+            return false;
     }
 
     @Produces

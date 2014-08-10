@@ -37,6 +37,7 @@ public class YandexTranslator implements Translator{
         try {
             List<String> textList = new ArrayList<>();
             textList.add(text);
+            System.out.println("Translate single word with Yandex online translator REST api");
             List<String> list = unmarshaller(buildURL(textList)).getText();
             String result = list.get(0);
             vocabulary.put(text, result);
@@ -61,6 +62,7 @@ public class YandexTranslator implements Translator{
 
             List<String> translated = new ArrayList<>();
             for (List<String> partition : Lists.partition(newWords,THRESHOLD )) {
+                System.out.println("Translate partition with Yandex online translator REST api");
                 translated.addAll(unmarshaller(buildURL(partition)).getText());
             }
             if(newWords.size()!=translated.size())

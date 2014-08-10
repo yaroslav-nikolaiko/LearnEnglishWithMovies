@@ -29,9 +29,18 @@ public class TextProcessor {
         Text text = parseText(item);
         Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getWord, cell -> cell));
 
-        Set<String> newWords = text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
-        item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
-
+        Set<String> newWords = new HashSet<>();//text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
+        Set<WordCell> wordsToSaveInItem = new HashSet<>();
+        text.words().forEach(w->{
+            if(vocabulary.containsKey(w))
+                wordsToSaveInItem.add(vocabulary.get(w));
+            else {
+                newWords.add(w);
+                wordsToSaveInItem.add(generateNewWordCell(w, item, dictionary));
+            }
+        });
+        //item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
+        item.setWords(wordsToSaveInItem);
         Translator translator = translatorManager.translator(dictionary.getLearningLanguage().toString(), dictionary.getNativeLanguage().toString());
         translator.translateNewWords(newWords.stream().collect(toSet()));
     }

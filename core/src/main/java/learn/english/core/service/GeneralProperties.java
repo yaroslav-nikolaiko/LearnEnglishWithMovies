@@ -1,5 +1,6 @@
 package learn.english.core.service;
 
+import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.core.utils.MediaItemType;
@@ -27,6 +28,10 @@ public class GeneralProperties {
 
     public Level[] getAvailableLevels(){
         return Level.values();
+    }
+
+    public Category[] getAvailableCategories(){
+        return Category.values();
     }
 
     public MediaItemType[] getAvailableMediaItemTypes() {
