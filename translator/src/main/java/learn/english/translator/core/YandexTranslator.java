@@ -131,7 +131,7 @@ public class YandexTranslator implements Translator{
         String protocol = "https";
         String host = "translate.yandex.net";
         String webPathPattern = "/api/v1.5/tr/translate?key=%s&lang=%s&text=%s";
-        String textSeparator = "%3F&text=";
+        String textSeparator = "&text=";
 
         StringBuilder textBuilder = new StringBuilder();
         textBuilder.append(URLEncoder.encode(textList.get(0), "UTF-8"));
