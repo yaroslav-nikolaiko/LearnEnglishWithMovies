@@ -1,7 +1,7 @@
 #!/bin/bash
 # Use ./build web to build just web module and deploy, ./build core to build core, than web and deploy.
 
-
+#export JAVA_OPTIONS="-Dhttp.proxyHost=proxy2.cht -Dhttp.proxyPort=3128:$JAVA_FLAGS"
 
 if [[ $JAVA_HOME != *jdk1.8* ]]; then
     export JAVA_HOME=/home/yaroslav/usr/jdk1.8.0_05
@@ -24,7 +24,7 @@ if [[ $ARG = "web" ]]; then
 fi
 
 if [[ $ARG = "deploy" ]]; then
-    sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
+    sh $GLASSFISH deploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
     exit
 fi
 

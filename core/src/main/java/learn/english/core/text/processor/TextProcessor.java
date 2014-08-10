@@ -6,10 +6,14 @@ import learn.english.core.entity.WordCell;
 import learn.english.core.utils.Category;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
+import learn.english.translator.Translator;
+import learn.english.translator.core.TranslatorManager;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -19,19 +23,27 @@ import static java.util.stream.Collectors.toSet;
  */
 @Stateless
 public class TextProcessor {
+    @EJB
+    TranslatorManager translatorManager;
 
     public void computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
         Text text = parseText(item);
         Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getWord, cell -> cell));
 
-        item.setWords(
+        Set<String> newWords = text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
+/*        item.setWords(
                 text.words().stream().map(w ->
                 vocabulary.containsKey(w) ?
-                        /*updateExistedWordCell(vocabulary.get(w), item) :*/
+                        *//*updateExistedWordCell(vocabulary.get(w), item) :*//*
                         vocabulary.get(w):
                         generateNewWordCell(w, item, dictionary)).
                 collect(toSet())
-        );
+        );*/
+        item.setWords(newWords.stream().map(w->generateNewWordCell(w,item,dictionary)).collect(toSet()));
+
+        Translator translator = translatorManager.translator(dictionary.getLearningLanguage().toString(), dictionary.getNativeLanguage().toString());
+        //vocabulary.keySet().forEach(translator::translate);
+        translator.translateLater(newWords.stream().collect(toSet()));
     }
 
 
