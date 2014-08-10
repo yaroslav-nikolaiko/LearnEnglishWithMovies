@@ -66,9 +66,13 @@
                 </p:selectOneMenu>
                 </h:form>
             </p:menuitem>
-            <p:menuitem id="edit-dictionary-btn" value="Edit Dictionary" rendered="#{ not empty sessionController.user.dictionaries}"
-                        onclick="PF('edit-dictionary-dlg').show();"  />
-            <p:menuitem value="Add Dictionary"  onclick="PF('dictionary-dlg').show();"  />
+            <p:menuitem  >
+                <p:commandButton id="edit-dictionary-btn" value="Edit Dictionary" rendered="#{ not empty sessionController.user.dictionaries}"
+                                 onclick="PF('edit-dictionary-dlg').show();" />
+             </p:menuitem>
+            <p:menuitem  >
+                <p:commandButton value="Add Dictionary" onclick="PF('dictionary-dlg').show();"/>
+            </p:menuitem>
             <p:menuitem >
                 <h:outputText id="debug-current-dictionary" value="#{sessionController.currentDictionary}" />
             </p:menuitem>

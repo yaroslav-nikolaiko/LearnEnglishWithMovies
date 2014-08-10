@@ -42,6 +42,8 @@ public @Data class WordsController implements Serializable {
     boolean leftTranslation;
     boolean rightTranslation;
 
+    boolean mouseOver;
+
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
     //List<WordCell> cache = new ArrayList<>();
 
@@ -80,6 +82,8 @@ public @Data class WordsController implements Serializable {
     }
 
     public String translate(String word){
+/*        if(! mouseOver)
+            return "";*/
         Dictionary d = sessionController.getCurrentDictionary();
         return translatorManager.translator(d.getLearningLanguage().toString(), d.getNativeLanguage().toString()).
                           translate(word);
@@ -105,6 +109,14 @@ public @Data class WordsController implements Serializable {
             return dualList.getTarget().contains(word);
         }
             return false;
+    }
+
+    public void onMouseOver(){
+        mouseOver = true;
+    }
+
+    public void onMouseOut(){
+        mouseOver = false;
     }
 
     @Produces
