@@ -9,7 +9,6 @@ import javax.ejb.Startup;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -55,9 +54,6 @@ public class TranslatorManager {
         System.out.println("Persist dictionary database "+dataBaseName);
         FileOutputStream fileOut = null;
         try {
-            //URLConnection connection = dataBaseURL(dataBaseName).openConnection();
-            //connection.setDoOutput(true);
-            //fileOut = connection.getOutputStream();
             fileOut = new FileOutputStream(dataNameFile(dataBaseName));
             properties.store(fileOut, dataBaseName);
         } catch (IOException e) {
@@ -111,7 +107,15 @@ public class TranslatorManager {
     }
 
     File dataNameFile(String databaseName){
-        return new File(dataBaseFolder+"/"+databaseName);
+        File dbFile = new File(dataBaseFolder+"/"+databaseName);
+        if( ! dbFile.exists()) {
+            try {
+                dbFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return dbFile;
     }
 
 
