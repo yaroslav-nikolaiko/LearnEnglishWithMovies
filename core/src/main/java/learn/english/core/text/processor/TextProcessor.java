@@ -31,10 +31,11 @@ public class TextProcessor {
 
         Set<String> newWords = new HashSet<>();//text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
         Set<WordCell> wordsToSaveInItem = new HashSet<>();
+        Filter filter = Filter.instance(dictionary.getLearningLanguage(), dictionary.getLevel());
         text.words().forEach(w->{
             if(vocabulary.containsKey(w))
                 wordsToSaveInItem.add(vocabulary.get(w));
-            else {
+            else if(filter.execute(w)) {
                 newWords.add(w);
                 wordsToSaveInItem.add(generateNewWordCell(w, item, dictionary));
             }
@@ -77,41 +78,6 @@ public class TextProcessor {
         //wordCell.setMediaItems(new HashSet<MediaItem>(Arrays.asList(item)));
         return wordCell;
     }
-
-/*    private WordCell updateExistedWordCell(WordCell wordCell, MediaItem item) {
-        wordCell.getMediaItems().add(item);
-        return wordCell;
-    }*/
-
-
-
-
-
-
-
-
-
-    /*    static ThreadLocal<Map<Dictionary, TextProcessor>> processors = ThreadLocal.withInitial(HashMap::new);
-    Dictionary dictionary;
-    Set<String> allWordsInDictionary;
-
-
-    public TextProcessor(@NotNull Dictionary dictionary) {
-        allWordsInDictionary = dictionary.getMediaItems().stream().
-                flatMap((item)->item.getWords().stream()).
-                map(WordCell::getWord).
-                collect(toSet());
-    }
-
-    public static TextProcessor instance(Dictionary dictionary){
-        Map<Dictionary, TextProcessor> map = processors.get();
-        map.computeIfAbsent(dictionary, TextProcessor::generateProcessor);
-        return map.get(dictionary);
-    }
-
-    static TextProcessor generateProcessor(Dictionary dictionary){
-        return new TextProcessor(dictionary);
-    }*/
 
 }
 

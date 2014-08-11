@@ -8,6 +8,4 @@ import java.util.Collection;
 public interface Translator {
     String translate(String text);
     void translateNewWords(Collection<String> textList);
-    String rootWord(String word);
-    String definition(String word);
 }

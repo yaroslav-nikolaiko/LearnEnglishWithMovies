@@ -75,17 +75,6 @@ public class YandexTranslator implements Translator{
         }
     }
 
-    @Override
-    public String rootWord(String word) {
-        return "";
-    }
-
-    @Override
-    public String definition(String word) {
-        return "";
-    }
-
-
     YandexXMLObject unmarshaller(URL url){
         YandexXMLObject result = null;
         try {
