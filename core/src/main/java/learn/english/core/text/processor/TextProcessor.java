@@ -4,10 +4,12 @@ import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.entity.WordCell;
 import learn.english.core.utils.Category;
+import learn.english.core.utils.Language;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
 import learn.english.translator.Translator;
 import learn.english.translator.core.TranslatorManager;
+import learn.english.translator.lemmatization.Lemmatizator;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -46,9 +48,15 @@ public class TextProcessor {
         translator.translateNewWords(newWords.stream().collect(toSet()));
     }
 
+    public String rootWord(String word, Language language){
+        Lemmatizator lemmatizator = Lemmatizator.instance(language.toString());
+        return lemmatizator.rootWord(word);
+    }
+
 
     public Category category(@NotNull WordCell wordCell, @NotNull Dictionary dictionary) {
-        return Category.NEW_WORD;
+        CategoryManager categoryManager = CategoryManager.instance(dictionary.getLearningLanguage());
+        return categoryManager.calculate(wordCell, dictionary.getLevel());
     }
 
     public Set<WordCell> allWords(Dictionary dictionary){
@@ -74,6 +82,7 @@ public class TextProcessor {
 
     private WordCell generateNewWordCell(String word, MediaItem item, Dictionary dictionary) {
         WordCell wordCell = new WordCell(word);
+        wordCell.setRootWord(rootWord(word, dictionary.getLearningLanguage()));
         wordCell.setCategory(category(wordCell, dictionary));
         //wordCell.setMediaItems(new HashSet<MediaItem>(Arrays.asList(item)));
         return wordCell;

@@ -8,6 +8,9 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
  */
 public interface Lemmatizator {
     static Lemmatizator instance(String language){
+
+        System.setProperty("wordnet.database.dir", "/home/yaroslav/workspace/LearnEnglishWithMovies/translator/src/main/resources/jaws/dict");
+
         switch (language){
             default : return new WordNetDatabaseLemmatizator();
         }

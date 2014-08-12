@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-    @ValidationHandler
+@ValidationHandler
 public @Data class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;

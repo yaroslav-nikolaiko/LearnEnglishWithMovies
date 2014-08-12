@@ -2,6 +2,7 @@ package learn.english.core.text.processor;
 
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
+import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,7 @@ public interface Filter {
 
     boolean execute(@NotNull String word);
 
-
+    // *****************************************************************************
 
     abstract class FilterChain implements Filter{
         List<Filter> chain = new LinkedList<>();
@@ -58,7 +59,10 @@ public interface Filter {
 
     class EnglishFilter extends FilterChain{
         private static final String LANGUAGE = "en";
+        private static final String FOLDER_100_MOST_COMMON_WORDS = "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/100_most_common_words/";
+        PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
         Lemmatizator lemmatizator = Lemmatizator.instance(LANGUAGE);
+
         public EnglishFilter(Level level) {
             super(level);
         }
@@ -69,31 +73,28 @@ public interface Filter {
 
             register(w-> {
                 String rootWord = lemmatizator.rootWord(w);
+                String wlc = w.toLowerCase();
                 if(! rootWord.isEmpty())
                     return rootWord.length() > level.ordinal() || rootWord.length() > 2;
                 else{
-                    if(w.endsWith("'s"))   //  words like he's
-                        return w.substring(0, w.indexOf("'s")).length() > level.ordinal() || w.length() > 2;
-                    if(w.endsWith("'t"))   //  words like don't
-                        return w.substring(0, w.indexOf("'t")).length() > level.ordinal() || w.length() > 2;
+                    if(wlc.endsWith("'s"))   //  words like he's
+                        return wlc.substring(0, wlc.indexOf("'s")).length() > level.ordinal() || wlc.length() > 2;
+                    if(wlc.endsWith("'t"))   //  words like don't
+                        return w.substring(0, wlc.indexOf("'t")).length() > level.ordinal() || wlc.length() > 2;
+                    if(wlc.endsWith("'ll") && level.ordinal()>1)   //  words like don't
+                        return w.substring(0, wlc.indexOf("'ll")).length() > level.ordinal() || wlc.length() > 2;
+                    if(wlc.endsWith("'ve") && level.ordinal()>1)   //  words like don't
+                        return wlc.substring(0, wlc.indexOf("'ve")).length() > level.ordinal() || wlc.length() > 2;
                     return true;
                 }
             });
-
-/*            register(w->{
-                if(w.endsWith("'s"))   //  words like he's
-                    return w.substring(0, w.indexOf("'s")).length() > level.ordinal() || w.length() > 2;
-                if(w.endsWith("'t"))   //  words like don't
-                    return w.substring(0, w.indexOf("'t")).length() > level.ordinal() || w.length() > 2;
-                return true;
-            });*/
         }
 
         private Filter filterTrivialWords() {
             return w->{
                 String rootWord = lemmatizator.rootWord(w);
                 rootWord = rootWord.isEmpty() ? w : rootWord;
-                return true;
+                return ! most_100_common_words.containsKey(rootWord.toLowerCase());
             };
         }
 
