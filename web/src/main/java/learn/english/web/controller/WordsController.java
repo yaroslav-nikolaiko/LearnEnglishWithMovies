@@ -36,7 +36,7 @@ public @Data class WordsController implements Serializable {
 
     //Set<WordCell> words;
     Map<String, WordCell> words;
-    Category leftCategory = Category.LEARNED;
+    Category leftCategory = Category.KNOWN;
     Category rightCategory = Category.NEW_WORD;
 
     boolean leftTranslation;

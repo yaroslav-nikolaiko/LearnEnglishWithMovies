@@ -6,6 +6,7 @@ import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.parser.utils.PropertiesEx;
+import learn.english.parser.utils.PropertiesTree;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 /**
@@ -22,13 +23,13 @@ public interface CategoryManager {
 
     class EnglishManager implements CategoryManager {
         private static final String FOLDER_6000_MOST_COMMON_WORDS = "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/6000_most_common_words/";
-        private static final int ELEMENTARY_threshold = 200;
-        private static final int INTERMEDIATE_threshold = 500;
-        private static final int UPPER_INTERMEDIATE_threshold = 1000;
-        private static final int ADVANCED_threshold = 3000;
+        private static final int ELEMENTARY_threshold = 400;
+        private static final int INTERMEDIATE_threshold = 1000;
+        private static final int UPPER_INTERMEDIATE_threshold = 2500;
+        private static final int ADVANCED_threshold = 4000;
         private static final int FLUENT_threshold = 6000;
 
-        PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
+        PropertiesTree most_6000_common_words = new PropertiesTree(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
 
 
 
@@ -49,16 +50,21 @@ public interface CategoryManager {
             String rootWord = word.getRootWord();
             rootWord = rootWord.isEmpty() ? word.getWord() : rootWord;
 
-            Object ranking_rootWord_Object = most_6000_common_words.get(rootWord.toLowerCase());
-            Integer ranking_rootWord = ranking_rootWord_Object != null ? Integer.valueOf((String)ranking_rootWord_Object) : Integer.MAX_VALUE;
+/*            //Object ranking_rootWord_Object = most_6000_common_words.get(rootWord.toLowerCase());
+            Object ranking_rootWord_Object = most_6000_common_words.partialContains(rootWord.toLowerCase());
+            Integer ranking_rootWord = ranking_rootWord_Object != null ? Integer.valueOf((String)ranking_rootWord_Object) : Integer.MAX_VALUE;*/
 
-            Object ranking_word_Object = most_6000_common_words.get(word.getWord().toLowerCase());
+            //Object ranking_word_Object = most_6000_common_words.get(word.getWord().toLowerCase());
+            Object ranking_word_Object = most_6000_common_words.partialContains(word.getWord());
             Integer ranking_word = ranking_word_Object != null ? Integer.valueOf((String)ranking_word_Object) : Integer.MAX_VALUE;
 
-            if(ranking_rootWord < threshold  || ranking_word<threshold)
+
+            if(/*ranking_rootWord < threshold  ||*/ ranking_word<threshold)
                 return Category.KNOWN;
             else
                 return Category.NEW_WORD;
         }
+
+
     }
 }

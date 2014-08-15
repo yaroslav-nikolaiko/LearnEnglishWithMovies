@@ -19,4 +19,5 @@ public class Java8Test {
         Integer u = 15;
         System.out.println(method.apply(t,u));
     }
+
 }

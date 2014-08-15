@@ -72,30 +72,28 @@ public interface Filter {
             register(filterTrivialWords());
 
             register(w-> {
-                String rootWord = lemmatizator.rootWord(w);
-                String wlc = w.toLowerCase();
-                if(! rootWord.isEmpty())
-                    return rootWord.length() > level.ordinal() || rootWord.length() > 2;
-                else{
-                    if(wlc.endsWith("'s"))   //  words like he's
-                        return wlc.substring(0, wlc.indexOf("'s")).length() > level.ordinal() || wlc.length() > 2;
-                    if(wlc.endsWith("'t"))   //  words like don't
-                        return w.substring(0, wlc.indexOf("'t")).length() > level.ordinal() || wlc.length() > 2;
-                    if(wlc.endsWith("'ll") && level.ordinal()>1)   //  words like don't
-                        return w.substring(0, wlc.indexOf("'ll")).length() > level.ordinal() || wlc.length() > 2;
-                    if(wlc.endsWith("'ve") && level.ordinal()>1)   //  words like don't
-                        return wlc.substring(0, wlc.indexOf("'ve")).length() > level.ordinal() || wlc.length() > 2;
-                    return true;
-                }
+                String rootWord = rootWord(w);
+                return rootWord.length() > level.ordinal() || rootWord.length() > 2;
             });
         }
 
         private Filter filterTrivialWords() {
-            return w->{
-                String rootWord = lemmatizator.rootWord(w);
-                rootWord = rootWord.isEmpty() ? w : rootWord;
-                return ! most_100_common_words.containsKey(rootWord.toLowerCase());
-            };
+            return w -> ! most_100_common_words.containsKey(rootWord(w));
+        }
+
+        private String withoutEndingTLC(String word){
+            String toLowerCase = word.toLowerCase();
+            if (toLowerCase.endsWith("n't"))
+                return  toLowerCase.split("n't")[0];
+            else
+                return  toLowerCase.split("'")[0];
+        }
+
+        private String rootWord(String word){
+/*            String withoutEndingToLowerCase = withoutEndingTLC(word);
+            String rootWord = lemmatizator.rootWord(withoutEndingTLC(withoutEndingToLowerCase));
+            return rootWord.isEmpty() ? withoutEndingToLowerCase : rootWord;*/
+            return withoutEndingTLC(word);
         }
 
 
