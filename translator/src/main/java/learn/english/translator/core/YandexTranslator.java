@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -32,6 +33,7 @@ public class YandexTranslator implements Translator{
 
     @Override
     public String translate(String text) {
+        text = text.toLowerCase();
         if(vocabulary.containsKey(text))
             return (String) vocabulary.get(text);
         try {
@@ -50,24 +52,24 @@ public class YandexTranslator implements Translator{
 
     @Override
     public void translateNewWords(Collection<String> textList) {
-        if(textList==null || textList.isEmpty())
+        if (textList == null || textList.isEmpty())
             return;
         try {
-            List<String> newWords = textList.stream().filter(w -> ! vocabulary.containsKey(w)).distinct().collect(toList());
-            if(newWords.isEmpty()){
+            List<String> newWords = textList.stream().map(w->w.toLowerCase()).filter(w -> !vocabulary.containsKey(w)).distinct().collect(toList());
+            if (newWords.isEmpty()) {
                 System.out.println("Nothing to translate in YandexTranslator.translateNewWords");
                 return;
             }
 
 
             List<String> translated = new ArrayList<>();
-            for (List<String> partition : Lists.partition(newWords,THRESHOLD )) {
+            for (List<String> partition : Lists.partition(newWords, THRESHOLD)) {
                 System.out.println("Translate partition with Yandex online translator REST api");
                 translated.addAll(unmarshaller(buildURL(partition)).getText());
             }
-            if(newWords.size()!=translated.size())
+            if (newWords.size() != translated.size())
                 throw new Error();
-            for (int i=0; i<newWords.size(); i++)
+            for (int i = 0; i < newWords.size(); i++)
                 vocabulary.put(newWords.get(i), translated.get(i));
 
         } catch (UnsupportedEncodingException | MalformedURLException e) {

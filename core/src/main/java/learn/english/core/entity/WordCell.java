@@ -8,6 +8,8 @@ import learn.english.core.utils.Category;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,19 +18,39 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "WordCell")
-@Data @EqualsAndHashCode(of = {"word"}) @NoArgsConstructor()
+@Data @EqualsAndHashCode(of = {"rootForm"}) @NoArgsConstructor()
 public  class WordCell implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String word;
+    private String rootForm;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @Transient
-    private String rootWord;
+    @ElementCollection()
+    Set<String> words = new HashSet<>();
 
-    public WordCell(String word) {
-        this.word = word;
+    public WordCell(String rootForm) {
+        this.rootForm = rootForm;
+    }
+
+    public void addWord(String word) {
+        words.add(word);
+    }
+
+    public void removeWord(String word) {
+        words.remove(word);
+    }
+
+    public String getWord(){
+        if(words.size()==0)
+            return "";
+        Iterator<String> iter = words.iterator();
+        String result = iter.next();
+        while(iter.hasNext()){
+            String next = iter.next();
+            result = next.length() < result.length() ? next : result;
+        }
+        return result;
     }
 
 

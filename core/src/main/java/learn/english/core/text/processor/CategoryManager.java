@@ -6,8 +6,12 @@ import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.parser.utils.PropertiesEx;
-import learn.english.parser.utils.PropertiesTree;
 import learn.english.translator.lemmatization.Lemmatizator;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by yaroslav on 8/12/14.
@@ -27,9 +31,25 @@ public interface CategoryManager {
         private static final int INTERMEDIATE_threshold = 1000;
         private static final int UPPER_INTERMEDIATE_threshold = 2500;
         private static final int ADVANCED_threshold = 4000;
-        private static final int FLUENT_threshold = 6000;
+        private static final int FLUENT_threshold = Integer.MAX_VALUE;
 
-        PropertiesTree most_6000_common_words = new PropertiesTree(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
+        //PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
+        Map<String, Integer> most_6000_common_words_root_forms = new HashMap<>();
+        Lemmatizator lemmatizator = Lemmatizator.instance("en");
+
+        public EnglishManager() {
+            PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
+            for (Object o : most_6000_common_words.keySet()) {
+                String word = (String) o;
+                Integer ranking = Integer.valueOf((String) most_6000_common_words.get(o)) ;
+                String rootForm = lemmatizator.stemForm(word);
+                Integer existedRanking =  most_6000_common_words_root_forms.get(rootForm);
+                if(existedRanking!=null)
+                    ranking = ranking<existedRanking ? ranking : existedRanking;
+                most_6000_common_words_root_forms.put(rootForm, ranking);
+            }
+
+        }
 
 
 
@@ -47,22 +67,14 @@ public interface CategoryManager {
 
         private Category calculate1(WordCell word, int threshold){
             // Look closely!  Need Refactor!
-            String rootWord = word.getRootWord();
-            rootWord = rootWord.isEmpty() ? word.getWord() : rootWord;
+            String rootForm = word.getRootForm();
+            Integer ranking = most_6000_common_words_root_forms.get(rootForm);
 
-/*            //Object ranking_rootWord_Object = most_6000_common_words.get(rootWord.toLowerCase());
-            Object ranking_rootWord_Object = most_6000_common_words.partialContains(rootWord.toLowerCase());
-            Integer ranking_rootWord = ranking_rootWord_Object != null ? Integer.valueOf((String)ranking_rootWord_Object) : Integer.MAX_VALUE;*/
-
-            //Object ranking_word_Object = most_6000_common_words.get(word.getWord().toLowerCase());
-            Object ranking_word_Object = most_6000_common_words.partialContains(word.getWord());
-            Integer ranking_word = ranking_word_Object != null ? Integer.valueOf((String)ranking_word_Object) : Integer.MAX_VALUE;
-
-
-            if(/*ranking_rootWord < threshold  ||*/ ranking_word<threshold)
+            if(ranking!=null && ranking<threshold)
                 return Category.KNOWN;
-            else
-                return Category.NEW_WORD;
+
+            return Category.NEW_WORD;
+
         }
 
 

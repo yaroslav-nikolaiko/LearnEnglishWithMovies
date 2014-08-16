@@ -28,18 +28,28 @@ public class TextProcessor {
     TranslatorManager translatorManager;
 
     public void computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
+        Lemmatizator lemmatizator = Lemmatizator.instance(dictionary.getLearningLanguage().toString());
         Text text = parseText(item);
-        Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getWord, cell -> cell));
+        Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getRootForm, cell -> cell));
 
         Set<String> newWords = new HashSet<>();//text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
         Set<WordCell> wordsToSaveInItem = new HashSet<>();
         Filter filter = Filter.instance(dictionary.getLearningLanguage(), dictionary.getLevel());
-        text.words().forEach(w->{
-            if(vocabulary.containsKey(w))
-                wordsToSaveInItem.add(vocabulary.get(w));
-            else if(filter.execute(w)) {
+        text.words().forEach(w-> {
+            String rootForm = lemmatizator.stemForm(w);
+            if (vocabulary.containsKey(rootForm)){
+                WordCell cell = vocabulary.get(rootForm);
+                if(! cell.getWords().contains(w)){
+                    cell.addWord(w);
+                    newWords.add(w);
+                }
+                wordsToSaveInItem.add(cell);
+            }
+            else if (filter.execute(w)) {
                 newWords.add(w);
-                wordsToSaveInItem.add(generateNewWordCell(w, item, dictionary));
+                WordCell newWordCell = generateNewWordCell(w, rootForm, item, dictionary);
+                wordsToSaveInItem.add(newWordCell);
+                vocabulary.put(rootForm,newWordCell );
             }
         });
         //item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
@@ -48,9 +58,9 @@ public class TextProcessor {
         translator.translateNewWords(newWords.stream().collect(toSet()));
     }
 
-    public String rootWord(String word, Language language){
+    public String rootForm(String word, Language language){
         Lemmatizator lemmatizator = Lemmatizator.instance(language.toString());
-        return lemmatizator.rootWord(word);
+        return lemmatizator.stemForm(word);
     }
 
 
@@ -80,13 +90,14 @@ public class TextProcessor {
         return text;
     }
 
-    private WordCell generateNewWordCell(String word, MediaItem item, Dictionary dictionary) {
-        WordCell wordCell = new WordCell(word);
-        wordCell.setRootWord(rootWord(word, dictionary.getLearningLanguage()));
+    private WordCell generateNewWordCell(String word, String rootForm, MediaItem item, Dictionary dictionary) {
+        WordCell wordCell = new WordCell(rootForm);
+        wordCell.addWord(word);
         wordCell.setCategory(category(wordCell, dictionary));
         //wordCell.setMediaItems(new HashSet<MediaItem>(Arrays.asList(item)));
         return wordCell;
     }
+
 
 }
 

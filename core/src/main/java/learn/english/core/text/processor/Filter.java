@@ -6,8 +6,10 @@ import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yaroslav on 8/11/14.
@@ -48,7 +50,7 @@ public interface Filter {
         }
 
         void initialFilters() {
-            register(w->w.matches(".*\\D.*"));  //doesn't contain digits.
+            register(w->! w.matches(".*\\d.*"));  //doesn't contain digits.
             register(w->! w.equals("www") && ! w.equals("WWW"));
 
             // now tricky one ...about number of letters (in general). Could be not appropriate for all languages
@@ -60,11 +62,19 @@ public interface Filter {
     class EnglishFilter extends FilterChain{
         private static final String LANGUAGE = "en";
         private static final String FOLDER_100_MOST_COMMON_WORDS = "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/100_most_common_words/";
-        PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
+        //PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
         Lemmatizator lemmatizator = Lemmatizator.instance(LANGUAGE);
+        Set<String> most_100_common_words_rootForms = new HashSet<>();
 
         public EnglishFilter(Level level) {
             super(level);
+            PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
+            for (Object o : most_100_common_words.keySet()) {
+                String word = (String) o;
+                String rootForm = lemmatizator.stemForm(word);
+                most_100_common_words_rootForms.add(rootForm);
+            }
+
         }
 
         @Override
@@ -72,31 +82,14 @@ public interface Filter {
             register(filterTrivialWords());
 
             register(w-> {
-                String rootWord = rootWord(w);
+                String rootWord = lemmatizator.stemForm(w);
                 return rootWord.length() > level.ordinal() || rootWord.length() > 2;
             });
         }
 
         private Filter filterTrivialWords() {
-            return w -> ! most_100_common_words.containsKey(rootWord(w));
+            return w -> ! most_100_common_words_rootForms.contains(lemmatizator.stemForm(w));
         }
-
-        private String withoutEndingTLC(String word){
-            String toLowerCase = word.toLowerCase();
-            if (toLowerCase.endsWith("n't"))
-                return  toLowerCase.split("n't")[0];
-            else
-                return  toLowerCase.split("'")[0];
-        }
-
-        private String rootWord(String word){
-/*            String withoutEndingToLowerCase = withoutEndingTLC(word);
-            String rootWord = lemmatizator.rootWord(withoutEndingTLC(withoutEndingToLowerCase));
-            return rootWord.isEmpty() ? withoutEndingToLowerCase : rootWord;*/
-            return withoutEndingTLC(word);
-        }
-
-
 
 
     }

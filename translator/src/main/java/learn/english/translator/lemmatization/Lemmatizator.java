@@ -2,6 +2,8 @@ package learn.english.translator.lemmatization;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
+import org.tartarus.snowball.SnowballProgram;
+import org.tartarus.snowball.ext.EnglishStemmer;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -22,11 +24,13 @@ public interface Lemmatizator {
         }
     }
     String rootWord(String word);
+    String stemForm(String word);
     String definition(String word);
 
 
     class WordNetDatabaseLemmatizator implements Lemmatizator{
         WordNetDatabase database = WordNetDatabase.getFileInstance();
+        SnowballProgram snowballSteamer = new EnglishStemmer();
 
         @Override
         public String rootWord(String word) {
@@ -62,5 +66,19 @@ public interface Lemmatizator {
             return null;
         }
 
+        @Override
+        public String stemForm(String word) {
+            snowballSteamer.setCurrent(withoutEndingTLC(word));
+            snowballSteamer.stem();
+            return snowballSteamer.getCurrent();
+        }
+
+        private String withoutEndingTLC(String word){
+            String toLowerCase = word.toLowerCase();
+            if (toLowerCase.endsWith("n't"))
+                return  toLowerCase.split("n't")[0];
+            else
+                return  toLowerCase.split("'")[0];
+        }
     }
 }
