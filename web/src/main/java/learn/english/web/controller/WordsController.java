@@ -3,6 +3,7 @@ package learn.english.web.controller;
 import learn.english.core.entity.*;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.exception.EJBIllegalArgumentException;
+import learn.english.core.service.MediaItemService;
 import learn.english.core.utils.Category;
 import learn.english.translator.Translator;
 import learn.english.translator.core.TranslatorManager;
@@ -33,6 +34,9 @@ public @Data class WordsController implements Serializable {
     @Inject
     SessionController sessionController;
     @EJB TranslatorManager translatorManager;
+    @EJB MediaItemService mediaItemService;
+
+    private boolean unique;
 
     //Set<WordCell> words;
     Map<String, WordCell> words;
@@ -49,9 +53,16 @@ public @Data class WordsController implements Serializable {
 
     public void update(){
         List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
+        if(unique && selectedItems.size()==1){
+            words = mediaItemService.getUniqueWords(selectedItems.get(0)).stream().
+                    collect(toMap(WordCell::getWord, cell -> cell));
+            updateDualList();
+        }else{
+
         words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
                 distinct().collect(toMap(WordCell::getWord, cell -> cell));
         updateDualList();
+        }
     }
 
     public void updateDualList() {

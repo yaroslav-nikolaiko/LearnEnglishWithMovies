@@ -1,5 +1,6 @@
 package learn.english.core.service;
 
+import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.entity.WordCell;
 import learn.english.core.entity.media.Book;
@@ -14,7 +15,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PreRemove;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yaroslav on 6/17/14.
@@ -41,6 +45,17 @@ public class MediaItemService extends AbstractService<MediaItem> {
             case   BOOK: return new Book();
         }
         return null;
+    }
+
+    public Set<WordCell> getUniqueWords(MediaItem item) {
+        Set<WordCell> result = new HashSet<>(item.getWords());
+        List<MediaItem> dictionaryMediaItems = new ArrayList<>(em.find(Dictionary.class, item.getDictionary().getId()).getMediaItems());
+        dictionaryMediaItems.remove(item);
+        for (MediaItem i : dictionaryMediaItems)
+            for (WordCell word : item.getWords())
+                if(i.contains(word))
+                    result.remove(word);
+        return result;
     }
 
 /*    public void destructor(MediaItem item){
