@@ -26,12 +26,15 @@ public interface CategoryManager {
     Category calculate(WordCell word, Level level);
 
     class EnglishManager implements CategoryManager {
-        private static final String FOLDER_6000_MOST_COMMON_WORDS = "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/6000_most_common_words/";
+        private static final String FOLDER_6000_MOST_COMMON_WORDS; //= "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/6000_most_common_words/";
         private static final int ELEMENTARY_threshold = 400;
         private static final int INTERMEDIATE_threshold = 1000;
         private static final int UPPER_INTERMEDIATE_threshold = 2500;
         private static final int ADVANCED_threshold = 4000;
         private static final int FLUENT_threshold = Integer.MAX_VALUE;
+        static {
+            FOLDER_6000_MOST_COMMON_WORDS = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER") + "core/src/main/resources/6000_most_common_words/";
+        }
 
         //PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
         Map<String, Integer> most_6000_common_words_root_forms = new HashMap<>();

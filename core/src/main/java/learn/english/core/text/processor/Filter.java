@@ -61,10 +61,13 @@ public interface Filter {
 
     class EnglishFilter extends FilterChain{
         private static final String LANGUAGE = "en";
-        private static final String FOLDER_100_MOST_COMMON_WORDS = "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/100_most_common_words/";
+        private static final String FOLDER_100_MOST_COMMON_WORDS;//= "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/100_most_common_words/";
         //PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
         Lemmatizator lemmatizator = Lemmatizator.instance(LANGUAGE);
         Set<String> most_100_common_words_rootForms = new HashSet<>();
+        static{
+            FOLDER_100_MOST_COMMON_WORDS = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"core/src/main/resources/100_most_common_words/";
+        }
 
         public EnglishFilter(Level level) {
             super(level);

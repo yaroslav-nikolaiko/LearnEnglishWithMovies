@@ -53,6 +53,7 @@
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -83,6 +84,7 @@
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>javax.persistence</artifactId>
             <version>2.1.0</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -112,12 +114,14 @@
             <groupId>javax.ejb</groupId>
             <artifactId>javax.ejb-api</artifactId>
             <version>3.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
             <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -125,6 +129,7 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -132,6 +137,7 @@
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
 

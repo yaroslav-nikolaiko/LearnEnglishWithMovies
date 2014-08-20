@@ -19,16 +19,24 @@ import java.util.Properties;
 @Singleton
 @Startup
 public class TranslatorManager {
-    static final String dataBaseFolder = "/home/yaroslav/workspace/LearnEnglishWithMovies/translator/src/main/resources/DB";
+    static final String dataBaseFolder; //= "/home/yaroslav/workspace/LearnEnglishWithMovies/translator/src/main/resources/DB";
     Map<String, Properties> dictionary = new HashMap<>();
-
+    static {
+        dataBaseFolder = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"translator/src/main/resources/DB";
+    }
 
     @PostConstruct
     void init(){
-        System.getProperties().put("https.proxyHost", "proxy2.cht");
-        System.getProperties().put("https.proxyPort", "3128");
-        System.getProperties().put("http.proxyHost", "proxy2.cht");
-        System.getProperties().put("http.proxyPort", "3128");
+        String PROXY_HOST = System.getenv("PROXY_HOST");
+        String PROXY_PORT = System.getenv("PROXY_PORT");
+        if(PROXY_HOST!=null && ! PROXY_HOST.isEmpty()){
+            System.setProperty("http.proxyPort",PROXY_HOST);
+            System.setProperty("https.proxyPort",PROXY_HOST);
+        }
+        if(PROXY_PORT!=null && ! PROXY_PORT.isEmpty()){
+            System.setProperty("http.proxyPort",PROXY_PORT);
+            System.setProperty("https.proxyPort",PROXY_PORT);
+        }
     }
 
     public Translator translator(String languageFrom, String languageTo) {
