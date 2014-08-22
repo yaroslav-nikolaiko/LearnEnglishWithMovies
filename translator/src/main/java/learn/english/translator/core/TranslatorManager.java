@@ -8,6 +8,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +29,21 @@ public class TranslatorManager {
 
     @PostConstruct
     void init(){
-        String PROXY_HOST = System.getenv("PROXY_HOST");
-        String PROXY_PORT = System.getenv("PROXY_PORT");
-        if(PROXY_HOST!=null && ! PROXY_HOST.isEmpty()){
-            System.setProperty("http.proxyPort",PROXY_HOST);
-            System.setProperty("https.proxyPort",PROXY_HOST);
-        }
-        if(PROXY_PORT!=null && ! PROXY_PORT.isEmpty()){
-            System.setProperty("http.proxyPort",PROXY_PORT);
-            System.setProperty("https.proxyPort",PROXY_PORT);
+        try {
+            String http_proxy_str = System.getenv("http_proxy");
+            String https_proxy_str = System.getenv("https_proxy");
+            if(http_proxy_str!=null && ! http_proxy_str.isEmpty()){
+                URI http_proxy = new URI(http_proxy_str);
+                System.setProperty("http.proxyHost", http_proxy.getHost());
+                System.setProperty("http.proxyPort", String.valueOf(http_proxy.getPort()));
+            }
+            if(https_proxy_str!=null && ! https_proxy_str.isEmpty()){
+                URI https_proxy = new URI(https_proxy_str);
+                System.setProperty("https.proxyHost", https_proxy.getHost());
+                System.setProperty("https.proxyPort", String.valueOf(https_proxy.getPort()));
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 
