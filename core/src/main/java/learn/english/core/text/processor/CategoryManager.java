@@ -5,13 +5,11 @@ import learn.english.core.entity.WordCell;
 import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
+import learn.english.parser.utils.ConfigurationManager;
 import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by yaroslav on 8/12/14.
@@ -26,29 +24,25 @@ public interface CategoryManager {
     Category calculate(WordCell word, Level level);
 
     class EnglishManager implements CategoryManager {
-        private static final String FOLDER_6000_MOST_COMMON_WORDS; //= "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/6000_most_common_words/";
         private static final int ELEMENTARY_threshold = 400;
         private static final int INTERMEDIATE_threshold = 1000;
         private static final int UPPER_INTERMEDIATE_threshold = 2500;
         private static final int ADVANCED_threshold = 4000;
         private static final int FLUENT_threshold = Integer.MAX_VALUE;
-        static {
-            FOLDER_6000_MOST_COMMON_WORDS = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER") + "core/src/main/resources/6000_most_common_words/";
-        }
 
         //PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
         Map<String, Integer> most_6000_common_words_root_forms = new HashMap<>();
         Lemmatizator lemmatizator = Lemmatizator.instance("en");
 
         public EnglishManager() {
-            PropertiesEx most_6000_common_words = new PropertiesEx(FOLDER_6000_MOST_COMMON_WORDS + "data.properties");
+            Properties most_6000_common_words = ConfigurationManager.loadProperty("6000_most_common_words_file_path", this.getClass());
             for (Object o : most_6000_common_words.keySet()) {
                 String word = (String) o;
-                Integer ranking = Integer.valueOf((String) most_6000_common_words.get(o)) ;
+                Integer ranking = Integer.valueOf((String) most_6000_common_words.get(o));
                 String rootForm = lemmatizator.stemForm(word);
-                Integer existedRanking =  most_6000_common_words_root_forms.get(rootForm);
-                if(existedRanking!=null)
-                    ranking = ranking<existedRanking ? ranking : existedRanking;
+                Integer existedRanking = most_6000_common_words_root_forms.get(rootForm);
+                if (existedRanking != null)
+                    ranking = ranking < existedRanking ? ranking : existedRanking;
                 most_6000_common_words_root_forms.put(rootForm, ranking);
             }
 

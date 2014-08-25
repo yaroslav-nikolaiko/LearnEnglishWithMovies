@@ -2,14 +2,12 @@ package learn.english.core.text.processor;
 
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
+import learn.english.parser.utils.ConfigurationManager;
 import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by yaroslav on 8/11/14.
@@ -61,17 +59,12 @@ public interface Filter {
 
     class EnglishFilter extends FilterChain{
         private static final String LANGUAGE = "en";
-        private static final String FOLDER_100_MOST_COMMON_WORDS;//= "/home/yaroslav/workspace/LearnEnglishWithMovies/core/src/main/resources/100_most_common_words/";
-        //PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
         Lemmatizator lemmatizator = Lemmatizator.instance(LANGUAGE);
         Set<String> most_100_common_words_rootForms = new HashSet<>();
-        static{
-            FOLDER_100_MOST_COMMON_WORDS = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"core/src/main/resources/100_most_common_words/";
-        }
 
         public EnglishFilter(Level level) {
             super(level);
-            PropertiesEx most_100_common_words = new PropertiesEx(FOLDER_100_MOST_COMMON_WORDS + "data.properties");
+            Properties most_100_common_words = ConfigurationManager.loadProperty("100_most_common_words_file_path", this.getClass());
             for (Object o : most_100_common_words.keySet()) {
                 String word = (String) o;
                 String rootForm = lemmatizator.stemForm(word);

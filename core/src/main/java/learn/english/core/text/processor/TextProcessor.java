@@ -55,7 +55,7 @@ public class TextProcessor {
         //item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
         item.setWords(wordsToSaveInItem);
         Translator translator = translatorManager.translator(dictionary.getLearningLanguage().toString(), dictionary.getNativeLanguage().toString());
-        translator.translateNewWords(newWords.stream().collect(toSet()));
+        translator.translateNewWords(newWords);
     }
 
     public String rootForm(String word, Language language){
