@@ -1,5 +1,7 @@
 package learn.english.parser.utils;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -26,6 +28,30 @@ public class ConfigurationManager {
         return loadByFileName(config.getProperty(property), module);
     }
 
+    public static String value(String key, Class module){
+        ClassLoader classLoader = module.getClassLoader();
+        String mname = null;
+        try {
+            mname = (String) new InitialContext().lookup("java:module/ModuleName");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        URL url = module.getResource(DEFAULT_CONFIG_FILE);
+        Properties properties = null;
+        if(cache.containsKey(url))
+            properties =  cache.get(url);
+        else {
+            properties = new Properties();
+            try {
+                properties.load(url.openConnection().getInputStream());
+                cache.put(url, properties);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return properties.getProperty(key);
+    }
+
     static Properties loadByFileName(String name, Class module){
         if(name==null || module==null)
             return new Properties();
@@ -38,6 +64,7 @@ public class ConfigurationManager {
         Properties properties = new Properties();
         try {
             properties.load(url.openConnection().getInputStream());
+            cache.put(url, properties);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package learn.english.web.interceptor;
+package learn.english.web.validation;
 
 import learn.english.web.exception.WebException;
 import learn.english.core.exception.EJBIllegalArgumentException;

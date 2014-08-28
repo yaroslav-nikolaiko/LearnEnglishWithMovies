@@ -1,10 +1,13 @@
 package learn.english.core.service;
 
+import learn.english.core.logger.Loggable;
 import learn.english.core.validation.ExistInDB;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.User;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.ApplicationException;
 import javax.ejb.EJB;
@@ -16,7 +19,7 @@ import javax.persistence.*;
  * Created by yaroslav on 6/8/14.
  */
 @Stateless
-@ValidationHandlerEjb
+@ValidationHandlerEjb @Loggable
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
     @EJB DictionaryService dictionaryService;

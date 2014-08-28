@@ -9,8 +9,8 @@ import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.service.DictionaryService;
 import learn.english.core.service.MediaItemService;
 import learn.english.core.service.UserService;
-import learn.english.web.interceptor.DialogValidation;
-import learn.english.web.interceptor.ValidationHandler;
+import learn.english.web.validation.DialogValidation;
+import learn.english.web.validation.ValidationHandler;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;

@@ -1,4 +1,4 @@
-package learn.english.web.interceptor;
+package learn.english.web.validation;
 
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.Retention;

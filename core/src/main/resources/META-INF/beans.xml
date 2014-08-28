@@ -7,7 +7,11 @@
     bean-discovery-mode="all">
 
     <!--<interceptors>-->
-        <!--&lt;!&ndash;<class>yaroslav.learn.english.core.interceptor.NotNullParametersInterceptor</class>&ndash;&gt;-->
+        <!--&lt;!&ndash;<class>yaroslav.learn.english.core.validation.NotNullParametersInterceptor</class>&ndash;&gt;-->
         <!--<class>learn.english.core.validation.ValidationHandlerInterceptorEjb</class>-->
     <!--</interceptors>-->
+
+<!--    <interceptors>
+        <class>learn.english.core.logger.LoggingTraceInterceptor</class>
+    </interceptors>-->
 </beans>

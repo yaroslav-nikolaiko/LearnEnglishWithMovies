@@ -7,7 +7,7 @@
     bean-discovery-mode="all">
 
     <interceptors>
-        <class>learn.english.web.interceptor.ValidationHandlerInterceptor</class>
-        <class>learn.english.web.interceptor.DialogValidationInterceptor</class>
+        <class>learn.english.web.validation.ValidationHandlerInterceptor</class>
+        <class>learn.english.web.validation.DialogValidationInterceptor</class>
     </interceptors>
 </beans>
