@@ -1,12 +1,10 @@
 package learn.english.core.text.processor;
 
-import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.WordCell;
 import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.parser.utils.ConfigurationManager;
-import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 import java.util.*;
@@ -35,7 +33,7 @@ public interface CategoryManager {
         Lemmatizator lemmatizator = Lemmatizator.instance("en");
 
         public EnglishManager() {
-            Properties most_6000_common_words = ConfigurationManager.loadProperty("6000_most_common_words_file_path", this.getClass());
+            Properties most_6000_common_words = ConfigurationManager.load("6000_most_common_words_file_path");
             for (Object o : most_6000_common_words.keySet()) {
                 String word = (String) o;
                 Integer ranking = Integer.valueOf((String) most_6000_common_words.get(o));

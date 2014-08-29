@@ -1,6 +1,6 @@
 package learn.english.core.logger;
 
-import learn.english.core.entity.User;
+import learn.english.core.service.GeneralProperties;
 import learn.english.parser.utils.ConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +9,8 @@ import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by yaroslav on 8/28/14.
@@ -17,12 +19,12 @@ import javax.interceptor.InvocationContext;
 @Loggable
 @Priority(10000)
 public class LoggingTraceInterceptor {
-    final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger", User.class));
+    final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
 
     @AroundInvoke
     public Object logMethod(InvocationContext ic){
         Object[] parameters = ic.getParameters();
-        logger.trace("entering {} with parameters: {}",ic.getMethod().getName(), parameters);
+        logger.trace("entering {} with parameters: {}", ic.getMethod().getName(), parameters);
         Object result = null;
         try {
             result = ic.proceed();
@@ -30,9 +32,9 @@ public class LoggingTraceInterceptor {
             e.printStackTrace();
         }finally {
             if( result != null)
-                logger.trace("exit {} with result: {}",ic.getMethod().getName(), result);
+                logger.trace("exit {} with result: {}", ic.getMethod().getName(), result);
             else
-                logger.trace("exit {}",ic.getMethod().getName());
+                logger.trace("exit {}", ic.getMethod().getName());
         }
         return result;
     }

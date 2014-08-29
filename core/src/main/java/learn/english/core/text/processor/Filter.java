@@ -3,7 +3,6 @@ package learn.english.core.text.processor;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.parser.utils.ConfigurationManager;
-import learn.english.parser.utils.PropertiesEx;
 import learn.english.translator.lemmatization.Lemmatizator;
 
 import javax.validation.constraints.NotNull;
@@ -64,7 +63,7 @@ public interface Filter {
 
         public EnglishFilter(Level level) {
             super(level);
-            Properties most_100_common_words = ConfigurationManager.loadProperty("100_most_common_words_file_path", this.getClass());
+            Properties most_100_common_words = ConfigurationManager.load("100_most_common_words_file_path");
             for (Object o : most_100_common_words.keySet()) {
                 String word = (String) o;
                 String rootForm = lemmatizator.stemForm(word);

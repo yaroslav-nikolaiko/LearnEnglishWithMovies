@@ -1,5 +1,7 @@
 package learn.english.parser.utils;
 
+import org.apache.commons.configuration.*;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.io.IOException;
@@ -12,59 +14,46 @@ import java.util.Properties;
  * Created by yaroslav on 8/25/14.
  */
 public class ConfigurationManager {
-    static final String DEFAULT_CONFIG_FILE = "/configuration.properties";
-    static Map<URL, Properties> cache = new HashMap<>();
-
-    public static Properties load(Class module) {
-        return load(DEFAULT_CONFIG_FILE, module);
-    }
-
-    public static Properties load(String name, Class module) {
-        return loadByFileName(name, module);
-    }
-
-    public static Properties loadProperty(String property, Class module){
-        Properties config = load(module);
-        return loadByFileName(config.getProperty(property), module);
-    }
-
-    public static String value(String key, Class module){
-        ClassLoader classLoader = module.getClassLoader();
-        String mname = null;
+    static  CompositeConfiguration configuration;
+    static Map<String, Properties> cache = new HashMap<>();
+    static{
         try {
-            mname = (String) new InitialContext().lookup("java:module/ModuleName");
-        } catch (NamingException e) {
+            //DefaultConfigurationBuilder factory = new DefaultConfigurationBuilder("config-files-list.xml");
+            //DefaultConfigurationBuilder factory = new DefaultConfigurationBuilder();
+            configuration = new CompositeConfiguration();
+            configuration.addConfiguration(new SystemConfiguration());
+            PropertiesConfiguration core = new PropertiesConfiguration();
+            core.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("core.properties"));
+            configuration.addConfiguration(core);
+            //configuration = factory.getInMemoryConfiguration();
+        } catch (ConfigurationException e) {
+            configuration = new CompositeConfiguration();
             e.printStackTrace();
         }
-        URL url = module.getResource(DEFAULT_CONFIG_FILE);
-        Properties properties = null;
-        if(cache.containsKey(url))
-            properties =  cache.get(url);
-        else {
-            properties = new Properties();
-            try {
-                properties.load(url.openConnection().getInputStream());
-                cache.put(url, properties);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return properties.getProperty(key);
     }
 
-    static Properties loadByFileName(String name, Class module){
-        if(name==null || module==null)
+
+    public static Properties load(String key) {
+        return loadByFileName(configuration.getString(key));
+    }
+
+    public static String value(String key) {
+        return configuration.getString(key);
+    }
+
+    static Properties loadByFileName(String name){
+        if(name==null)
             return new Properties();
-        if( ! name.startsWith("/"))
-            name = "/" + name;
-        URL url = module.getResource(name);
-        if(cache.containsKey(url))
-            return cache.get(url);
+        if( name.startsWith("/") && name.length()>1)
+            name = name.substring(1);
+
+        if(cache.containsKey(name))
+            return cache.get(name);
 
         Properties properties = new Properties();
         try {
-            properties.load(url.openConnection().getInputStream());
-            cache.put(url, properties);
+            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
+            cache.put(name, properties);
         } catch (IOException e) {
             e.printStackTrace();
         }
