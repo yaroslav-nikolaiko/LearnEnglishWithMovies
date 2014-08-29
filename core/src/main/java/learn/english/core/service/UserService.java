@@ -1,11 +1,11 @@
 package learn.english.core.service;
 
-import learn.english.core.logger.Loggable;
 import learn.english.core.validation.ExistInDB;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.User;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
+import learn.english.utils.Loggable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

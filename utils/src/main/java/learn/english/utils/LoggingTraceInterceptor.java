@@ -1,7 +1,5 @@
-package learn.english.core.logger;
+package learn.english.utils;
 
-import learn.english.core.service.GeneralProperties;
-import learn.english.parser.utils.ConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,8 +7,7 @@ import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import java.io.IOException;
-import java.util.Properties;
+import java.io.Serializable;
 
 /**
  * Created by yaroslav on 8/28/14.
@@ -18,7 +15,7 @@ import java.util.Properties;
 @Interceptor
 @Loggable
 @Priority(10000)
-public class LoggingTraceInterceptor {
+public class LoggingTraceInterceptor implements Serializable{
     final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
 
     @AroundInvoke

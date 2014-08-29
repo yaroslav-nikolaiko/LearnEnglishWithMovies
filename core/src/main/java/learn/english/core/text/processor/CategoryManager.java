@@ -4,8 +4,8 @@ import learn.english.core.entity.WordCell;
 import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
-import learn.english.parser.utils.ConfigurationManager;
 import learn.english.translator.lemmatization.Lemmatizator;
+import learn.english.utils.ConfigurationManager;
 
 import java.util.*;
 

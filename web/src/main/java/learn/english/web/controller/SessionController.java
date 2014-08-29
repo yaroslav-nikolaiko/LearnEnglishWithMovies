@@ -1,5 +1,6 @@
 package learn.english.web.controller;
 
+import learn.english.utils.Loggable;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import learn.english.core.entity.Dictionary;
@@ -26,7 +27,7 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-@ValidationHandler
+@ValidationHandler @Loggable
 public @Data class SessionController implements Serializable {
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
