@@ -2,7 +2,7 @@ package learn.english.web.controller;
 
 import learn.english.core.logger.message.DictionaryMessage;
 import learn.english.utils.ConfigurationManager;
-import learn.english.utils.Loggable;
+import learn.english.utils.LogTrace;
 import learn.english.core.logger.message.UserMessage;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
@@ -53,7 +53,7 @@ public @Data class SessionController implements Serializable {
         selectedMediaItems = new ArrayList<>();
     }
 
-    @Loggable
+    @LogTrace
     public String singUp(){
         user =  userBean.getUser();
         userService.addToDataBase(user);
@@ -61,7 +61,7 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @DialogValidation @Loggable
+    @DialogValidation @LogTrace
     public void login(){
         init();
         user =  userBean.login();
@@ -71,7 +71,7 @@ public @Data class SessionController implements Serializable {
     }
 
 
-    @DialogValidation @Loggable
+    @DialogValidation @LogTrace
     public void createDictionary() throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryBean.getDictionary();
         userService.addDictionary(user, dictionary);
@@ -79,7 +79,7 @@ public @Data class SessionController implements Serializable {
         logger.debug(DictionaryMessage.create(dictionary));
     }
 
-    @DialogValidation @Loggable
+    @DialogValidation @LogTrace
     public String loadMediaItem() throws EJBIllegalArgumentException {
         MediaItem item = mediaItemBean.getMediaItem();
 
@@ -96,21 +96,20 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @Loggable
+    @LogTrace
     public void deleteMediaItems() throws EJBIllegalArgumentException {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
         selectedMediaItems = null;
     }
 
-    @DialogValidation @Loggable
+    @DialogValidation @LogTrace
     public void updateDictionary() throws EJBIllegalArgumentException{
-        System.out.println("Update Dictionary in DB");
         dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
         logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
-    @DialogValidation @Loggable
+    @DialogValidation @LogTrace
     public void removeDictionary() throws EJBIllegalArgumentException{
         userService.removeDictionary(user, currentDictionary);
         logger.debug(DictionaryMessage.remove(currentDictionary));

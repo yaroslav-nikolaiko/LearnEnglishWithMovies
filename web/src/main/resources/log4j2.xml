@@ -4,13 +4,30 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
+
+        <RollingFile name="Trace" fileName="logs/trace.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p  %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
     </Appenders>
+
     <Loggers>
         <Root level="ERROR">
             <AppenderRef ref="Console"/>
         </Root>
         <Logger level="DEBUG" name="lingvo-movie" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="Trace"/>
+        </Logger>
+        <Logger level="TRACE" name="lingvo-movie-trace" additivity="false">
+            <AppenderRef ref="Trace"/>
         </Logger>
     </Loggers>
 </Configuration>

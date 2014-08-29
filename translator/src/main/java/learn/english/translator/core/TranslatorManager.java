@@ -1,6 +1,10 @@
 package learn.english.translator.core;
 
 import learn.english.translator.Translator;
+import learn.english.utils.ConfigurationManager;
+import learn.english.utils.LogTrace;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -19,9 +23,10 @@ import java.util.Properties;
  * Created by yaroslav on 8/10/14.
  */
 @Singleton
-@Startup
+@Startup @LogTrace
 public class TranslatorManager {
     static final String dataBaseFolder; //= "/home/yaroslav/workspace/LearnEnglishWithMovies/translator/src/main/resources/DB";
+    static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     Map<String, Properties> dictionary = new HashMap<>();
     static {
         dataBaseFolder = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"translator/src/main/resources/DB";
@@ -36,11 +41,13 @@ public class TranslatorManager {
                 URI http_proxy = new URI(http_proxy_str);
                 System.setProperty("http.proxyHost", http_proxy.getHost());
                 System.setProperty("http.proxyPort", String.valueOf(http_proxy.getPort()));
+                logger.info("Setting http.proxyHost = {}, http.proxyPort = {}",http_proxy.getHost(), http_proxy.getPort());
             }
             if(https_proxy_str!=null && ! https_proxy_str.isEmpty()){
                 URI https_proxy = new URI(https_proxy_str);
                 System.setProperty("https.proxyHost", https_proxy.getHost());
                 System.setProperty("https.proxyPort", String.valueOf(https_proxy.getPort()));
+                logger.info("Setting https.proxyHost = {}, https.proxyPort = {}",https_proxy.getHost(), https_proxy.getPort());
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -60,14 +67,12 @@ public class TranslatorManager {
 
     @PreDestroy
     void persist() {
-        System.out.println("Destroy TranslatorManager");
         for (Map.Entry<String, Properties> entry : dictionary.entrySet())
             writeToFile(entry.getKey(), entry.getValue());
 
     }
 
     void writeToFile(String dataBaseName, Properties properties){
-        System.out.println("Persist dictionary database "+dataBaseName);
         FileOutputStream fileOut = null;
         try {
             fileOut = new FileOutputStream(dataNameFile(dataBaseName));

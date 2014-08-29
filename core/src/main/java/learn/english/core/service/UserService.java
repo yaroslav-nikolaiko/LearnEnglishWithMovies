@@ -5,9 +5,7 @@ import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.User;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
-import learn.english.utils.Loggable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import learn.english.utils.LogTrace;
 
 import javax.ejb.ApplicationException;
 import javax.ejb.EJB;
@@ -19,7 +17,7 @@ import javax.persistence.*;
  * Created by yaroslav on 6/8/14.
  */
 @Stateless
-@ValidationHandlerEjb @Loggable
+@ValidationHandlerEjb @LogTrace
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
     @EJB DictionaryService dictionaryService;

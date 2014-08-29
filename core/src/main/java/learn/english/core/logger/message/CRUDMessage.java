@@ -11,10 +11,8 @@ public class CRUDMessage implements Message {
 
     public static Message create(Object object){
         CRUDMessage message = new CRUDMessage();
-        if(object != null){
-            String className = object.getClass().getSimpleName();
-            message.text.append(String.format("%s %s was created", className, object));
-        }
+        if(object != null)
+            message.text.append(String.format("%s was created", object));
         else
             message.text.append(String.format("Failed to create something. NullPointer"));
         return message;
@@ -22,10 +20,8 @@ public class CRUDMessage implements Message {
 
     public static Message update(Object object){
         CRUDMessage message = new CRUDMessage();
-        if(object != null){
-            String className = object.getClass().getSimpleName();
-            message.text.append(String.format("%s %s was updated", className, object));
-        }
+        if(object != null)
+            message.text.append(String.format("%s was updated", object));
         else
             message.text.append(String.format("Failed to update something. NullPointer"));
         return message;
@@ -33,10 +29,8 @@ public class CRUDMessage implements Message {
 
     public static Message remove(Object object){
         CRUDMessage message = new CRUDMessage();
-        if(object != null){
-            String className = object.getClass().getSimpleName();
-            message.text.append(String.format("%s %s was removed", className, object));
-        }
+        if(object != null)
+            message.text.append(String.format("%s was removed", object));
         else
             message.text.append(String.format("Failed to remove something. NullPointer"));
         return message;
