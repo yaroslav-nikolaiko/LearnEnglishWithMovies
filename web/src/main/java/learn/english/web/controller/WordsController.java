@@ -6,6 +6,7 @@ import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.service.MediaItemService;
 import learn.english.core.utils.Category;
 import learn.english.translator.core.TranslatorManager;
+import learn.english.utils.Loggable;
 import learn.english.web.validation.ValidationHandler;
 import lombok.Data;
 import org.primefaces.event.TransferEvent;
@@ -48,6 +49,7 @@ public @Data class WordsController implements Serializable {
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
     //List<WordCell> cache = new ArrayList<>();
 
+    @Loggable
     public void update(){
         List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
         if(unique && selectedItems.size()==1){
@@ -62,6 +64,7 @@ public @Data class WordsController implements Serializable {
         }
     }
 
+    @Loggable
     public void updateDualList() {
         List<WordCell> sourceLeftList = new ArrayList<>();
         List<WordCell> targetRightList = new ArrayList<>();
@@ -75,6 +78,7 @@ public @Data class WordsController implements Serializable {
         dualList.setTarget(targetRightList);
     }
 
+    @Loggable
     public void onTransfer(TransferEvent event) throws EJBIllegalArgumentException{
         //isAdd() - is transfer from source to target  (left->right)
         //isRemove() - is transfer form target to source (right->left)
@@ -85,10 +89,12 @@ public @Data class WordsController implements Serializable {
         sessionController.updateDictionary();
     }
 
+    @Loggable
     public void submit()throws EJBIllegalArgumentException{
         sessionController.updateDictionary() ;
     }
 
+    @Loggable
     public String translate(String word){
 /*        if(! mouseOver)
             return "";*/

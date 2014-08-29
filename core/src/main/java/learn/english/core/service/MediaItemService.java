@@ -9,6 +9,7 @@ import learn.english.core.entity.media.Song;
 import learn.english.core.entity.media.TVShow;
 import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.core.utils.MediaItemType;
+import learn.english.utils.Loggable;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -24,7 +25,7 @@ import java.util.Set;
  * Created by yaroslav on 6/17/14.
  */
 @Stateless
-@ValidationHandlerEjb
+@ValidationHandlerEjb @Loggable
 public class MediaItemService extends AbstractService<MediaItem> {
 
     @Inject

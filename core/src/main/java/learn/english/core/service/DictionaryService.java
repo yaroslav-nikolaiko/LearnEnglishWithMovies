@@ -7,6 +7,7 @@ import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
+import learn.english.utils.Loggable;
 
 
 import javax.ejb.EJB;
@@ -21,7 +22,7 @@ import java.util.Set;
  * Created by yaroslav on 6/12/14.
  */
 @Stateless
-@ValidationHandlerEjb
+@ValidationHandlerEjb @Loggable
 public class DictionaryService extends AbstractService<Dictionary> {
     @EJB TextProcessor textProcessor;
 

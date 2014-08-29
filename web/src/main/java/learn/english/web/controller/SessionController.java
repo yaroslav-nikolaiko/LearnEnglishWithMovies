@@ -1,6 +1,9 @@
 package learn.english.web.controller;
 
+import learn.english.core.logger.message.DictionaryMessage;
+import learn.english.utils.ConfigurationManager;
 import learn.english.utils.Loggable;
+import learn.english.core.logger.message.UserMessage;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import learn.english.core.entity.Dictionary;
@@ -12,6 +15,8 @@ import learn.english.core.service.MediaItemService;
 import learn.english.core.service.UserService;
 import learn.english.web.validation.DialogValidation;
 import learn.english.web.validation.ValidationHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -27,8 +32,9 @@ import java.util.*;
  */
 @Named
 @SessionScoped
-@ValidationHandler @Loggable
+@ValidationHandler
 public @Data class SessionController implements Serializable {
+    final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
     @EJB    private MediaItemService mediaItemService;
@@ -47,29 +53,33 @@ public @Data class SessionController implements Serializable {
         selectedMediaItems = new ArrayList<>();
     }
 
+    @Loggable
     public String singUp(){
         user =  userBean.getUser();
         userService.addToDataBase(user);
+        logger.info(UserMessage.signUp(user));
         return "index?faces-redirect=true";
     }
 
-    @DialogValidation
+    @DialogValidation @Loggable
     public void login(){
         init();
         user =  userBean.login();
         if( user!=null && user.getDictionaries().size() > 0)
             currentDictionary = user.getDictionaries().get(0);
+        logger.info(UserMessage.logIn(user));
     }
 
 
-    @DialogValidation
+    @DialogValidation @Loggable
     public void createDictionary() throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryBean.getDictionary();
         userService.addDictionary(user, dictionary);
         this.currentDictionary = dictionary;
+        logger.debug(DictionaryMessage.create(dictionary));
     }
 
-    @DialogValidation
+    @DialogValidation @Loggable
     public String loadMediaItem() throws EJBIllegalArgumentException {
         MediaItem item = mediaItemBean.getMediaItem();
 
@@ -86,22 +96,24 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-
+    @Loggable
     public void deleteMediaItems() throws EJBIllegalArgumentException {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
         selectedMediaItems = null;
     }
 
-    @DialogValidation
+    @DialogValidation @Loggable
     public void updateDictionary() throws EJBIllegalArgumentException{
         System.out.println("Update Dictionary in DB");
         dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
+        logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
-    @DialogValidation
+    @DialogValidation @Loggable
     public void removeDictionary() throws EJBIllegalArgumentException{
         userService.removeDictionary(user, currentDictionary);
+        logger.debug(DictionaryMessage.remove(currentDictionary));
         currentDictionary = null;
         selectedMediaItems = null;
     }
