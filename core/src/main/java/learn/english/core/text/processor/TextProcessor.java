@@ -3,6 +3,7 @@ package learn.english.core.text.processor;
 import learn.english.core.entity.Dictionary;
 import learn.english.core.entity.MediaItem;
 import learn.english.core.entity.WordCell;
+import learn.english.core.logger.message.MediaItemMessage;
 import learn.english.core.utils.Category;
 import learn.english.core.utils.Language;
 import learn.english.parser.Text;
@@ -10,6 +11,10 @@ import learn.english.parser.exception.ParserException;
 import learn.english.translator.Translator;
 import learn.english.translator.core.TranslatorManager;
 import learn.english.translator.lemmatization.Lemmatizator;
+import learn.english.utils.ConfigurationManager;
+import learn.english.utils.LogTrace;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,8 +27,9 @@ import static java.util.stream.Collectors.toSet;
 /**
  * Created by yaroslav on 8/6/14.
  */
-@Stateless
+@Stateless @LogTrace
 public class TextProcessor {
+    static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     @EJB
     TranslatorManager translatorManager;
 
@@ -31,6 +37,7 @@ public class TextProcessor {
         Lemmatizator lemmatizator = Lemmatizator.instance(dictionary.getLearningLanguage().toString());
         Text text = parseText(item);
         Map<String, WordCell> vocabulary = allWords(dictionary).stream().collect(toMap(WordCell::getRootForm, cell -> cell));
+        MediaItemMessage logMessage = MediaItemMessage.computeWordCells(item, vocabulary);
 
         Set<String> newWords = new HashSet<>();//text.words().stream().filter(w -> ! vocabulary.containsKey(w)).collect(toSet());
         Set<WordCell> wordsToSaveInItem = new HashSet<>();
@@ -52,6 +59,9 @@ public class TextProcessor {
                 vocabulary.put(rootForm,newWordCell );
             }
         });
+        logMessage.setFinalVocabulary(vocabulary);
+        logMessage.setNewWords(newWords);
+        logger.debug(logMessage);
         //item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
         item.setWords(wordsToSaveInItem);
         Translator translator = translatorManager.translator(dictionary.getLearningLanguage().toString(), dictionary.getNativeLanguage().toString());

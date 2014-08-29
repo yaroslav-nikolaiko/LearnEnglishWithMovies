@@ -6,6 +6,8 @@ import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.translator.lemmatization.Lemmatizator;
 import learn.english.utils.ConfigurationManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -13,6 +15,7 @@ import java.util.*;
  * Created by yaroslav on 8/12/14.
  */
 public interface CategoryManager {
+    static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     static CategoryManager instance(Language language){
         switch (language){
             default : return  new EnglishManager();
@@ -33,6 +36,7 @@ public interface CategoryManager {
         Lemmatizator lemmatizator = Lemmatizator.instance("en");
 
         public EnglishManager() {
+            logger.debug("Construct English CategoryManager");
             Properties most_6000_common_words = ConfigurationManager.load("6000_most_common_words_file_path");
             for (Object o : most_6000_common_words.keySet()) {
                 String word = (String) o;

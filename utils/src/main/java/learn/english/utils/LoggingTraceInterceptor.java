@@ -21,7 +21,10 @@ public class LoggingTraceInterceptor implements Serializable{
     @AroundInvoke
     public Object logMethod(InvocationContext ic){
         Object[] parameters = ic.getParameters();
-        logger.trace("entering {} : {} with parameters: {}",ic.getTarget().getClass().getName(), ic.getMethod().getName(), parameters);
+        if(parameters!=null && parameters.length>0)
+            logger.trace("entering {} : [{}({})]",ic.getTarget().getClass().getName(), ic.getMethod().getName(), parameters);
+        else
+            logger.trace("entering {} : [{}()]",ic.getTarget().getClass().getName(), ic.getMethod().getName());
         Object result = null;
         try {
             result = ic.proceed();

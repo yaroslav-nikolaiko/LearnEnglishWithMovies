@@ -4,6 +4,8 @@ import learn.english.core.utils.Language;
 import learn.english.core.utils.Level;
 import learn.english.translator.lemmatization.Lemmatizator;
 import learn.english.utils.ConfigurationManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -12,6 +14,7 @@ import java.util.*;
  * Created by yaroslav on 8/11/14.
  */
 public interface Filter {
+    static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     static Filter instance(Language language, Level level){
         switch (language){
             default : return new EnglishFilter(level);
@@ -27,6 +30,7 @@ public interface Filter {
         Level level;
 
         public FilterChain(Level level){
+            logger.debug("Construct Filter Chain");
             this.level = level;
             initialFilters();
             languageSpecificFilters();
@@ -36,10 +40,12 @@ public interface Filter {
 
         @Override
         public boolean execute(@NotNull String word) {
+            boolean result = true;
             for (Filter filter : chain)
                 if( ! filter.execute(word))
-                    return false;
-            return true;
+                    result = false;
+            logger.debug("Word [{}] pass all filters with result={}",word,result);
+            return result;
         }
 
         protected void register(Filter next) {
