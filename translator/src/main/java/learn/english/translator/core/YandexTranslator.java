@@ -2,6 +2,10 @@ package learn.english.translator.core;
 
 import com.google.common.collect.Lists;
 import learn.english.translator.Translator;
+import learn.english.utils.ConfigurationManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -18,6 +22,7 @@ import static java.util.stream.Collectors.toList;
  * Created by yaroslav on 8/10/14.
  */
 public class YandexTranslator implements Translator{
+    static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     static final String API_KEY = "trnsl.1.1.20140531T124615Z.286c638c7c6d12c2.7b0a3f481468b227ad9021cbdc2bee694ec79d35";
     static final int THRESHOLD = 1000;
 
@@ -36,12 +41,14 @@ public class YandexTranslator implements Translator{
         text = text.toLowerCase();
         if(vocabulary.containsKey(text))
             return (String) vocabulary.get(text);
+        logger.debug("Translator Vocabulary doesn't contain current text");
         try {
             List<String> textList = new ArrayList<>();
             textList.add(text);
-            //System.out.println("Translate single word with Yandex online translator REST api");
+            logger.debug("Translate single text with Yandex online translator REST API");
             List<String> list = unmarshaller(buildURL(textList)).getText();
             String result = list.get(0);
+            logger.debug("Translate result = {}",result);
             vocabulary.put(text, result);
             return result;
         } catch (UnsupportedEncodingException | MalformedURLException e) {
@@ -58,13 +65,14 @@ public class YandexTranslator implements Translator{
             List<String> newWords = textList.stream().map(w->w.toLowerCase()).filter(w -> !vocabulary.containsKey(w)).distinct().collect(toList());
             if (newWords.isEmpty()) {
                 //System.out.println("Nothing to translate in YandexTranslator.translateNewWords");
+                logger.debug("Nothing to translate in YandexTranslator.translateNewWords");
                 return;
             }
 
-
+            logger.debug("Prepare to translate partition with Yandex. Input List size = {} / New Words size = {}",textList.size(), newWords.size());
             List<String> translated = new ArrayList<>();
             for (List<String> partition : Lists.partition(newWords, THRESHOLD)) {
-                //System.out.println("Translate partition with Yandex online translator REST api");
+                logger.debug("Translate partition (size={}) with Yandex online translator REST API",partition.size());
                 translated.addAll(unmarshaller(buildURL(partition)).getText());
             }
             if (newWords.size() != translated.size())
@@ -78,6 +86,7 @@ public class YandexTranslator implements Translator{
     }
 
     YandexXMLObject unmarshaller(URL url){
+        logger.debug("Executing Yandex online translator REST API with URL = {}",url);
         YandexXMLObject result = null;
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(YandexXMLObject.class);

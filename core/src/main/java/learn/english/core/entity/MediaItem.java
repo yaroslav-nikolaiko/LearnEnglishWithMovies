@@ -27,8 +27,6 @@ public abstract class MediaItem implements Persistent {
     @Lob
     private byte[] content;
     private String filename;
-    @ManyToOne
-    private Dictionary dictionary;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))

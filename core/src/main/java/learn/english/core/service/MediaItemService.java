@@ -11,6 +11,7 @@ import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.core.utils.MediaItemType;
 import learn.english.utils.LogTrace;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -25,6 +26,9 @@ import java.util.Set;
 @Stateless
 @ValidationHandlerEjb @LogTrace
 public class MediaItemService extends AbstractService<MediaItem> {
+
+    @EJB DictionaryService dictionaryService;
+
 
     @Inject
     public MediaItemService(EntityManager em) {
@@ -48,7 +52,7 @@ public class MediaItemService extends AbstractService<MediaItem> {
 
     public Set<WordCell> getUniqueWords(MediaItem item) {
         Set<WordCell> result = new HashSet<>(item.getWords());
-        List<MediaItem> dictionaryMediaItems = new ArrayList<>(em.find(Dictionary.class, item.getDictionary().getId()).getMediaItems());
+        List<MediaItem> dictionaryMediaItems = new ArrayList<>(em.find(Dictionary.class, dictionaryService.getDictionary(item).getId()).getMediaItems());
         dictionaryMediaItems.remove(item);
         for (MediaItem i : dictionaryMediaItems)
             for (WordCell word : item.getWords())

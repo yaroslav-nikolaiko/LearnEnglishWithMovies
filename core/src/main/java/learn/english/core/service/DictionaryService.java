@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.Set;
 
@@ -30,6 +31,10 @@ public class DictionaryService extends AbstractService<Dictionary> {
     public DictionaryService(EntityManager em) {
         super(Dictionary.class);
         this.em = em;
+    }
+
+    public Dictionary getDictionary(MediaItem item) {
+        return singeResult(Dictionary.FIND_BY_MEDIA_ITEM, item);
     }
 
     public void addMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {

@@ -18,8 +18,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Dictionary", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "USER_FK"}))
+@NamedQueries({@NamedQuery(name=Dictionary.FIND_BY_MEDIA_ITEM, query = "SELECT d from Dictionary d WHERE ?1 MEMBER OF d.mediaItems")})
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name", "learningLanguage", "nativeLanguage", "level"})
 public class Dictionary implements Persistent {
+    public static final String FIND_BY_MEDIA_ITEM = "FIND_BY_MEDIA_ITEM";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +43,6 @@ public class Dictionary implements Persistent {
     }
 
     public void addMediaItem(MediaItem item) {
-        item.setDictionary(this);
         mediaItems.add(item);
     }
 
@@ -51,7 +52,6 @@ public class Dictionary implements Persistent {
 
     public void removeMediaItem(MediaItem item){
         mediaItems.remove(item);
-        item.setDictionary(null);
     }
 
 
