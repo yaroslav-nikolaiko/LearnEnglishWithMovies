@@ -15,6 +15,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +28,9 @@ import java.util.Set;
  * Created by yaroslav on 6/17/14.
  */
 @Stateless
+@Path("/item")
+@Produces({ MediaType.APPLICATION_JSON})
+@Consumes({ MediaType.APPLICATION_JSON})
 @ValidationHandlerEjb @LogTrace
 public class MediaItemService extends AbstractService<MediaItem> {
 

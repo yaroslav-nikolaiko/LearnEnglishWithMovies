@@ -12,11 +12,16 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Created by yaroslav on 6/8/14.
  */
 @Stateless
+@Path("/user")
+@Produces({ MediaType.APPLICATION_JSON})
+@Consumes({ MediaType.APPLICATION_JSON})
 @ValidationHandlerEjb @LogTrace
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
@@ -28,7 +33,9 @@ public class UserService extends AbstractService<User> {
         this.em = em;
     }
 
-    public User findByNameAndPassword(String name, String password) {
+
+    @GET
+    public User findByNameAndPassword(@QueryParam(value = "name")String name, @QueryParam(value = "password") String password) {
         return singeResult(User.FIND_BY_NAME_AND_PASSWORD, name, password);
     }
 

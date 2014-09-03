@@ -15,6 +15,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 import java.util.Set;
 
@@ -23,6 +27,9 @@ import java.util.Set;
  * Created by yaroslav on 6/12/14.
  */
 @Stateless
+@Path("/dict")
+@Produces({ MediaType.APPLICATION_JSON})
+@Consumes({ MediaType.APPLICATION_JSON})
 @ValidationHandlerEjb @LogTrace
 public class DictionaryService extends AbstractService<Dictionary> {
     @EJB TextProcessor textProcessor;
