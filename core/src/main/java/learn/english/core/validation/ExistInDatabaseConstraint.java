@@ -1,6 +1,6 @@
 package learn.english.core.validation;
 
-import learn.english.core.utils.Persistent;
+import learn.english.model.utils.Persistent;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

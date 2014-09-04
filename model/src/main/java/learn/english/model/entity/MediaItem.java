@@ -1,11 +1,17 @@
-package learn.english.core.entity;
+package learn.english.model.entity;
 
+import learn.english.model.entity.media.Book;
+import learn.english.model.entity.media.Movie;
+import learn.english.model.entity.media.Song;
+import learn.english.model.entity.media.TVShow;
+import learn.english.model.utils.Persistent;
 import lombok.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import learn.english.core.utils.Persistent;
+import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorNode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -16,7 +22,9 @@ import java.util.*;
 @Entity
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
 @Access(AccessType.FIELD)
-@Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name", "dictionary"})
+@Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
+@XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
+@XmlDiscriminatorNode("@classifier")
 public abstract class MediaItem implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

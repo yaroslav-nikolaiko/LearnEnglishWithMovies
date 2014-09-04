@@ -1,9 +1,10 @@
-package learn.english.core.entity;
+package learn.english.model.entity;
 
+
+import learn.english.model.utils.Persistent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import learn.english.core.utils.Persistent;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;

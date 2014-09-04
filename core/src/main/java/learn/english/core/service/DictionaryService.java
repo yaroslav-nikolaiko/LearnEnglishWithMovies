@@ -1,12 +1,14 @@
 package learn.english.core.service;
 
-import learn.english.core.entity.WordCell;
+
 import learn.english.core.text.processor.TextProcessor;
 import learn.english.core.validation.ExistInDB;
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.MediaItem;
+
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
 import learn.english.utils.LogTrace;
 
 

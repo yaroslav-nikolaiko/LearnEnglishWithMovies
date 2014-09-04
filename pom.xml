@@ -12,6 +12,7 @@
         <module>utils</module>
         <module>parser</module>
         <module>translator</module>
+        <module>model</module>
         <module>core</module>
         <module>web</module>
     </modules>

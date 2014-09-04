@@ -1,11 +1,12 @@
-package learn.english.core.entity;
+package learn.english.model.entity;
 
+
+import learn.english.model.utils.Language;
+import learn.english.model.utils.Level;
+import learn.english.model.utils.Persistent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import learn.english.core.utils.Persistent;
-import learn.english.core.utils.Language;
-import learn.english.core.utils.Level;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

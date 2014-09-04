@@ -1,7 +1,6 @@
 package learn.english.web.validation;
 
 import learn.english.web.exception.WebException;
-import learn.english.core.exception.EJBIllegalArgumentException;
 
 
 import javax.faces.application.FacesMessage;
@@ -28,18 +27,18 @@ public class ValidationHandlerInterceptor implements Serializable {
             FacesMessage message = new FacesMessage(e.getMessageType(), e.getMessage(), e.getExplanation());
             FacesContext.getCurrentInstance().addMessage(null, message);
 
-        } catch (EJBIllegalArgumentException e) {
+        } /*catch (EJBIllegalArgumentException e) {
 
             FacesMessage.Severity severityWarn = transformMessageType(e.getMessageType());
             FacesMessage message = new FacesMessage(severityWarn, e.getMessage(), e.getExplanation());
             FacesContext.getCurrentInstance().addMessage(null, message);
 
-        }
+        }*/
 
         return proceed;
     }
 
-    private FacesMessage.Severity transformMessageType(EJBIllegalArgumentException.MessageType type){
+/*    private FacesMessage.Severity transformMessageType(EJBIllegalArgumentException.MessageType type){
         if(type==null)
             return FacesMessage.SEVERITY_INFO;
         switch(type){
@@ -51,5 +50,5 @@ public class ValidationHandlerInterceptor implements Serializable {
                 return FacesMessage.SEVERITY_INFO;
         }
         return FacesMessage.SEVERITY_INFO;
-    }
+    }*/
 }

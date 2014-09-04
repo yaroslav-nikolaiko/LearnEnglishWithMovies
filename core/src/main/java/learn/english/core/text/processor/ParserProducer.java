@@ -1,8 +1,9 @@
 package learn.english.core.text.processor;
 
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.media.Movie;
-import learn.english.core.entity.media.TVShow;
+
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.media.Movie;
+import learn.english.model.entity.media.TVShow;
 import learn.english.parser.Parser;
 import learn.english.parser.subtitles.SubtitlesParser;
 

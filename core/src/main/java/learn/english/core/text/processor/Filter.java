@@ -1,7 +1,7 @@
 package learn.english.core.text.processor;
 
-import learn.english.core.utils.Language;
-import learn.english.core.utils.Level;
+import learn.english.model.utils.Language;
+import learn.english.model.utils.Level;
 import learn.english.translator.lemmatization.Lemmatizator;
 import learn.english.utils.ConfigurationManager;
 import org.apache.logging.log4j.LogManager;

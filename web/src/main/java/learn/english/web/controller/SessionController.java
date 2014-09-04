@@ -1,31 +1,26 @@
 package learn.english.web.controller;
 
-import learn.english.core.logger.message.DictionaryMessage;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.User;
 import learn.english.utils.ConfigurationManager;
 import learn.english.utils.LogTrace;
-import learn.english.core.logger.message.UserMessage;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.User;
-import learn.english.core.entity.MediaItem;
-import learn.english.core.exception.EJBIllegalArgumentException;
-import learn.english.core.service.DictionaryService;
-import learn.english.core.service.MediaItemService;
-import learn.english.core.service.UserService;
+
 import learn.english.web.validation.DialogValidation;
 import learn.english.web.validation.ValidationHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yaroslav on 6/9/14.
@@ -35,9 +30,9 @@ import java.util.*;
 @ValidationHandler
 public @Data class SessionController implements Serializable {
     final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
-    @EJB    private UserService userService;
+/*    @EJB    private UserService userService;
     @EJB    private DictionaryService dictionaryService;
-    @EJB    private MediaItemService mediaItemService;
+    @EJB    private MediaItemService mediaItemService;*/
 
     @Inject private UserBean userBean;
     @Inject private DictionaryBean dictionaryBean;
@@ -55,9 +50,9 @@ public @Data class SessionController implements Serializable {
 
     @LogTrace
     public String singUp(){
-        user =  userBean.getUser();
+/*        user =  userBean.getUser();
         userService.addToDataBase(user);
-        logger.info(UserMessage.signUp(user));
+        logger.info(UserMessage.signUp(user));*/
         return "index?faces-redirect=true";
     }
 
@@ -67,21 +62,21 @@ public @Data class SessionController implements Serializable {
         user =  userBean.login();
         if( user!=null && user.getDictionaries().size() > 0)
             currentDictionary = user.getDictionaries().get(0);
-        logger.info(UserMessage.logIn(user));
+        //logger.info(UserMessage.logIn(user));
     }
 
 
     @DialogValidation @LogTrace
-    public void createDictionary() throws EJBIllegalArgumentException {
-        Dictionary dictionary = dictionaryBean.getDictionary();
+    public void createDictionary() /*throws EJBIllegalArgumentException*/ {
+/*        Dictionary dictionary = dictionaryBean.getDictionary();
         userService.addDictionary(user, dictionary);
         this.currentDictionary = dictionary;
-        logger.debug(DictionaryMessage.create(dictionary));
+        logger.debug(DictionaryMessage.create(dictionary));*/
     }
 
     @DialogValidation @LogTrace
-    public String loadMediaItem() throws EJBIllegalArgumentException {
-        MediaItem item = mediaItemBean.getMediaItem();
+    public String loadMediaItem() /*throws EJBIllegalArgumentException*/ {
+/*        MediaItem item = mediaItemBean.getMediaItem();
 
         byte[] content = null;
         try {
@@ -91,30 +86,30 @@ public @Data class SessionController implements Serializable {
             e.printStackTrace();
         }
         item.setContent(content);
-        dictionaryService.addMediaItem(currentDictionary, item);
+        dictionaryService.addMediaItem(currentDictionary, item);*/
 
         return "index?faces-redirect=true";
     }
 
     @LogTrace
-    public void deleteMediaItems() throws EJBIllegalArgumentException {
-        dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
-        selectedMediaItems = null;
+    public void deleteMediaItems()/* throws EJBIllegalArgumentException*/ {
+/*        dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
+        selectedMediaItems = null;*/
     }
 
     @DialogValidation @LogTrace
-    public void updateDictionary() throws EJBIllegalArgumentException{
-        dictionaryService.update(currentDictionary);
+    public void updateDictionary()/* throws EJBIllegalArgumentException*/{
+/*        dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
-        logger.debug(DictionaryMessage.update(currentDictionary));
+        logger.debug(DictionaryMessage.update(currentDictionary));*/
     }
 
     @DialogValidation @LogTrace
-    public void removeDictionary() throws EJBIllegalArgumentException{
-        userService.removeDictionary(user, currentDictionary);
+    public void removeDictionary()/* throws EJBIllegalArgumentException*/{
+/*        userService.removeDictionary(user, currentDictionary);
         logger.debug(DictionaryMessage.remove(currentDictionary));
         currentDictionary = null;
-        selectedMediaItems = null;
+        selectedMediaItems = null;*/
     }
 
 

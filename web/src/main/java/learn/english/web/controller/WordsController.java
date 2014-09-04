@@ -1,18 +1,14 @@
 package learn.english.web.controller;
 
-import learn.english.core.entity.*;
-import learn.english.core.entity.Dictionary;
-import learn.english.core.exception.EJBIllegalArgumentException;
-import learn.english.core.service.MediaItemService;
-import learn.english.core.utils.Category;
-import learn.english.translator.core.TranslatorManager;
+import learn.english.model.entity.*;
+import learn.english.model.entity.WordCell;
+import learn.english.model.utils.Category;
 import learn.english.utils.LogTrace;
 import learn.english.web.validation.ValidationHandler;
 import lombok.Data;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -31,8 +27,8 @@ import static java.util.stream.Collectors.toMap;
 public @Data class WordsController implements Serializable {
     @Inject
     SessionController sessionController;
-    @EJB TranslatorManager translatorManager;
-    @EJB MediaItemService mediaItemService;
+/*    @EJB TranslatorManager translatorManager;
+    @EJB MediaItemService mediaItemService;*/
 
     private boolean unique;
 
@@ -51,7 +47,7 @@ public @Data class WordsController implements Serializable {
 
     @LogTrace
     public void update(){
-        List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
+/*        List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
         if(unique && selectedItems.size()==1){
             words = mediaItemService.getUniqueWords(selectedItems.get(0)).stream().
                     collect(toMap(WordCell::getWord, cell -> cell));
@@ -61,7 +57,7 @@ public @Data class WordsController implements Serializable {
         words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
                 distinct().collect(toMap(WordCell::getWord, cell -> cell));
         updateDualList();
-        }
+        }*/
     }
 
     @LogTrace
@@ -79,7 +75,7 @@ public @Data class WordsController implements Serializable {
     }
 
     @LogTrace
-    public void onTransfer(TransferEvent event) throws EJBIllegalArgumentException{
+    public void onTransfer(TransferEvent event) /*throws EJBIllegalArgumentException*/{
         //isAdd() - is transfer from source to target  (left->right)
         //isRemove() - is transfer form target to source (right->left)
         for (Object word : event.getItems()) {
@@ -90,17 +86,18 @@ public @Data class WordsController implements Serializable {
     }
 
     @LogTrace
-    public void submit()throws EJBIllegalArgumentException{
+    public void submit()/*throws EJBIllegalArgumentException*/{
         sessionController.updateDictionary() ;
     }
 
     @LogTrace
-    public String translate(String word){
+    public String translate(String word) {
 /*        if(! mouseOver)
-            return "";*/
+            return "";*//*
         Dictionary d = sessionController.getCurrentDictionary();
         return translatorManager.translator(d.getLearningLanguage().toString(), d.getNativeLanguage().toString()).
-                          translate(word);
+                          translate(word);*/
+        return "";
 
     }
 

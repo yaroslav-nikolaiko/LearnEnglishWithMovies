@@ -1,6 +1,7 @@
 package learn.english.core.logger.message;
 
-import learn.english.core.entity.User;
+
+import learn.english.model.entity.User;
 import org.apache.logging.log4j.message.Message;
 
 /**

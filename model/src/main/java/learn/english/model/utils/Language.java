@@ -1,4 +1,4 @@
-package learn.english.core.utils;
+package learn.english.model.utils;
 
 /**
  * Created by yaroslav on 6/6/14.

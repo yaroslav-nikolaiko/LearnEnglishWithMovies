@@ -1,6 +1,5 @@
 package learn.english.core.logger.message;
 
-import learn.english.core.entity.Dictionary;
 import org.apache.logging.log4j.message.Message;
 
 /**

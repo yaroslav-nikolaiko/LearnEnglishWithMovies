@@ -1,8 +1,9 @@
-package learn.english.core.entity.media;
+package learn.english.model.entity.media;
 
-import learn.english.core.entity.MediaItem;
+import learn.english.model.entity.MediaItem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorValue;
 
 import javax.persistence.Entity;
 
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
  */
 @Entity
 @Data @EqualsAndHashCode(callSuper = true)
+@XmlDiscriminatorValue("Book-classifier")
 public class Book extends MediaItem {
     String author;
 }

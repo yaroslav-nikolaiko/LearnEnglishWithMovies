@@ -1,9 +1,9 @@
 package learn.english.core.service;
 
-import learn.english.core.utils.Category;
-import learn.english.core.utils.Language;
-import learn.english.core.utils.Level;
-import learn.english.core.utils.MediaItemType;
+import learn.english.model.utils.Category;
+import learn.english.model.utils.Language;
+import learn.english.model.utils.Level;
+import learn.english.model.utils.MediaItemType;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;

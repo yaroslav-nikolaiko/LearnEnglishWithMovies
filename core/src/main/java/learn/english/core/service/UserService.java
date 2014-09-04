@@ -1,10 +1,10 @@
 package learn.english.core.service;
 
 import learn.english.core.validation.ExistInDB;
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.User;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.User;
 import learn.english.utils.LogTrace;
 
 import javax.ejb.ApplicationException;

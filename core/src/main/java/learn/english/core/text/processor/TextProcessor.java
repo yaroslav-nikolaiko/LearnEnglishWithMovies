@@ -1,11 +1,11 @@
 package learn.english.core.text.processor;
 
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.WordCell;
 import learn.english.core.logger.message.MediaItemMessage;
-import learn.english.core.utils.Category;
-import learn.english.core.utils.Language;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
+import learn.english.model.utils.Category;
+import learn.english.model.utils.Language;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
 import learn.english.translator.Translator;
@@ -19,10 +19,13 @@ import org.apache.logging.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by yaroslav on 8/6/14.

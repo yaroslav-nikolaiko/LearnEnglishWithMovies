@@ -1,8 +1,8 @@
 package learn.english.web.utils;
 
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.WordCell;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
 import learn.english.web.controller.SessionController;
 
 import javax.faces.component.UIComponent;

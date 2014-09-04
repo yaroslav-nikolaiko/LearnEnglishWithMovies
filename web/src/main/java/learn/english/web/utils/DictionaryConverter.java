@@ -1,6 +1,6 @@
 package learn.english.web.utils;
 
-import learn.english.core.entity.Dictionary;
+import learn.english.model.entity.Dictionary;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

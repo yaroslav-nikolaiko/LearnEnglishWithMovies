@@ -1,16 +1,14 @@
-package learn.english.core.entity;
+package learn.english.model.entity;
 
-import learn.english.parser.Parser;
+import learn.english.model.utils.Category;
+import learn.english.model.utils.Persistent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import learn.english.core.utils.Persistent;
-import learn.english.core.utils.Category;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**

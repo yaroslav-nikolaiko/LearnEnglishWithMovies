@@ -1,8 +1,7 @@
 package learn.english.core.logger.message;
 
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.User;
-import learn.english.core.entity.WordCell;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
 import org.apache.logging.log4j.message.Message;
 
 import java.util.Map;

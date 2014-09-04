@@ -1,7 +1,7 @@
 package learn.english.web.controller;
 
+import learn.english.model.entity.Dictionary;
 import lombok.Data;
-import learn.english.core.entity.Dictionary;
 
 
 import javax.annotation.PostConstruct;

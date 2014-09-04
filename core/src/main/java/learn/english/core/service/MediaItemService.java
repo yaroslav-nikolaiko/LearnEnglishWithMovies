@@ -1,14 +1,14 @@
 package learn.english.core.service;
 
-import learn.english.core.entity.Dictionary;
-import learn.english.core.entity.MediaItem;
-import learn.english.core.entity.WordCell;
-import learn.english.core.entity.media.Book;
-import learn.english.core.entity.media.Movie;
-import learn.english.core.entity.media.Song;
-import learn.english.core.entity.media.TVShow;
 import learn.english.core.validation.ValidationHandlerEjb;
-import learn.english.core.utils.MediaItemType;
+import learn.english.model.entity.Dictionary;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
+import learn.english.model.entity.media.Book;
+import learn.english.model.entity.media.Movie;
+import learn.english.model.entity.media.Song;
+import learn.english.model.entity.media.TVShow;
+import learn.english.model.utils.MediaItemType;
 import learn.english.utils.LogTrace;
 
 import javax.ejb.EJB;

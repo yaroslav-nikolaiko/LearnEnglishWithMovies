@@ -1,12 +1,10 @@
 package learn.english.web.controller;
 
+import learn.english.model.entity.User;
 import learn.english.web.exception.WebException;
 import lombok.Data;
-import learn.english.core.entity.User;
-import learn.english.core.service.UserService;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -26,8 +24,8 @@ import java.net.URI;
 @Named
 @RequestScoped
 public @Data class UserBean implements Serializable{
-    @EJB
-    private UserService userService;
+/*    @EJB
+    private UserService userService;*/
     private User user;
 
     @PostConstruct
@@ -36,25 +34,25 @@ public @Data class UserBean implements Serializable{
     }
 
     public void validateName(FacesContext context, UIComponent component, Object value){
-        String name = (String) value;
+/*        String name = (String) value;
         if(userService.nameExist(name)){
             FacesMessage message = new FacesMessage("Name "+name+" already exist");
             throw new ValidatorException(message);
-        }
+        }*/
     }
 
     public void validateEmail(FacesContext context, UIComponent component, Object value){
-        String email = (String) value;
+/*        String email = (String) value;
         if(userService.emailExist(email)){
             FacesMessage message = new FacesMessage("Email "+email+" already exist");
             throw new ValidatorException(message);
-        }
+        }*/
     }
 
     public User login() {
         //User user = userService.findByNameAndPassword(this.user.getName(),  this.user.getPassword());
 
-        URI uri = UriBuilder.fromUri("http://localhost/core-1.0-SNAPSHOT/rest").port(8080).build();
+        URI uri = UriBuilder.fromUri("http://localhost/lingvo-movie-core/rest").port(8080).build();
         Client client = ClientBuilder.newClient();
         Response response = client.target(uri).path("user").queryParam("name", this.user.getName()).queryParam("password", this.user.getPassword()).request("application/json").get();
         //Response response = client.target(uri).path("user").request("application/json").get();

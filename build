@@ -9,9 +9,15 @@ if [[ $JAVA_HOME != *jdk1.8* ]]; then
 fi
 
 GLASSFISH=/home/yaroslav/usr/latest-glassfish4/bin/asadmin
-ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
-ARTIFACT_NAME=web-1.0-SNAPSHOT
-CONTEXT_ROOT=lingvo-movie
+
+REST_SERVICE_ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/core/target/core-1.0-SNAPSHOT.war
+REST_SERVICE_ARTIFACT_NAME=core-lingvo-1.0
+REST_SERVICE_CONTEXT_ROOT=lingvo-movie-core
+
+WEB_ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+WEB_ARTIFACT_NAME=web-lingvo-1.0
+WEB_CONTEXT_ROOT=lingvo-movie
+
 CORE=core
 WEB=web
 PARSER=parser
@@ -21,58 +27,26 @@ ARG=$1
 
 if [[ $ARG = "web" ]]; then
     mvn -f $WEB/pom.xml clean install
-fi
-
-if [[ $ARG = "deploy" ]]; then
-    sh $GLASSFISH deploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
-    exit
-fi
-
-if [[ $ARG = "redeploy" ]]; then
-    sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
+    STATUS=$?
+    if [ $STATUS -eq 0 ]; then
+        sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+    fi
     exit
 fi
 
 if [[ $ARG = "core" ]]; then
     mvn -f $CORE/pom.xml clean install
-    STATUS1=$?
-    if [ $STATUS1 -eq 0 ]; then
-        mvn -f $WEB/pom.xml clean install
-
-        STATUS=$?
-        if [ $STATUS -eq 0 ]; then
-            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
-        fi
+    STATUS=$?
+    if [ $STATUS -eq 0 ]; then
+        sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
     fi
-        exit
+    exit
 fi
 
-if [[ $ARG = "parser" ]]; then
-    mvn -f $PARSER/pom.xml clean install
-    STATUS1=$?
-    if [ $STATUS1 -eq 0 ]; then
-        mvn -f $WEB/pom.xml clean install
-
-        STATUS=$?
-        if [ $STATUS -eq 0 ]; then
-            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
-        fi
-    fi
-        exit
-fi
-
-if [[ $ARG = "translator" ]]; then
-    mvn -f translator/pom.xml clean install
-    STATUS1=$?
-    if [ $STATUS1 -eq 0 ]; then
-        mvn -f $WEB/pom.xml clean install
-
-        STATUS=$?
-        if [ $STATUS -eq 0 ]; then
-            sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
-        fi
-    fi
-        exit
+if [[ $ARG = "redeploy" ]]; then
+    sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
+    sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+    exit
 fi
 
 
@@ -82,6 +56,7 @@ fi
 
 STATUS=$?
 if [ $STATUS -eq 0 ]; then
-sh $GLASSFISH redeploy --name $ARTIFACT_NAME --contextroot $CONTEXT_ROOT $ARTIFACT_PATH
+    sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
+    sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
 fi
 
