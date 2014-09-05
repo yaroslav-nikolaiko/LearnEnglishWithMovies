@@ -24,17 +24,17 @@
 
                 <p:outputLabel for="dictionary-learning-language" value="Learning Language: " />
                 <p:selectOneMenu id="dictionary-learning-language" value="#{sessionController.currentDictionary.learningLanguage}" >
-                    <f:selectItems value="#{generalProperties.availableLearningLanguages}"  />
+                    <f:selectItems value="#{generalPropertiesController.availableLearningLanguages}"  />
                 </p:selectOneMenu>
 
                 <p:outputLabel for="dictionary-native-language" value="Native Language: "  />
                 <p:selectOneMenu id="dictionary-native-language" value="#{sessionController.currentDictionary.nativeLanguage}" >
-                    <f:selectItems value="#{generalProperties.availableNativeLanguages}" />
+                    <f:selectItems value="#{generalPropertiesController.availableNativeLanguages}" />
                 </p:selectOneMenu>
 
                 <p:outputLabel for="dictionary-level" value="Level: " />
                 <p:selectOneMenu id="dictionary-level" value="#{sessionController.currentDictionary.level}">
-                    <f:selectItems value="#{generalProperties.availableLevels}" />
+                    <f:selectItems value="#{generalPropertiesController.availableLevels}" />
                 </p:selectOneMenu>
 
             </p:panelGrid>

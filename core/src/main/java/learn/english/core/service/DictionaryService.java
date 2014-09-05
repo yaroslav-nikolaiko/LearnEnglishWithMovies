@@ -8,6 +8,7 @@ import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.User;
 import learn.english.model.entity.WordCell;
 import learn.english.utils.LogTrace;
 
@@ -17,10 +18,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.Set;
 
@@ -35,6 +35,7 @@ import java.util.Set;
 @ValidationHandlerEjb @LogTrace
 public class DictionaryService extends AbstractService<Dictionary> {
     @EJB TextProcessor textProcessor;
+    @EJB UserService userService;
 
     @Inject
     public DictionaryService(EntityManager em) {
@@ -46,47 +47,40 @@ public class DictionaryService extends AbstractService<Dictionary> {
         return singeResult(Dictionary.FIND_BY_MEDIA_ITEM, item);
     }
 
-    public void addMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {
-        String iName = item.getName();
-        for (MediaItem i : dictionary.getMediaItems())
-            if (i.getName().equals(iName))
-                throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
-        dictionary.addMediaItem(item);
-        em.persist(item);
-        textProcessor.computeWordCells(item,dictionary);
-        em.merge(dictionary);
+
+    @GET
+    @Path("{id}")
+    public Dictionary get(@PathParam("id") Long id) {
+        return find(id);
     }
 
-    public void removeMediaItems(@ExistInDB Dictionary dictionary, Collection<MediaItem> items) throws EJBIllegalArgumentException {
-        for (MediaItem item : items)
-            removeMediaItem(dictionary, item);
+    @POST
+    public Response addDictionary(@QueryParam("userID") Long userID, Dictionary dictionary) throws EJBIllegalArgumentException {
+        User user = userService.find(userID);
+        String dName = dictionary.getName();
+        for (Dictionary d : user.getDictionaries())
+            if (d.getName().equals(dName))
+                throw new EJBIllegalArgumentException(String.format("Dictionary with name %s already exist", dName),
+                        EJBIllegalArgumentException.MessageType.INFO);
+        user.addDictionary(dictionary);
+        //TODO: should I add validation user.id == getUserWithName(user.name).id ?
+        Response response = addToDataBase(dictionary);
+        em.merge(user);
+        return response;
     }
 
-    public void removeMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {
-        dictionary.removeMediaItem(item);
-        garbageCollector(item, dictionary);
-        em.merge(dictionary);
-        //em.remove(em.merge(item));
+
+    @DELETE
+    @Path("{id}")
+    public Response removeDictionary(@PathParam("id")Long id) {
+        Dictionary dictionary = find(id);
+        User user = userService.singeResult(User.FIND_BY_DICTIONARY, dictionary);
+        user.removeDictionary(dictionary);
+        garbageCollector(dictionary);
+        return Response.noContent().build();
     }
 
-    void garbageCollector(MediaItem item, Dictionary dictionary){
-        // garbage collector (remove word which have no more reference at all)
-        Set<WordCell> words = item.getWords();
-        for (WordCell word : words) {
-            boolean noMoreReferenceForWord = true;
-            for (MediaItem i : dictionary.getMediaItems()) {
-                if(i.contains(word)){
-                    noMoreReferenceForWord = false;
-                    break;
-                }
-            }
-            if( noMoreReferenceForWord )
-                em.remove(em.merge(word));
-
-        }
-    }
-
-    public void garbageCollector( Dictionary dictionary){
+    void garbageCollector( Dictionary dictionary){
         /*
         Here probably have some performance issue with multiple em.remove call. However commit will be after this method finished
         and before all operations with Persistence cache. I hope that JPA optimize this multiple deletion in the end.

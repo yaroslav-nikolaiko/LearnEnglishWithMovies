@@ -14,6 +14,8 @@ import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 
 /**
  * Created by yaroslav on 6/8/14.
@@ -25,7 +27,6 @@ import javax.ws.rs.core.MediaType;
 @ValidationHandlerEjb @LogTrace
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
-    @EJB DictionaryService dictionaryService;
 
     @Inject
     public UserService(EntityManager em) {
@@ -34,38 +35,29 @@ public class UserService extends AbstractService<User> {
     }
 
 
+    @POST
+    public Response addToDataBase(User entity) {
+        return super.addToDataBase(entity);
+    }
+
     @GET
     public User findByNameAndPassword(@QueryParam(value = "name")String name, @QueryParam(value = "password") String password) {
         return singeResult(User.FIND_BY_NAME_AND_PASSWORD, name, password);
     }
 
-    public boolean nameExist(String name){
+    @GET
+    @Path("/name/{name}")
+    public boolean nameExist(@PathParam("name") String name){
         Query query = buildSimpleQuery(User.COUNT_BY_NAME, name);
         return (Long) query.getSingleResult() > 0;
     }
 
-    public boolean emailExist(String email){
+    @GET
+    @Path("/email/{email}")
+    public boolean emailExist(@PathParam("email")String email){
         Query query = buildSimpleQuery(User.COUNT_BY_EMAIL, email);
         return (Long) query.getSingleResult() > 0;
     }
 
 
-    public void addDictionary(@ExistInDB User user, Dictionary dictionary) throws EJBIllegalArgumentException {
-        String dName = dictionary.getName();
-        for (Dictionary d : user.getDictionaries())
-            if (d.getName().equals(dName))
-                throw new EJBIllegalArgumentException(String.format("Dictionary with name %s already exist", dName),
-                                                                        EJBIllegalArgumentException.MessageType.INFO);
-        user.addDictionary(dictionary);
-        //TODO: should I add validation user.id == getUserWithName(user.name).id ?
-        em.persist(dictionary);
-        em.merge(user);
-        //return em.merge(user);
-    }
-
-    public void removeDictionary(@ExistInDB User user, Dictionary dictionary){
-        user.removeDictionary(dictionary);
-        dictionaryService.garbageCollector(dictionary);
-        update(user);
-    }
 }

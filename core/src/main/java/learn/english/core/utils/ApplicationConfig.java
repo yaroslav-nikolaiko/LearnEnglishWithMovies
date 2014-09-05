@@ -1,9 +1,6 @@
 package learn.english.core.utils;
 
-import learn.english.core.service.DictionaryService;
-import learn.english.core.service.GeneralProperties;
-import learn.english.core.service.MediaItemService;
-import learn.english.core.service.UserService;
+import learn.english.core.service.*;
 import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 
 import javax.ws.rs.ApplicationPath;
@@ -24,9 +21,10 @@ public class ApplicationConfig extends Application {
 
         // ************************ REST Services ************************
         c.add(UserService.class);
-/*        c.add(DictionaryService.class);
+        c.add(DictionaryService.class);
         c.add(GeneralProperties.class);
-        c.add(MediaItemService.class);*/
+        c.add(MediaItemService.class);
+        c.add(WordCellService.class);
         // *******************************(*******************************
 
         c.add(MOXyJsonProvider.class);

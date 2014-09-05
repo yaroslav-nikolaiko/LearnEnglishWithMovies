@@ -23,17 +23,17 @@
 
                     <h:outputLabel for="dictionary-learning-language" value="Learning Language: " />
                     <p:selectOneMenu id="dictionary-learning-language" value="#{dictionaryBean.dictionary.learningLanguage}">
-                        <f:selectItems value="#{generalProperties.availableLearningLanguages}" />
+                        <f:selectItems value="#{generalPropertiesController.availableLearningLanguages}" />
                     </p:selectOneMenu>
 
                     <h:outputLabel for="dictionary-native-language" value="Native Language: " />
                     <p:selectOneMenu id="dictionary-native-language" value="#{dictionaryBean.dictionary.nativeLanguage}">
-                        <f:selectItems value="#{generalProperties.availableNativeLanguages}" />
+                        <f:selectItems value="#{generalPropertiesController.availableNativeLanguages}" />
                     </p:selectOneMenu>
 
                     <h:outputLabel for="dictionary-level" value="Level: " />
                     <p:selectOneMenu id="dictionary-level" value="#{dictionaryBean.dictionary.level}">
-                        <f:selectItems value="#{generalProperties.availableLevels}" />
+                        <f:selectItems value="#{generalPropertiesController.availableLevels}" />
                     </p:selectOneMenu>
 
                     <p:commandButton value="Add dictionary" update="dict-growl  @([id$=current-dictionary]) @([id$=media-item-form])

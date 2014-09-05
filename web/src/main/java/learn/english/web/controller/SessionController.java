@@ -17,8 +17,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,10 +75,18 @@ public @Data class SessionController implements Serializable {
 
     @DialogValidation @LogTrace
     public void createDictionary() /*throws EJBIllegalArgumentException*/ {
-/*        Dictionary dictionary = dictionaryBean.getDictionary();
-        userService.addDictionary(user, dictionary);
+        Dictionary dictionary = dictionaryBean.getDictionary();
+        user.addDictionary(dictionary);
+
+        URI uri = UriBuilder.fromUri("http://localhost/lingvo-movie-core/rest").port(8080).build();
+        Client client = ClientBuilder.newClient();
+        Response response = client.target(uri).path("dict").queryParam("userID", this.user.getId()).request().post(Entity.entity(dictionary, MediaType.APPLICATION_JSON));
+        System.out.println("create Dictionary Status:    "+response.getStatus());
+        System.out.println("create Dictionary Location:  "+response.getLocation());
+        Long id = Long.valueOf(response.getHeaderString("entity_id"));
+        System.out.println("Generated id = "+id);
+        dictionary.setId(id);
         this.currentDictionary = dictionary;
-        logger.debug(DictionaryMessage.create(dictionary));*/
     }
 
     @DialogValidation @LogTrace

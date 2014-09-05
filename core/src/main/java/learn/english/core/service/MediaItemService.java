@@ -1,8 +1,12 @@
 package learn.english.core.service;
 
+import learn.english.core.exception.EJBIllegalArgumentException;
+import learn.english.core.text.processor.TextProcessor;
+import learn.english.core.validation.ExistInDB;
 import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.MediaItems;
 import learn.english.model.entity.WordCell;
 import learn.english.model.entity.media.Book;
 import learn.english.model.entity.media.Movie;
@@ -15,14 +19,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.ws.rs.core.Response;
+import java.util.*;
 
 /**
  * Created by yaroslav on 6/17/14.
@@ -33,8 +34,8 @@ import java.util.Set;
 @Consumes({ MediaType.APPLICATION_JSON})
 @ValidationHandlerEjb @LogTrace
 public class MediaItemService extends AbstractService<MediaItem> {
-
     @EJB DictionaryService dictionaryService;
+    @EJB TextProcessor textProcessor;
 
 
     @Inject
@@ -47,7 +48,10 @@ public class MediaItemService extends AbstractService<MediaItem> {
         return find(item.getId())!=null;
     }
 
-    public MediaItem generateItem(MediaItemType type) {
+
+    @GET
+    @Path("type")
+    public MediaItem generateItem(@PathParam("type")MediaItemType type) {
         switch (type){
             case TVSHOW: return new TVShow();
             case   SONG: return new Song();
@@ -57,28 +61,52 @@ public class MediaItemService extends AbstractService<MediaItem> {
         return null;
     }
 
-    public Set<WordCell> getUniqueWords(MediaItem item) {
-        Set<WordCell> result = new HashSet<>(item.getWords());
-        List<MediaItem> dictionaryMediaItems = new ArrayList<>(em.find(Dictionary.class, dictionaryService.getDictionary(item).getId()).getMediaItems());
-        dictionaryMediaItems.remove(item);
-        for (MediaItem i : dictionaryMediaItems)
-            for (WordCell word : item.getWords())
-                if(i.contains(word))
-                    result.remove(word);
-        return result;
+
+    @POST
+    public Response addMediaItem(@QueryParam("userID") Long dictionaryID, MediaItem item) throws EJBIllegalArgumentException {
+        Dictionary dictionary = dictionaryService.find(dictionaryID);
+        String iName = item.getName();
+        for (MediaItem i : dictionary.getMediaItems())
+            if (i.getName().equals(iName))
+                throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
+        dictionary.addMediaItem(item);
+        Response response = addToDataBase(item);
+        textProcessor.computeWordCells(item, dictionary);
+        em.merge(dictionary);
+        return response;
     }
 
-/*    public void destructor(MediaItem item){
-        TypedQuery<WordCell> query = em.createNamedQuery(WordCell.GET_ALL_WORDS_WHICH_HAVE_ITEM, WordCell.class);
-        query.setParameter(1, item);
-        List<WordCell> wordCells = query.getResultList();
-        for (WordCell word : wordCells) {
-            word.removeMediaItem(item);
-            if(word.getMediaItems().isEmpty())
-                em.remove(word);
-            else
-                em.merge(word);
+    @DELETE
+    public Response removeMediaItems(@QueryParam("dictionaryID")Long dictionaryId, MediaItems items) throws EJBIllegalArgumentException {
+        Dictionary dictionary = dictionaryService.find(dictionaryId);
+        for (MediaItem item : items.getItems())
+            removeMediaItem(dictionary, item);
+
+        return Response.noContent().build();
+    }
+
+    public void removeMediaItem(@ExistInDB Dictionary dictionary, MediaItem item) throws EJBIllegalArgumentException {
+        dictionary.removeMediaItem(item);
+        garbageCollector(item, dictionary);
+        em.merge(dictionary);
+        //em.remove(em.merge(item));
+    }
+
+    void garbageCollector(MediaItem item, Dictionary dictionary){
+        // garbage collector (remove word which have no more reference at all)
+        Set<WordCell> words = item.getWords();
+        for (WordCell word : words) {
+            boolean noMoreReferenceForWord = true;
+            for (MediaItem i : dictionary.getMediaItems()) {
+                if(i.contains(word)){
+                    noMoreReferenceForWord = false;
+                    break;
+                }
+            }
+            if( noMoreReferenceForWord )
+                em.remove(em.merge(word));
+
         }
-    }*/
+    }
 
 }

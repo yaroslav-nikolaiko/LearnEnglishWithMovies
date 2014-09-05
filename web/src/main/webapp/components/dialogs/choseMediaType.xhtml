@@ -15,7 +15,7 @@
             <p:growl id="load-media-type-growl" showDetail="true" life="3000" />
             <p:dialog header="Edit Dictionary" widgetVar="load-media-type-dlg" resizable="true" dynamic="true">
                 <p:selectOneMenu id="select-media-type" value="#{mediaItemBean.type}">
-                    <f:selectItems value="#{generalProperties.availableMediaItemTypes}" />
+                    <f:selectItems value="#{generalPropertiesController.availableMediaItemTypes}" />
                 </p:selectOneMenu>
                 <p/>
                 <p:commandButton value="Load" oncomplete="PF('media-item-dlg').show(); PF('load-media-type-dlg').hide();" />

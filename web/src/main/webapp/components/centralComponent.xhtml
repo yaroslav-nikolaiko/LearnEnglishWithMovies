@@ -22,7 +22,7 @@
 
                 <f:facet name="sourceCaption">
                     <p:selectOneMenu value="#{wordsController.leftCategory}">
-                        <f:selectItems value="#{generalProperties.availableCategories}" />
+                        <f:selectItems value="#{generalPropertiesController.availableCategories}" />
                         <p:ajax update="pick-list" listener="#{wordsController.updateDualList}"/>
                     </p:selectOneMenu>
 
@@ -30,7 +30,7 @@
                 </f:facet>
                 <f:facet name="targetCaption">
                     <p:selectOneMenu value="#{wordsController.rightCategory}">
-                        <f:selectItems value="#{generalProperties.availableCategories}" />
+                        <f:selectItems value="#{generalPropertiesController.availableCategories}" />
                         <p:ajax update="pick-list" listener="#{wordsController.updateDualList}"/>
                     </p:selectOneMenu>
 
