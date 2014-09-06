@@ -12,36 +12,19 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.io.Serializable;
 import java.net.URI;
 
 /**
  * Created by yaroslav on 9/6/14.
  */
-public abstract class RestService <T> {
+public class RestService implements Serializable {
     private static final String SERVICE_HOST = "http://localhost/lingvo-movie-core/rest";
     private static final Integer SERVICE_PORT = 8080;
     protected URI uri = UriBuilder.fromUri(SERVICE_HOST).port(SERVICE_PORT).build();
     protected Client client = ClientBuilder.newClient();
     protected WebTarget target;
 
-    String entityPath;
-    Class<T> entityClass;
-
-    public static <T> RestService instance(Class<T> entityClass){
-        if(entityClass.equals(User.class))
-            return new UserService<T>(entityClass);
-
-        else if(entityClass.equals(Dictionary.class))
-            return new DictionaryService<T>(entityClass);
-
-        else if(entityClass.equals(MediaItem.class))
-            return new MediaItemService<T>(entityClass);
-
-        else if(entityClass.equals(WordCell.class))
-            return new WordCellService<T>(entityClass);
-
-        return null;
-    }
 
     public RestService path(String path){
         if(target != null)
@@ -56,17 +39,36 @@ public abstract class RestService <T> {
         return this;
     }
 
-    public T get(Long id){
-        target = client.target(uri).path(entityPath).path(String.valueOf(id));
+    public <T> T get(Class<T> entityClass){
         System.out.println("Get Query "+target.getUri());
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         target = null;
         return response.readEntity(entityClass);
     }
 
+
     public <T> Response post(T entity){
         System.out.println("Post Query "+target.getUri());
         Response response = target.request().post(Entity.entity(entity, MediaType.APPLICATION_JSON));
+        target = null;
+        return response;
+    }
+
+    public Response delete(Long id){
+        target = target.path(String.valueOf(id));
+        System.out.println("Delete Query " + target.getUri());
+        Response response = target.request().delete();
+        target = null;
+        return response;
+    }
+
+    public Long entityId(Response response){
+        return Long.valueOf(response.getHeaderString("entity_id"));
+    }
+
+    public <T> Response update(T entity){
+        System.out.println("PUT Query " + target.getUri());
+        Response response = target.request().put(Entity.entity(entity, MediaType.APPLICATION_JSON));
         target = null;
         return response;
     }

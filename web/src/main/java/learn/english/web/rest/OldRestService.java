@@ -1,4 +1,4 @@
-package learn.english.web.controller;
+package learn.english.web.rest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -7,21 +7,19 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.io.Serializable;
 import java.net.URI;
-import java.util.Map;
 
 /**
  * Created by yaroslav on 9/6/14.
  */
-public class RestService implements Serializable {
+public class OldRestService {
     private static final String SERVICE_HOST = "http://localhost/lingvo-movie-core/rest";
     private static final Integer SERVICE_PORT = 8080;
     private URI uri = UriBuilder.fromUri(SERVICE_HOST).port(SERVICE_PORT).build();
     private Client client = ClientBuilder.newClient();
     private WebTarget target;
 
-    public RestService path(String path){
+    public OldRestService path(String path){
         if(target != null)
             target = target.path(path);
         else
@@ -29,7 +27,7 @@ public class RestService implements Serializable {
         return this;
     }
 
-    public RestService param(String name, Object... values) {
+    public OldRestService param(String name, Object... values) {
         target = target.queryParam(name, values);
         return this;
     }

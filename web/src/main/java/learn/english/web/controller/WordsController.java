@@ -1,9 +1,11 @@
 package learn.english.web.controller;
 
 import learn.english.model.entity.*;
-import learn.english.model.entity.WordCell;
+import learn.english.model.entity.Dictionary;
+import learn.english.web.rest.MediaItemService;
 import learn.english.model.utils.Category;
 import learn.english.utils.LogTrace;
+import learn.english.web.rest.WordCellService;
 import learn.english.web.validation.ValidationHandler;
 import lombok.Data;
 import org.primefaces.event.TransferEvent;
@@ -27,12 +29,13 @@ import static java.util.stream.Collectors.toMap;
 public @Data class WordsController implements Serializable {
     @Inject
     SessionController sessionController;
-/*    @EJB TranslatorManager translatorManager;
-    @EJB MediaItemService mediaItemService;*/
+    @Inject
+    WordCellService wordCellService;
+    //@EJB TranslatorManager translatorManager;
+    @Inject MediaItemService mediaItemService;
 
     private boolean unique;
 
-    //Set<WordCell> words;
     Map<String, WordCell> words;
     Category leftCategory = Category.KNOWN;
     Category rightCategory = Category.NEW_WORD;
@@ -43,21 +46,20 @@ public @Data class WordsController implements Serializable {
     boolean mouseOver;
 
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
-    //List<WordCell> cache = new ArrayList<>();
 
     @LogTrace
     public void update(){
-/*        List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
+        List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
         if(unique && selectedItems.size()==1){
             words = mediaItemService.getUniqueWords(selectedItems.get(0)).stream().
                     collect(toMap(WordCell::getWord, cell -> cell));
             updateDualList();
         }else{
 
-        words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
-                distinct().collect(toMap(WordCell::getWord, cell -> cell));
-        updateDualList();
-        }*/
+            words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
+                    distinct().collect(toMap(WordCell::getWord, cell -> cell));
+            updateDualList();
+        }
     }
 
     @LogTrace
@@ -75,9 +77,7 @@ public @Data class WordsController implements Serializable {
     }
 
     @LogTrace
-    public void onTransfer(TransferEvent event) /*throws EJBIllegalArgumentException*/{
-        //isAdd() - is transfer from source to target  (left->right)
-        //isRemove() - is transfer form target to source (right->left)
+    public void onTransfer(TransferEvent event) {
         for (Object word : event.getItems()) {
             WordCell wordCell = (WordCell)word;
             words.get(wordCell.getWord()).setCategory(event.isAdd() ? rightCategory:leftCategory);
@@ -86,19 +86,16 @@ public @Data class WordsController implements Serializable {
     }
 
     @LogTrace
-    public void submit()/*throws EJBIllegalArgumentException*/{
+    public void submit() {
         sessionController.updateDictionary() ;
     }
 
     @LogTrace
-    public String translate(String word) {
+    public String translate(String word){
 /*        if(! mouseOver)
-            return "";*//*
+            return "";*/
         Dictionary d = sessionController.getCurrentDictionary();
-        return translatorManager.translator(d.getLearningLanguage().toString(), d.getNativeLanguage().toString()).
-                          translate(word);*/
-        return "";
-
+        return wordCellService.translate(word,d.getLearningLanguage().toString(), d.getNativeLanguage().toString());
     }
 
     public boolean isTranslate(WordCell word){
@@ -119,7 +116,7 @@ public @Data class WordsController implements Serializable {
         if( rightTranslation){
             return dualList.getTarget().contains(word);
         }
-            return false;
+        return false;
     }
 
     public void onMouseOver(){
@@ -135,8 +132,4 @@ public @Data class WordsController implements Serializable {
         return words != null ? words : new HashMap<>();
     }
 
-/*    public void onTransfer(TransferEvent event) {
-        event.getSource()
-
-    }*/
 }
