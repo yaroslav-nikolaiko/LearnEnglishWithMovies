@@ -2,6 +2,8 @@ package learn.english.web.controller;
 
 import learn.english.model.entity.MediaItem;
 import learn.english.model.utils.MediaItemType;
+
+import javax.inject.Inject;
 import javax.servlet.http.Part;
 import lombok.Data;
 
@@ -19,10 +21,13 @@ public @Data class MediaItemBean implements Serializable {
     private MediaItem mediaItem;
     private MediaItemType type;
     private Part file;
+    @Inject RestService restService;
 
     public void setType(MediaItemType type) {
 /*        this.type = type;
         this.mediaItem = mediaItemService.generateItem(type);*/
+        this.type = type;
+        this.mediaItem = restService.path("item/type").path(type.toString()).get(MediaItem.class);
     }
 
 }

@@ -46,17 +46,17 @@ public class UserService extends AbstractService<User> {
     }
 
     @GET
-    @Path("/name/{name}")
-    public boolean nameExist(@PathParam("name") String name){
+    @Path("name/{name}")
+    public String nameExist(@PathParam("name") String name){
         Query query = buildSimpleQuery(User.COUNT_BY_NAME, name);
-        return (Long) query.getSingleResult() > 0;
+        return String.valueOf((Long) query.getSingleResult() > 0);
     }
 
     @GET
-    @Path("/email/{email}")
-    public boolean emailExist(@PathParam("email")String email){
+    @Path("email/{email}")
+    public String emailExist(@PathParam("email")String email){
         Query query = buildSimpleQuery(User.COUNT_BY_EMAIL, email);
-        return (Long) query.getSingleResult() > 0;
+        return String.valueOf((Long) query.getSingleResult() > 0);
     }
 
 

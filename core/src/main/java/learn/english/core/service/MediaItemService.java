@@ -50,28 +50,38 @@ public class MediaItemService extends AbstractService<MediaItem> {
 
 
     @GET
-    @Path("type")
+    @Path("{id}")
+    public MediaItem get(@PathParam("id") Long id) {
+        return find(id);
+    }
+
+    @GET
+    @Path("type/{type}")
     public MediaItem generateItem(@PathParam("type")MediaItemType type) {
-        switch (type){
-            case TVSHOW: return new TVShow();
-            case   SONG: return new Song();
-            case  MOVIE: return new Movie();
-            case   BOOK: return new Book();
+        switch (type) {
+            case TVSHOW:
+                return new TVShow();
+            case SONG:
+                return new Song();
+            case MOVIE:
+                return new Movie();
+            case BOOK:
+                return new Book();
         }
         return null;
     }
 
 
     @POST
-    public Response addMediaItem(@QueryParam("userID") Long dictionaryID, MediaItem item) throws EJBIllegalArgumentException {
+    public Response addMediaItem(@QueryParam("dictionaryID") Long dictionaryID, MediaItem item) throws EJBIllegalArgumentException {
         Dictionary dictionary = dictionaryService.find(dictionaryID);
         String iName = item.getName();
         for (MediaItem i : dictionary.getMediaItems())
             if (i.getName().equals(iName))
                 throw new EJBIllegalArgumentException(String.format("Media Item  with name = %s already exist", iName));
         dictionary.addMediaItem(item);
-        Response response = addToDataBase(item);
         textProcessor.computeWordCells(item, dictionary);
+        Response response = addToDataBase(item);
         em.merge(dictionary);
         return response;
     }
@@ -82,6 +92,15 @@ public class MediaItemService extends AbstractService<MediaItem> {
         for (MediaItem item : items.getItems())
             removeMediaItem(dictionary, item);
 
+        return Response.noContent().build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response removeMediaItems(@QueryParam("dictionaryID")Long dictionaryId, @PathParam("id") Long id) throws EJBIllegalArgumentException {
+        Dictionary dictionary = dictionaryService.find(dictionaryId);
+        MediaItem item = find(id);
+        removeMediaItem(dictionary, item);
         return Response.noContent().build();
     }
 

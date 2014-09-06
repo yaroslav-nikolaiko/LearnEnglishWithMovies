@@ -44,6 +44,7 @@ public @Data class SessionController implements Serializable {
     @Inject private UserBean userBean;
     @Inject private DictionaryBean dictionaryBean;
     @Inject private MediaItemBean mediaItemBean;
+    @Inject RestService restService;
 
     private User user;
     private Dictionary currentDictionary;
@@ -57,9 +58,10 @@ public @Data class SessionController implements Serializable {
 
     @LogTrace
     public String singUp(){
-/*        user =  userBean.getUser();
-        userService.addToDataBase(user);
-        logger.info(UserMessage.signUp(user));*/
+        user =  userBean.getUser();
+        //userService.addToDataBase(user);
+        restService.path("user").post(user);
+        //logger.info(UserMessage.signUp(user));
         return "index?faces-redirect=true";
     }
 
@@ -78,20 +80,20 @@ public @Data class SessionController implements Serializable {
         Dictionary dictionary = dictionaryBean.getDictionary();
         user.addDictionary(dictionary);
 
-        URI uri = UriBuilder.fromUri("http://localhost/lingvo-movie-core/rest").port(8080).build();
-        Client client = ClientBuilder.newClient();
-        Response response = client.target(uri).path("dict").queryParam("userID", this.user.getId()).request().post(Entity.entity(dictionary, MediaType.APPLICATION_JSON));
+        Response response = restService.path("dict").param("userID", user.getId()).post(dictionary);
         System.out.println("create Dictionary Status:    "+response.getStatus());
         System.out.println("create Dictionary Location:  "+response.getLocation());
-        Long id = Long.valueOf(response.getHeaderString("entity_id"));
+
+        Long id = restService.entityId(response);
         System.out.println("Generated id = "+id);
         dictionary.setId(id);
+
         this.currentDictionary = dictionary;
     }
 
     @DialogValidation @LogTrace
     public String loadMediaItem() /*throws EJBIllegalArgumentException*/ {
-/*        MediaItem item = mediaItemBean.getMediaItem();
+        MediaItem item = mediaItemBean.getMediaItem();
 
         byte[] content = null;
         try {
@@ -101,22 +103,30 @@ public @Data class SessionController implements Serializable {
             e.printStackTrace();
         }
         item.setContent(content);
-        dictionaryService.addMediaItem(currentDictionary, item);*/
+        //dictionaryService.addMediaItem(currentDictionary, item);
+        Response response = restService.path("item").param("dictionaryID", currentDictionary.getId()).post(item);
+        Long id = restService.entityId(response);
+        MediaItem persistedItem = restService.path("item").path(String.valueOf(id)).get(MediaItem.class);
+        currentDictionary.addMediaItem(persistedItem);
 
         return "index?faces-redirect=true";
     }
 
     @LogTrace
     public void deleteMediaItems()/* throws EJBIllegalArgumentException*/ {
-/*        dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
-        selectedMediaItems = null;*/
+        //dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
+        for (MediaItem item : selectedMediaItems) {
+            restService.path("item").param("dictionaryID", currentDictionary.getId()).delete(item.getId());
+            currentDictionary.removeMediaItem(item);
+        }
+        selectedMediaItems = null;
     }
 
     @DialogValidation @LogTrace
-    public void updateDictionary()/* throws EJBIllegalArgumentException*/{
-/*        dictionaryService.update(currentDictionary);
-        selectedMediaItems = null;
-        logger.debug(DictionaryMessage.update(currentDictionary));*/
+    public void updateDictionary()/* throws EJBIllegalArgumentException*/ {
+        //dictionaryService.update(currentDictionary);
+        restService.path("dict").update(currentDictionary);
+        //logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
     @DialogValidation @LogTrace

@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -27,6 +28,7 @@ public @Data class UserBean implements Serializable{
 /*    @EJB
     private UserService userService;*/
     private User user;
+    @Inject RestService restService;
 
     @PostConstruct
     void init(){
@@ -34,31 +36,28 @@ public @Data class UserBean implements Serializable{
     }
 
     public void validateName(FacesContext context, UIComponent component, Object value){
-/*        String name = (String) value;
-        if(userService.nameExist(name)){
+        String name = (String) value;
+        Boolean nameExist = Boolean.valueOf(restService.path("user/name").path(name).get(String.class));
+        if(nameExist){
             FacesMessage message = new FacesMessage("Name "+name+" already exist");
             throw new ValidatorException(message);
-        }*/
+        }
     }
 
     public void validateEmail(FacesContext context, UIComponent component, Object value){
-/*        String email = (String) value;
-        if(userService.emailExist(email)){
+        String email = (String) value;
+        Boolean emailExist = Boolean.valueOf(restService.path("user/email").path(email).get(String.class));
+        if(emailExist){
             FacesMessage message = new FacesMessage("Email "+email+" already exist");
             throw new ValidatorException(message);
-        }*/
+        }
     }
 
     public User login() {
-        //User user = userService.findByNameAndPassword(this.user.getName(),  this.user.getPassword());
-
-        URI uri = UriBuilder.fromUri("http://localhost/lingvo-movie-core/rest").port(8080).build();
-        Client client = ClientBuilder.newClient();
-        Response response = client.target(uri).path("user").queryParam("name", this.user.getName()).queryParam("password", this.user.getPassword()).request("application/json").get();
-        //Response response = client.target(uri).path("user").request("application/json").get();
-
-        User restUser =  response.readEntity(User.class);
-        System.out.println("Fucking User : ---===>  "+restUser);
+        return restService.path("user").
+                                    param("name", user.getName()).
+                                    param("password", user.getPassword()).
+                                    get(User.class);
 
 /*        if(user!=null){
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", user.getName());
@@ -68,7 +67,6 @@ public @Data class UserBean implements Serializable{
             e.setExplanation("Invalid credentials");
             throw e;
         }*/
-        return restUser;
     }
 
 }
