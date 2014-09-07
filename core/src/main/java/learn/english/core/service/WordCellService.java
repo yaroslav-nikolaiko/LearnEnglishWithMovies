@@ -4,6 +4,7 @@ import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.WordCell;
+import learn.english.model.entity.wraper.WordCells;
 import learn.english.utils.LogTrace;
 
 import javax.ejb.ApplicationException;
@@ -41,7 +42,7 @@ public class WordCellService extends AbstractService<WordCell> {
 
     @GET
     @Path("unique/{itemID}")
-    public GenericEntity<Set<WordCell>> getUniqueWords(@PathParam("itemID")Long mediaItemID) {
+    public WordCells getUniqueWords(@PathParam("itemID")Long mediaItemID) {
         MediaItem item = mediaItemService.find(mediaItemID);
         Set<WordCell> result = new HashSet<>(item.getWords());
         List<MediaItem> dictionaryMediaItems = new ArrayList<>(em.find(Dictionary.class, dictionaryService.getDictionary(item).getId()).getMediaItems());
@@ -50,8 +51,7 @@ public class WordCellService extends AbstractService<WordCell> {
             for (WordCell word : item.getWords())
                 if (i.contains(word))
                     result.remove(word);
-        return new GenericEntity<Set<WordCell>>(result) {
-        };
+        return new WordCells(result);
     }
 
 }

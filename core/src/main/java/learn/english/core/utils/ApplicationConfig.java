@@ -1,6 +1,9 @@
 package learn.english.core.utils;
 
 import learn.english.core.service.*;
+import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.wraper.MediaItems;
+import learn.english.model.entity.wraper.WordCells;
 import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 
 import javax.ws.rs.ApplicationPath;
@@ -26,6 +29,8 @@ public class ApplicationConfig extends Application {
         c.add(MediaItemService.class);
         c.add(WordCellService.class);
         c.add(TranslatorFacade.class);
+        c.add(WordCells.class);
+        c.add(MediaItems.class);
         // *******************************(*******************************
 
         c.add(MOXyJsonProvider.class);

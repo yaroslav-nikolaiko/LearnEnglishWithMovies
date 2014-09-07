@@ -54,13 +54,13 @@ public abstract class AbstractService<T extends Persistent> {
         return Response.created(entityURI).header("entity_id", entity.getId()).build();
     }
 
-    T singeResult(String queryName, Object... param){
+    public T singeResult(String queryName, Object... param){
         logger.debug("Single result query. Name = {}, parameters ={}",queryName,param);
         TypedQuery<T> query = buildQuery(queryName, param);
         return query.getSingleResult();
     }
 
-    List<T> resultList(String queryName, Object... param){
+    public List<T> resultList(String queryName, Object... param){
         logger.debug("Result List query. Name = {}, parameters ={}",queryName,param);
         TypedQuery<T> query = buildQuery(queryName, param);
         return query.getResultList();

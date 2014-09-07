@@ -1,5 +1,6 @@
-package learn.english.model.entity;
+package learn.english.model.entity.wraper;
 
+import learn.english.model.entity.MediaItem;
 import lombok.Data;
 
 import java.util.Collection;
