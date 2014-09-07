@@ -4,7 +4,6 @@ import learn.english.model.entity.*;
 import learn.english.model.entity.Dictionary;
 import learn.english.web.rest.MediaItemService;
 import learn.english.model.utils.Category;
-import learn.english.utils.LogTrace;
 import learn.english.web.rest.WordCellService;
 import learn.english.web.validation.ValidationHandler;
 import lombok.Data;
@@ -47,7 +46,6 @@ public @Data class WordsController implements Serializable {
 
     DualListModel<WordCell> dualList = new DualListModel<>(new ArrayList<WordCell>(), new ArrayList<WordCell>());
 
-    @LogTrace
     public void update(){
         List<MediaItem> selectedItems = sessionController.getSelectedMediaItems();
         if(unique && selectedItems.size()==1){
@@ -62,7 +60,6 @@ public @Data class WordsController implements Serializable {
         }
     }
 
-    @LogTrace
     public void updateDualList() {
         List<WordCell> sourceLeftList = new ArrayList<>();
         List<WordCell> targetRightList = new ArrayList<>();
@@ -76,7 +73,6 @@ public @Data class WordsController implements Serializable {
         dualList.setTarget(targetRightList);
     }
 
-    @LogTrace
     public void onTransfer(TransferEvent event) {
         for (Object word : event.getItems()) {
             WordCell wordCell = (WordCell)word;
@@ -85,12 +81,10 @@ public @Data class WordsController implements Serializable {
         sessionController.updateDictionary();
     }
 
-    @LogTrace
     public void submit() {
         sessionController.updateDictionary() ;
     }
 
-    @LogTrace
     public String translate(String word){
 /*        if(! mouseOver)
             return "";*/

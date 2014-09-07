@@ -1,7 +1,5 @@
 package learn.english.web.controller;
 
-import learn.english.utils.ConfigurationManager;
-import learn.english.utils.LogTrace;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import learn.english.model.entity.Dictionary;
@@ -30,7 +28,6 @@ import java.util.*;
 @SessionScoped
 @ValidationHandler
 public @Data class SessionController implements Serializable {
-    final static Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     @Inject    private UserService userService;
     @Inject    private DictionaryService dictionaryService;
     @Inject    private MediaItemService mediaItemService;
@@ -49,7 +46,6 @@ public @Data class SessionController implements Serializable {
         selectedMediaItems = new ArrayList<>();
     }
 
-    @LogTrace
     public String singUp(){
         user =  userBean.getUser();
         userService.addToDataBase(user);
@@ -57,7 +53,7 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @DialogValidation @LogTrace
+    @DialogValidation
     public void login(){
         init();
         user =  userBean.login();
@@ -67,7 +63,7 @@ public @Data class SessionController implements Serializable {
     }
 
 
-    @DialogValidation @LogTrace
+    @DialogValidation
     public void createDictionary()  {
         Dictionary dictionary = dictionaryBean.getDictionary();
         userService.addDictionary(user, dictionary);
@@ -75,7 +71,7 @@ public @Data class SessionController implements Serializable {
         //logger.debug(DictionaryMessage.create(dictionary));
     }
 
-    @DialogValidation @LogTrace
+    @DialogValidation
     public String loadMediaItem() {
         MediaItem item = mediaItemBean.getMediaItem();
 
@@ -92,20 +88,20 @@ public @Data class SessionController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    @LogTrace
+
     public void deleteMediaItems() {
         dictionaryService.removeMediaItems(currentDictionary, selectedMediaItems);
         selectedMediaItems = null;
     }
 
-    @DialogValidation @LogTrace
+    @DialogValidation
     public void updateDictionary() {
         dictionaryService.update(currentDictionary);
         selectedMediaItems = null;
         //logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
-    @DialogValidation @LogTrace
+    @DialogValidation
     public void removeDictionary() {
         userService.removeDictionary(user, currentDictionary);
         //logger.debug(DictionaryMessage.remove(currentDictionary));

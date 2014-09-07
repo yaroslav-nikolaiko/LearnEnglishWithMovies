@@ -40,7 +40,7 @@ public class RestService implements Serializable {
     }
 
     public <T> T get(Class<T> entityClass){
-        System.out.println("Get Query "+target.getUri());
+        //System.out.println("Get Query "+target.getUri());
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         target = null;
         return response.readEntity(entityClass);
@@ -48,7 +48,7 @@ public class RestService implements Serializable {
 
 
     public <T> Response post(T entity){
-        System.out.println("Post Query "+target.getUri());
+        //System.out.println("Post Query "+target.getUri());
         Response response = target.request().post(Entity.entity(entity, MediaType.APPLICATION_JSON));
         target = null;
         return response;
@@ -56,7 +56,7 @@ public class RestService implements Serializable {
 
     public Response delete(Long id){
         target = target.path(String.valueOf(id));
-        System.out.println("Delete Query " + target.getUri());
+        //System.out.println("Delete Query " + target.getUri());
         Response response = target.request().delete();
         target = null;
         return response;
@@ -67,7 +67,7 @@ public class RestService implements Serializable {
     }
 
     public <T> Response update(T entity){
-        System.out.println("PUT Query " + target.getUri());
+        //System.out.println("PUT Query " + target.getUri());
         Response response = target.request().put(Entity.entity(entity, MediaType.APPLICATION_JSON));
         target = null;
         return response;
