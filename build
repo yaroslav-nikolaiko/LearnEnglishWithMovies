@@ -8,13 +8,15 @@ if [[ $JAVA_HOME != *jdk1.8* ]]; then
     export PATH="$JAVA_HOME/bin:$PATH"
 fi
 
-GLASSFISH=/home/yaroslav/usr/latest-glassfish4/bin/asadmin
+GLASSFISH='sh /home/yaroslav/usr/soft/glassfish4/bin/asadmin'
 
-REST_SERVICE_ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/core/target/core-1.0-SNAPSHOT.war
+PROJECT_FOLDER=/home/yaroslav/workspace/LearnEnglishProject/LearnEnglishWithMovies
+
+REST_SERVICE_ARTIFACT_PATH=$PROJECT_FOLDER/core/target/core-1.0-SNAPSHOT.war
 REST_SERVICE_ARTIFACT_NAME=core-lingvo-1.0
 REST_SERVICE_CONTEXT_ROOT=lingvo-movie-core
 
-WEB_ARTIFACT_PATH=/home/yaroslav/workspace/LearnEnglishWithMovies/web/target/web-1.0-SNAPSHOT.war
+WEB_ARTIFACT_PATH=$PROJECT_FOLDER/web/target/web-1.0-SNAPSHOT.war
 WEB_ARTIFACT_NAME=web-lingvo-1.0
 WEB_CONTEXT_ROOT=lingvo-movie
 
@@ -29,7 +31,7 @@ if [[ $ARG = "web" ]]; then
     mvn -f $WEB/pom.xml clean install
     STATUS=$?
     if [ $STATUS -eq 0 ]; then
-        sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+        $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
     fi
     exit
 fi
@@ -38,14 +40,14 @@ if [[ $ARG = "core" ]]; then
     mvn -f $CORE/pom.xml clean install
     STATUS=$?
     if [ $STATUS -eq 0 ]; then
-        sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
+        $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
     fi
     exit
 fi
 
 if [[ $ARG = "redeploy" ]]; then
-    sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
-    sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+    $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
+     sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
     exit
 fi
 
@@ -56,7 +58,7 @@ fi
 
 STATUS=$?
 if [ $STATUS -eq 0 ]; then
-    sh $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
-    sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+     $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
+     $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
 fi
 
