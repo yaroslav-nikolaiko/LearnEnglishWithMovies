@@ -29,8 +29,6 @@ public class ApplicationConfig extends Application {
         c.add(MediaItemService.class);
         c.add(WordCellService.class);
         c.add(TranslatorFacade.class);
-        c.add(WordCells.class);
-        c.add(MediaItems.class);
         // *******************************(*******************************
 
         c.add(MOXyJsonProvider.class);

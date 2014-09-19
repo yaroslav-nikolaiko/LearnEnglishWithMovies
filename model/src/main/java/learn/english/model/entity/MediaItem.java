@@ -1,5 +1,6 @@
 package learn.english.model.entity;
 
+import learn.english.model.adapter.MediaItemAdapter;
 import learn.english.model.entity.media.Book;
 import learn.english.model.entity.media.Movie;
 import learn.english.model.entity.media.Song;
@@ -12,6 +13,7 @@ import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorNode;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -25,6 +27,7 @@ import java.util.*;
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
 @XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
 @XmlDiscriminatorNode("@classifier")
+@XmlJavaTypeAdapter(MediaItemAdapter.class)
 public abstract class MediaItem implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

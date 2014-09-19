@@ -7,9 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by yaroslav on 6/6/14.
@@ -26,6 +24,8 @@ public  class WordCell implements Persistent {
     private Category category;
     @ElementCollection()
     Set<String> words = new HashSet<>();
+    @Transient
+    Map<String,String> translation = new HashMap<>();
 
     public WordCell(String rootForm) {
         this.rootForm = rootForm;
