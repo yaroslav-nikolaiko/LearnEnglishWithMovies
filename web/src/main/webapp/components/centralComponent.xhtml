@@ -47,7 +47,7 @@
                 </p:column>
                 <p:column style="width:30%; text-align: right;">
                     <h:panelGroup id="translationWrapper">
-                    <p:outputLabel id="translation" value="#{wordsController.translate(cell.word)}" >
+                    <p:outputLabel id="translation" value="#{cell.translation.get(cell.word)}" >
                     </p:outputLabel>
                     </h:panelGroup>
                 </p:column>

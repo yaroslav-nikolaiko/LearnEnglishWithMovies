@@ -85,9 +85,12 @@ public @Data class WordsController implements Serializable {
         sessionController.updateDictionary() ;
     }
 
+/*
     public String translate(String word){
+*/
 /*        if(! mouseOver)
-            return "";*/
+            return "";*//*
+
         Dictionary d = sessionController.getCurrentDictionary();
         return wordCellService.translate(word,d.getLearningLanguage().toString(), d.getNativeLanguage().toString());
     }
@@ -112,6 +115,7 @@ public @Data class WordsController implements Serializable {
         }
         return false;
     }
+*/
 
     public void onMouseOver(){
         mouseOver = true;

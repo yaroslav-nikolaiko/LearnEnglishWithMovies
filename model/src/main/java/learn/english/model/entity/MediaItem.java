@@ -21,13 +21,13 @@ import java.util.*;
 /**
  * Created by yaroslav on 6/2/14.
  */
+//@XmlJavaTypeAdapter(MediaItemAdapter.class)
 @Entity
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
 @Access(AccessType.FIELD)
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
 @XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
 @XmlDiscriminatorNode("@classifier")
-@XmlJavaTypeAdapter(MediaItemAdapter.class)
 public abstract class MediaItem implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
