@@ -15,6 +15,7 @@ public class WordCellListener {
 
     @PostLoad
     public void addTranslation(WordCell cell) {
-        provider.addTranslation(cell);
+        if(cell.getTranslation().isEmpty())
+            provider.addTranslation(cell);
     }
 }
