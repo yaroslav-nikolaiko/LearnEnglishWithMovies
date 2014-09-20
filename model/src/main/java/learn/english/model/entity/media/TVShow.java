@@ -1,12 +1,12 @@
 package learn.english.model.entity.media;
 
-import learn.english.model.adapter.MediaItemAdapter;
 import learn.english.model.entity.MediaItem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorValue;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**

@@ -12,8 +12,6 @@
 <h:body>
     <ui:composition>
         <h:form id="words-list-form" >
-            <p:commandButton id="pojoSubmit" rendered="false" value="Submit"  style="margin-top:5px" actionListener="#{wordsController.submit}"/>
-
             <p:pickList id="pick-list" value="#{wordsController.dualList}" var="cell" effect="bounce"
                         itemValue="#{cell}" itemLabel="#{cell.word}"
                         showSourceControls="true" showTargetControls="true" showCheckbox="true" converter="#{wordCellConverter}"

@@ -1,6 +1,5 @@
 package learn.english.model.entity;
 
-import learn.english.model.adapter.MediaItemAdapter;
 import learn.english.model.entity.media.Book;
 import learn.english.model.entity.media.Movie;
 import learn.english.model.entity.media.Song;
@@ -13,7 +12,6 @@ import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorNode;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -24,11 +22,13 @@ import java.util.*;
 //@XmlJavaTypeAdapter(MediaItemAdapter.class)
 @Entity
 @Table(name = "MediaItem", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "DICTIONARY_ID"}))
+@NamedQueries({@NamedQuery(name=MediaItem.FIND_BY_WORD_CELL, query = "SELECT i from MediaItem i WHERE ?1 MEMBER OF i.words")})
 @Access(AccessType.FIELD)
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
 @XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
 @XmlDiscriminatorNode("@classifier")
 public abstract class MediaItem implements Persistent {
+    public static final String FIND_BY_WORD_CELL = "FIND_BY_WORD_CELL";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

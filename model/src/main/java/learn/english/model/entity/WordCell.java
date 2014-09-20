@@ -1,5 +1,6 @@
 package learn.english.model.entity;
 
+import learn.english.model.listener.WordCellListener;
 import learn.english.model.utils.Category;
 import learn.english.model.utils.Persistent;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "WordCell")
 @Data @EqualsAndHashCode(of = {"rootForm"}) @NoArgsConstructor()
+@EntityListeners({WordCellListener.class})
 public  class WordCell implements Persistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

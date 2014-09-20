@@ -13,6 +13,8 @@ import learn.english.model.entity.media.Movie;
 import learn.english.model.entity.media.Song;
 import learn.english.model.entity.media.TVShow;
 import learn.english.model.utils.MediaItemType;
+import learn.english.translator.Translator;
+import learn.english.translator.core.TranslatorManager;
 import learn.english.utils.LogTrace;
 
 import javax.ejb.EJB;
@@ -35,6 +37,7 @@ import java.util.*;
 public class MediaItemService extends AbstractService<MediaItem> {
     @EJB DictionaryService dictionaryService;
     @EJB TextProcessor textProcessor;
+    @EJB TranslatorManager translatorManager;
 
 
     @Inject
@@ -51,7 +54,17 @@ public class MediaItemService extends AbstractService<MediaItem> {
     @GET
     @Path("{id}")
     public MediaItem get(@PathParam("id") Long id) {
-        return find(id);
+        MediaItem item =  find(id);
+        Dictionary dictionary = dictionaryService.getDictionary(item);
+        String fromLanguage = dictionary.getLearningLanguage().toString();
+        String toLanguage = dictionary.getNativeLanguage().toString();
+        Translator translator = translatorManager.translator(fromLanguage, toLanguage);
+        for (WordCell cell : item.getWords()) {
+            for (String word : cell.getWords()) {
+                cell.getTranslation().put(word, translator.translate(word));
+            }
+        }
+        return item;
     }
 
     @GET
@@ -108,6 +121,10 @@ public class MediaItemService extends AbstractService<MediaItem> {
         garbageCollector(item, dictionary);
         em.merge(dictionary);
         //em.remove(em.merge(item));
+    }
+
+    public MediaItem getMediaItem(WordCell wordCell) {
+        return resultList(MediaItem.FIND_BY_WORD_CELL, wordCell).get(0);
     }
 
     void garbageCollector(MediaItem item, Dictionary dictionary){

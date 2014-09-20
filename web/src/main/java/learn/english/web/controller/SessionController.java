@@ -1,5 +1,6 @@
 package learn.english.web.controller;
 
+import learn.english.model.entity.WordCell;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import learn.english.model.entity.Dictionary;

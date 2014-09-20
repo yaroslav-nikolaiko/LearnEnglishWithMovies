@@ -74,15 +74,22 @@ public @Data class WordsController implements Serializable {
     }
 
     public void onTransfer(TransferEvent event) {
+        List<WordCell> wordCellsToUpdate = new ArrayList<>();
         for (Object word : event.getItems()) {
-            WordCell wordCell = (WordCell)word;
-            words.get(wordCell.getWord()).setCategory(event.isAdd() ? rightCategory:leftCategory);
+            WordCell wordCell = words.get(((WordCell) word).getWord());
+            wordCell.setCategory(event.isAdd() ? rightCategory : leftCategory);
+            wordCellsToUpdate.add(wordCell);
         }
-        sessionController.updateDictionary();
+        updateWordCells(wordCellsToUpdate);
+        //sessionController.updateDictionary();
+
     }
 
-    public void submit() {
-        sessionController.updateDictionary() ;
+
+    public void updateWordCells(List<WordCell> wordCells) {
+        wordCellService.update(wordCells);
+        //sessionController.setSelectedMediaItems(null);
+        //logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
 /*

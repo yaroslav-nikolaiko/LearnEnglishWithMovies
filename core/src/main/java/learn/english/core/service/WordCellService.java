@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,4 +55,11 @@ public class WordCellService extends AbstractService<WordCell> {
         return new WordCells(result);
     }
 
+    @PUT
+    @Path("list")
+    public Response updateList(WordCells wordCells) {
+        for (WordCell wordCell : wordCells.getWordCells())
+            update(wordCell);
+        return Response.ok().build();
+    }
 }

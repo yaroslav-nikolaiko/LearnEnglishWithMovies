@@ -36,6 +36,7 @@ import java.util.Set;
 public class DictionaryService extends AbstractService<Dictionary> {
     @EJB TextProcessor textProcessor;
     @EJB UserService userService;
+    @EJB MediaItemService mediaItemService;
 
     @Inject
     public DictionaryService(EntityManager em) {
@@ -45,6 +46,13 @@ public class DictionaryService extends AbstractService<Dictionary> {
 
     public Dictionary getDictionary(MediaItem item) {
         return singeResult(Dictionary.FIND_BY_MEDIA_ITEM, item);
+    }
+
+    public Dictionary getDictionary(WordCell wordCell) {
+        MediaItem mediaItem = mediaItemService.getMediaItem(wordCell);
+        if(mediaItem==null)
+            return null;
+        return getDictionary(mediaItem);
     }
 
 
