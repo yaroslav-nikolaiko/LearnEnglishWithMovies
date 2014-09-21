@@ -4,6 +4,7 @@ import learn.english.model.entity.media.Book;
 import learn.english.model.entity.media.Movie;
 import learn.english.model.entity.media.Song;
 import learn.english.model.entity.media.TVShow;
+import learn.english.model.listener.MediaItemListener;
 import learn.english.model.utils.Persistent;
 import lombok.*;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -27,6 +28,7 @@ import java.util.*;
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
 @XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
 @XmlDiscriminatorNode("@classifier")
+@EntityListeners({MediaItemListener.class})
 public abstract class MediaItem implements Persistent {
     public static final String FIND_BY_WORD_CELL = "FIND_BY_WORD_CELL";
     @Id
@@ -34,14 +36,13 @@ public abstract class MediaItem implements Persistent {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private byte[] content;
     private String filename;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
     private Set<WordCell> words;
+    @Transient
+    private byte[] content;
 
     public MediaItem() {
         words = new HashSet<>();

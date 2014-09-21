@@ -1,5 +1,6 @@
 package learn.english.core.listener;
 
+import learn.english.core.service.ContentService;
 import learn.english.core.service.DictionaryService;
 import learn.english.core.service.MediaItemService;
 import learn.english.model.listener.provider.EntitiesListenerProvider;
@@ -21,22 +22,8 @@ public class EntitiesListener implements EntitiesListenerProvider {
     DictionaryService dictionaryService;
     @EJB
     MediaItemService mediaItemService;
-
-
-    @Override
-    public void addTranslation(Dictionary dictionary) {
-        String fromLanguage = dictionary.getLearningLanguage().toString();
-        String toLanguage = dictionary.getNativeLanguage().toString();
-        Translator translator = translatorManager.translator(fromLanguage, toLanguage);
-        for (MediaItem item : dictionary.getMediaItems()) {
-            for (WordCell cell : item.getWords()) {
-                for (String word : cell.getWords()) {
-                    cell.getTranslation().put(word, translator.translate(word));
-                }
-            }
-        }
-
-    }
+    @EJB
+    ContentService contentService;
 
     @Override
     public void addTranslation(WordCell cell) {
@@ -49,6 +36,18 @@ public class EntitiesListener implements EntitiesListenerProvider {
         for (String word : cell.getWords()) {
             cell.getTranslation().put(word, translator.translate(word));
         }
+    }
+
+    @Override
+    public void saveContentToDB(MediaItem item) {
+        contentService.update(item.getId(), item.getContent());
+        item.setContent(null);
+        mediaItemService.update(item);
+    }
+
+    @Override
+    public void removeContentFromDB(MediaItem item) {
+        contentService.remove(item.getId());
     }
 
 }
