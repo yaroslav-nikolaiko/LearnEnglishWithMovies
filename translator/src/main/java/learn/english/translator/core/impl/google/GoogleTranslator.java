@@ -1,7 +1,8 @@
-package learn.english.translator.core.impl;
+package learn.english.translator.core.impl.google;
 
 import learn.english.translator.Translator;
 import learn.english.translator.core.dao.TranslatorDAO;
+import learn.english.translator.utils.Utils;
 
 import java.util.Collection;
 
@@ -10,9 +11,13 @@ import java.util.Collection;
  */
 public class GoogleTranslator implements Translator {
     TranslatorDAO translatorDAO;
+    String languageFrom;
+    String languageTo;
 
     public GoogleTranslator(TranslatorDAO translatorDAO){
         this.translatorDAO = translatorDAO;
+        this.languageFrom = Utils.languageFrom(translatorDAO.getDBName());
+        this.languageTo = Utils.languageTo(translatorDAO.getDBName());
     }
 
     @Override

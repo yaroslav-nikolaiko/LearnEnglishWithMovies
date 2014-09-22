@@ -1,4 +1,4 @@
-package learn.english.translator.core;
+package learn.english.translator.core.impl.yandex;
 
 import lombok.Data;
 

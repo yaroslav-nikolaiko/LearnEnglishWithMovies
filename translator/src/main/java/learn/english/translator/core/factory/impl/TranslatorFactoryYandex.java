@@ -3,7 +3,7 @@ package learn.english.translator.core.factory.impl;
 import learn.english.translator.Translator;
 import learn.english.translator.core.factory.TranslatorFactory;
 import learn.english.translator.core.dao.TranslatorDAO;
-import learn.english.translator.core.impl.YandexTranslator;
+import learn.english.translator.core.impl.yandex.YandexTranslator;
 import learn.english.translator.qualifier.service.Yandex;
 import learn.english.translator.utils.Utils;
 

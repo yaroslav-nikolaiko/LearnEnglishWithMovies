@@ -23,7 +23,7 @@
         <Root level="ERROR">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger level="DEBUG" name="lingvo-movie" additivity="false">
+        <Logger level="INFO" name="lingvo-movie" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="Trace"/>
         </Logger>

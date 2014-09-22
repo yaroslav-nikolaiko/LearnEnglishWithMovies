@@ -65,7 +65,7 @@ public class TextProcessor {
         });
         logMessage.setFinalVocabulary(vocabulary);
         logMessage.setNewWords(newWords);
-        logger.debug(logMessage);
+        logger.info(logMessage);
         //item.setWords(newWords.stream().map(w -> generateNewWordCell(w, item, dictionary)).collect(toSet()));
         item.setWords(wordsToSaveInItem);
         Translator translator = translatorManager.translator(dictionary.getLearningLanguage().toString(), dictionary.getNativeLanguage().toString());
