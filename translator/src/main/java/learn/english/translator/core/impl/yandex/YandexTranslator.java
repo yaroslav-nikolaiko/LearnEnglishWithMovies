@@ -65,6 +65,8 @@ public class YandexTranslator extends AbstractTranslator implements Translator{
 
     URL buildURL(List<String> textList) throws UnsupportedEncodingException, MalformedURLException {
         /*String pattern = "https://translate.yandex.net/api/v1.5/tr/translate?key=%s&lang=%s&text=%s"; */
+        /*second option(works even better, but only for one word) http://dictionary.yandex.net/dicservice/lookup?&lang=en-ru&text=pal
+          * for JSON use /dicservice.json/ */
         String protocol = "https";
         String host = "translate.yandex.net";
         String webPathPattern = "/api/v1.5/tr/translate?key=%s&lang=%s&text=%s";
