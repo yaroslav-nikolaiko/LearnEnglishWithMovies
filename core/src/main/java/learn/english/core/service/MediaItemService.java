@@ -15,6 +15,7 @@ import learn.english.model.entity.media.TVShow;
 import learn.english.model.utils.MediaItemType;
 import learn.english.translator.Translator;
 import learn.english.translator.core.TranslatorManager;
+import learn.english.translator.core.TranslatorManagerMongo;
 import learn.english.utils.LogTrace;
 
 import javax.ejb.EJB;
@@ -37,7 +38,8 @@ import java.util.*;
 public class MediaItemService extends AbstractService<MediaItem> {
     @EJB DictionaryService dictionaryService;
     @EJB TextProcessor textProcessor;
-    @EJB TranslatorManager translatorManager;
+    @EJB
+    TranslatorManagerMongo translatorManager;
 
 
     @Inject

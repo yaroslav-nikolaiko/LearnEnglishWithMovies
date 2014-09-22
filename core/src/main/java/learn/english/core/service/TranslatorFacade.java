@@ -2,6 +2,7 @@ package learn.english.core.service;
 
 import learn.english.translator.Translator;
 import learn.english.translator.core.TranslatorManager;
+import learn.english.translator.core.TranslatorManagerMongo;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,7 +18,7 @@ import javax.ws.rs.QueryParam;
 @Path("translator")
 public class TranslatorFacade {
     @EJB
-    TranslatorManager translatorManager;
+    TranslatorManagerMongo translatorManager;
     @GET
     @Path("{text}")
     public String translate(@PathParam("text")String text,@QueryParam("from") String languageFrom,@QueryParam("to") String languageTo) {

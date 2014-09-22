@@ -28,4 +28,17 @@ public class DatabaseProducer {
         }
         return null;
     }
+
+    @Produces @TranslatorDB
+    DB mongoProducerTranslator(){
+        String host = System.getenv("MONGODB_HOST");
+        Integer port = Integer.valueOf(System.getenv("MONGODB_PORT"));
+        try {
+            MongoClient mongo = new MongoClient(host, port);
+            return mongo.getDB("lingvo-movie-translator");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

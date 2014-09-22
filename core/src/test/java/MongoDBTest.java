@@ -47,4 +47,15 @@ public class MongoDBTest {
         while (cursor.hasNext())
             System.out.println(cursor.next());*/
     }
+
+    @Test
+    @Ignore
+    public void mongoParentTreeStructure() throws Exception{
+
+        MongoClient mongo = new MongoClient("localhost", 27017);
+        DB db = mongo.getDB("my-test-tree");
+
+        DBCollection table = db.getCollection("translation");
+
+    }
 }
