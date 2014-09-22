@@ -8,8 +8,7 @@ import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.WordCell;
 import learn.english.translator.Translator;
-import learn.english.translator.core.TranslatorManager;
-import learn.english.translator.core.TranslatorManagerMongo;
+import learn.english.translator.TranslatorManager;
 
 import javax.ejb.EJB;
 
@@ -18,7 +17,7 @@ import javax.ejb.EJB;
  */
 public class EntitiesListener implements EntitiesListenerProvider {
     @EJB
-    TranslatorManagerMongo translatorManager;
+    TranslatorManager translatorManager;
     @EJB
     DictionaryService dictionaryService;
     @EJB

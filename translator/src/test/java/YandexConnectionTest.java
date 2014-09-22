@@ -1,13 +1,10 @@
 import learn.english.translator.Translator;
-import learn.english.translator.core.YandexTranslator;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Created by yaroslav on 8/3/14.
@@ -19,7 +16,7 @@ public class YandexConnectionTest {
     public void $(){
 
 
-        try {
+/*        try {
             String http_proxy_str = System.getenv("http_proxy");
             String https_proxy_str = System.getenv("https_proxy");
             if(http_proxy_str!=null && ! http_proxy_str.isEmpty()){
@@ -40,8 +37,8 @@ public class YandexConnectionTest {
         }
 
         String word = "rebelling";
-        Translator translator = new YandexTranslator("en", "ru", new Properties());
-        System.out.println(translator.translate(word));
+        Translator translator = new YandexTranslatorOld("en", "ru", new Properties());
+        System.out.println(translator.translate(word));*/
     }
 
 }

@@ -9,8 +9,7 @@ import learn.english.model.utils.Language;
 import learn.english.parser.Text;
 import learn.english.parser.exception.ParserException;
 import learn.english.translator.Translator;
-import learn.english.translator.core.TranslatorManager;
-import learn.english.translator.core.TranslatorManagerMongo;
+import learn.english.translator.TranslatorManager;
 import learn.english.translator.lemmatization.Lemmatizator;
 import learn.english.utils.ConfigurationManager;
 import learn.english.utils.LogTrace;
@@ -19,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import java.util.HashSet;
@@ -35,7 +35,7 @@ import static java.util.stream.Collectors.toMap;
 public class TextProcessor {
     static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     @EJB
-    TranslatorManagerMongo translatorManager;
+    TranslatorManager translatorManager;
 
     public void computeWordCells(@NotNull MediaItem item, @NotNull Dictionary dictionary) {
         Lemmatizator lemmatizator = Lemmatizator.instance(dictionary.getLearningLanguage().toString());
