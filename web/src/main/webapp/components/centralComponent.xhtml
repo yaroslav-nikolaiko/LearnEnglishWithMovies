@@ -44,10 +44,14 @@
                     </p:outputLabel>
                 </p:column>
                 <p:column style="width:30%; text-align: right;">
+
                     <h:panelGroup id="translationWrapper">
-                    <p:outputLabel id="translation" value="#{cell.translation.get(cell.word)}" >
-                    </p:outputLabel>
+                    <p:commandLink id="translation" value="#{cell.translation.get(cell.word)}"
+                                    onclick="selectedTargetPickList()">
+                        <p:ajax event="click"  update="@([id$=advance-translation-list])"/>
+                    </p:commandLink>
                     </h:panelGroup>
+
                 </p:column>
             </p:pickList>
 

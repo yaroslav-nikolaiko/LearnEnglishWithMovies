@@ -1,6 +1,7 @@
 package learn.english.web.rest;
 
 import learn.english.model.entity.WordCell;
+import learn.english.model.entity.WordInfo;
 import learn.english.model.entity.wraper.WordCells;
 
 import javax.inject.Inject;
@@ -26,6 +27,10 @@ public class WordCellService implements Serializable {
 
     public void update(List<WordCell> wordCells){
         restService.path("wordcell/list").update(new WordCells(wordCells));
+    }
+
+    public WordInfo advanceTranslate(String word,String languageFrom, String languageTo ){
+        return restService.path("translator/advance").path(word).param("from", languageFrom).param("to", languageTo).get(WordInfo.class);
     }
 
 }

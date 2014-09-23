@@ -1,6 +1,7 @@
 package learn.english.translator.core.impl.google;
 
 import com.google.gson.Gson;
+import learn.english.model.entity.WordInfo;
 import learn.english.translator.Translator;
 import learn.english.translator.core.dao.TranslatorDAO;
 import learn.english.translator.core.impl.AbstractTranslator;
@@ -74,5 +75,10 @@ public class GoogleTranslator extends AbstractTranslator implements Translator {
         }
 
         return result.toString();
+    }
+
+    @Override
+    public WordInfo singleWordTranslate(String text) {
+        return null;
     }
 }

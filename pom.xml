@@ -10,9 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>utils</module>
+        <module>model</module>
         <module>parser</module>
         <module>translator</module>
-        <module>model</module>
         <module>core</module>
         <module>web</module>
     </modules>

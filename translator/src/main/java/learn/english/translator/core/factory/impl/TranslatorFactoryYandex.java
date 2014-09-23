@@ -14,6 +14,6 @@ import learn.english.translator.utils.Utils;
 public class TranslatorFactoryYandex implements TranslatorFactory {
     @Override
     public Translator getInstance(TranslatorDAO translatorDAO) {
-        return new YandexTranslator(translatorDAO, Utils.languageTo(translatorDAO.getDBName()));
+        return new YandexTranslator(translatorDAO);
     }
 }

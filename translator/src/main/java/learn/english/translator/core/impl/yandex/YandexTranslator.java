@@ -1,9 +1,11 @@
 package learn.english.translator.core.impl.yandex;
 
 import com.google.common.collect.Lists;
+import learn.english.model.entity.WordInfo;
 import learn.english.translator.Translator;
 import learn.english.translator.core.dao.TranslatorDAO;
 import learn.english.translator.core.impl.AbstractTranslator;
+import learn.english.translator.utils.Utils;
 import learn.english.utils.ConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,10 +30,13 @@ public class YandexTranslator extends AbstractTranslator implements Translator{
     static final String API_KEY = "trnsl.1.1.20140531T124615Z.286c638c7c6d12c2.7b0a3f481468b227ad9021cbdc2bee694ec79d35";
     static final int THRESHOLD = 1000;
     String languageTo;
+    YandexSingleWordTranslator singleWordTranslator;
 
-    public YandexTranslator(TranslatorDAO translatorDAO, String languageTo){
+    public YandexTranslator(TranslatorDAO translatorDAO){
         this.translatorDAO = translatorDAO;
-        this.languageTo = languageTo;
+        this.languageTo = Utils.languageTo(translatorDAO.getDBName());
+        String languageFrom = Utils.languageFrom(translatorDAO.getDBName());
+        singleWordTranslator = new YandexSingleWordTranslator(languageFrom, languageTo);
     }
 
     @Override
@@ -85,4 +90,8 @@ public class YandexTranslator extends AbstractTranslator implements Translator{
     }
 
 
+    @Override
+    public WordInfo singleWordTranslate(String text) {
+        return singleWordTranslator.lookup(text);
+    }
 }

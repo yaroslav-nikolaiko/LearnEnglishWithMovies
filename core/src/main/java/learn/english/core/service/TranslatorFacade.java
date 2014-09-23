@@ -1,5 +1,6 @@
 package learn.english.core.service;
 
+import learn.english.model.entity.WordInfo;
 import learn.english.translator.TranslatorManager;
 
 import javax.ejb.EJB;
@@ -22,5 +23,11 @@ public class TranslatorFacade {
     @Path("{text}")
     public String translate(@PathParam("text")String text,@QueryParam("from") String languageFrom,@QueryParam("to") String languageTo) {
        return translatorManager.translator(languageFrom, languageTo).translate(text);
+    }
+
+    @GET
+    @Path("advance/{text}")
+    public WordInfo advanceTranslate(@PathParam("text") String text, @QueryParam("from") String languageFrom, @QueryParam("to") String languageTo) {
+        return translatorManager.translator(languageFrom, languageTo).singleWordTranslate(text);
     }
 }

@@ -12,6 +12,10 @@ import org.primefaces.model.DualListModel;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -34,6 +38,7 @@ public @Data class WordsController implements Serializable {
     @Inject MediaItemService mediaItemService;
 
     private boolean unique;
+    String currentWord;
 
     Map<String, WordCell> words;
     Category leftCategory = Category.KNOWN;
@@ -124,6 +129,15 @@ public @Data class WordsController implements Serializable {
     }
 */
 
+    public WordInfo advanceTranslate() {
+        if(currentWord==null || currentWord.isEmpty())
+            return null;
+        Dictionary dictionary = sessionController.getCurrentDictionary();
+        String from = dictionary.getLearningLanguage().toString();
+        String to = dictionary.getNativeLanguage().toString();
+        return wordCellService.advanceTranslate(currentWord, from, to);
+    }
+
     public void onMouseOver(){
         mouseOver = true;
     }
@@ -131,6 +145,16 @@ public @Data class WordsController implements Serializable {
     public void onMouseOut(){
         mouseOver = false;
     }
+
+    public void setCurrentWord(String word){
+        this.currentWord = word;
+    }
+
+/*    public void llistener(ActionEvent event){
+        FacesContext context = FacesContext.getCurrentInstance();
+        WordCell data = context.getApplication().evaluateExpressionGet(context, "#{cell}", WordCell.class);
+        System.out.println(data);
+    }*/
 
     @Produces
     public Map<String, WordCell>  getWords() {

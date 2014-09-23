@@ -1,5 +1,7 @@
 package learn.english.translator;
 
+import learn.english.model.entity.WordInfo;
+
 import java.util.Collection;
 
 /**
@@ -7,5 +9,6 @@ import java.util.Collection;
  */
 public interface Translator {
     String translate(String text);
+    WordInfo singleWordTranslate(String text);
     void translateNewWords(Collection<String> textList);
 }

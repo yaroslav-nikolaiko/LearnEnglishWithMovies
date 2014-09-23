@@ -9,6 +9,21 @@
 
 <h:head>
     <script type="text/javascript">
+
+        selectedTargetPickList = function() {
+            var selectedTarget = [];
+            this.targetList = this.jq.find('.ui-picklist-target');
+            this.targetList.children("li.ui-state-highlight").
+                    each(function (i) {
+                        selectedTarget.push(this.value);
+                    });
+
+            return selectedTarget;
+        };
+    </script>
+
+
+    <script type="text/javascript">
         function handleLoginRequest(xhr, status, args) {
             if(args.validationFailed || !args.crossValidation) {
                 PF('dlg').jq.effect("shake", {times:5}, 100);
@@ -149,7 +164,7 @@
 
         <p:layoutUnit id="right" position="east" size="250" header="Gallery" resizable="true" collapsible="true"
                       style="text-align:center">
-
+            <ui:include src="components/advanceTranslation.xhtml"/>
 
         </p:layoutUnit>
 
