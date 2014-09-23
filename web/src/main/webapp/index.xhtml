@@ -8,20 +8,6 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <script type="text/javascript">
-
-        selectedTargetPickList = function() {
-            var selectedTarget = [];
-            this.targetList = this.jq.find('.ui-picklist-target');
-            this.targetList.children("li.ui-state-highlight").
-                    each(function (i) {
-                        selectedTarget.push(this.value);
-                    });
-
-            return selectedTarget;
-        };
-    </script>
-
 
     <script type="text/javascript">
         function handleLoginRequest(xhr, status, args) {

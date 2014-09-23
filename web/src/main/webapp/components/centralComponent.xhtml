@@ -47,7 +47,7 @@
 
                     <h:panelGroup id="translationWrapper">
                     <p:commandLink id="translation" value="#{cell.translation.get(cell.word)}"
-                                    onclick="selectedTargetPickList()">
+                             >
                         <p:ajax event="click"  update="@([id$=advance-translation-list])"/>
                     </p:commandLink>
                     </h:panelGroup>
