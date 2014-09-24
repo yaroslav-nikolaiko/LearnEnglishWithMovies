@@ -30,6 +30,7 @@ public @Data class WordInfo {
         String partOfSpeech;
         @XmlElement(name="syn")
         List<Text> synonyms;
+        List<Text> mean;
         @XmlElement(name="ex")
         List<Examples> examples;
     }

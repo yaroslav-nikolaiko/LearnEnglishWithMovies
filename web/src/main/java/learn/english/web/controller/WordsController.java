@@ -58,9 +58,9 @@ public @Data class WordsController implements Serializable {
                     collect(toMap(WordCell::getWord, cell -> cell));
             updateDualList();
         }else{
-
-            words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
-                    distinct().collect(toMap(WordCell::getWord, cell -> cell));
+/*            words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
+                    distinct().collect(toMap(WordCell::getWord, cell -> cell));*/
+            words = mediaItemService.getWords(selectedItems).stream().collect(toMap(WordCell::getWord, cell -> cell));
             updateDualList();
         }
     }
@@ -97,7 +97,43 @@ public @Data class WordsController implements Serializable {
         //logger.debug(DictionaryMessage.update(currentDictionary));
     }
 
-/*
+
+
+    public WordInfo advanceTranslate() {
+        if(currentWord==null || currentWord.isEmpty())
+            return null;
+        Dictionary dictionary = sessionController.getCurrentDictionary();
+        String from = dictionary.getLearningLanguage().toString();
+        String to = dictionary.getNativeLanguage().toString();
+        return wordCellService.advanceTranslate(currentWord, from, to);
+    }
+
+    public void advanceTranslationListener(){
+        String word = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("word");
+        currentWord = word;
+    }
+
+    public void onMouseOver(){
+        mouseOver = true;
+    }
+
+    public void onMouseOut(){
+        mouseOver = false;
+    }
+
+
+
+    @Produces
+    public Map<String, WordCell>  getWords() {
+        return words != null ? words : new HashMap<>();
+    }
+
+
+
+
+
+
+    /*
     public String translate(String word){
 */
 /*        if(! mouseOver)
@@ -128,37 +164,5 @@ public @Data class WordsController implements Serializable {
         return false;
     }
 */
-
-    public WordInfo advanceTranslate() {
-        if(currentWord==null || currentWord.isEmpty())
-            return null;
-        Dictionary dictionary = sessionController.getCurrentDictionary();
-        String from = dictionary.getLearningLanguage().toString();
-        String to = dictionary.getNativeLanguage().toString();
-        return wordCellService.advanceTranslate(currentWord, from, to);
-    }
-
-    public void onMouseOver(){
-        mouseOver = true;
-    }
-
-    public void onMouseOut(){
-        mouseOver = false;
-    }
-
-    public void setCurrentWord(String word){
-        this.currentWord = word;
-    }
-
-/*    public void llistener(ActionEvent event){
-        FacesContext context = FacesContext.getCurrentInstance();
-        WordCell data = context.getApplication().evaluateExpressionGet(context, "#{cell}", WordCell.class);
-        System.out.println(data);
-    }*/
-
-    @Produces
-    public Map<String, WordCell>  getWords() {
-        return words != null ? words : new HashMap<>();
-    }
 
 }

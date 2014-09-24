@@ -12,33 +12,34 @@
 <h:body>
     <ui:composition>
         <h:form id="advance-translation-list-form" >
-            <p:dataList id="advance-translation-list" value="#{wordsController.advanceTranslate().definitions}" var="item">
-                <f:facet name="header">
-                    #{item.text}, #{item.partOfSpeech}
-                </f:facet>
-                <p:dataList value="#{item.translations}" var="tr">
-                    <f:facet name="header">
-                        #{tr.text}, #{tr.partOfSpeech}
-                    </f:facet>
+            <h:dataTable value="#{wordsController.advanceTranslate().definitions}" var="item">
+                <h:column >
+                    <h:outputText value="#{item.text}"  style="color: #000000" /> <br/>
+                    /<h:outputText value="#{item.partOfSpeech}"  style="color: #a9815d" />/
+                    <h:dataTable value="#{item.translations}" var="tr">
+                        <h:column >
+                            <h:outputText value="#{tr.text}" /> &nbsp;
+                            <ui:repeat value="#{tr.synonyms}" var="syn">
+                                <h:outputText value="#{syn.text}" /> &nbsp;
+                            </ui:repeat>
+                            <br/>
+                            (&nbsp;<ui:repeat value="#{tr.mean}" var="mean">
+                                <h:outputText value="#{mean.text}" style="color: antiquewhite"/> &nbsp;
+                            </ui:repeat>)
+                            <br/>
+                            <h:dataTable value="#{tr.examples}" var="ex">
+                                <h:column>
+                                    <h:outputText value="#{ex.text}" style="color: #a298fa"/>  -
+                                </h:column>
+                                <h:column>
+                                    #{ex.translation.text}
+                                </h:column>
+                            </h:dataTable>
+                        </h:column>
+                    </h:dataTable>
+                </h:column>
+            </h:dataTable>
 
-
-                    <p:dataList value="#{tr.synonyms}" var="syn">
-                        <f:facet name="header">
-                            synonyms:
-                        </f:facet>
-                        #{syn.text}
-                    </p:dataList>
-                    <p:dataList value="#{tr.examples}" var="ex">
-                        <f:facet name="header">
-                            examples:
-                        </f:facet>
-                        #{ex.text},<p/>
-                        #{ex.translation}
-                    </p:dataList>
-
-
-                </p:dataList>
-            </p:dataList>
         </h:form>
     </ui:composition>
 </h:body>

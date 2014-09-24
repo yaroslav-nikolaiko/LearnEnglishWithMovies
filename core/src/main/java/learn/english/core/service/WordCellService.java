@@ -42,6 +42,17 @@ public class WordCellService extends AbstractService<WordCell> {
     }
 
     @GET
+    public WordCells getWords(@QueryParam("miID")List<Long> mediaItemIDs) {
+        Set<WordCell> result = new HashSet<>();
+        for (Long mediaItemID : mediaItemIDs) {
+            MediaItem item = mediaItemService.find(mediaItemID);
+            result.addAll(item.getWords());
+        }
+        return new WordCells(result);
+    }
+
+
+    @GET
     @Path("unique/{itemID}")
     public WordCells getUniqueWords(@PathParam("itemID")Long mediaItemID) {
         MediaItem item = mediaItemService.find(mediaItemID);

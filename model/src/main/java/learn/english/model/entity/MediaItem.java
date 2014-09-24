@@ -12,7 +12,10 @@ import org.eclipse.persistence.oxm.annotations.XmlDiscriminatorNode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -29,6 +32,7 @@ import java.util.*;
 @XmlSeeAlso({Book.class, Movie.class, Song.class, TVShow.class})
 @XmlDiscriminatorNode("@classifier")
 @EntityListeners({MediaItemListener.class})
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class MediaItem implements Persistent {
     public static final String FIND_BY_WORD_CELL = "FIND_BY_WORD_CELL";
     @Id
@@ -37,9 +41,10 @@ public abstract class MediaItem implements Persistent {
     @Column(nullable = false)
     private String name;
     private String filename;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
                                             inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
+    @XmlTransient
     private Set<WordCell> words;
     @Transient
     private byte[] content;

@@ -12,10 +12,12 @@
 <h:body>
     <ui:composition>
         <h:form id="words-list-form" >
-            <p:pickList id="pick-list" value="#{wordsController.dualList}" var="cell" effect="bounce"
+            <p:pickList
+                    id="pick-list" value="#{wordsController.dualList}" var="cell" effect="bounce"
                         itemValue="#{cell}" itemLabel="#{cell.word}"
                         showSourceControls="true" showTargetControls="true" showCheckbox="true" converter="#{wordCellConverter}"
                         showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
+
                         >
 
                 <f:facet name="sourceCaption">
@@ -39,25 +41,32 @@
                 <p:ajax event="transfer" listener="#{wordsController.onTransfer}" />
 
                 <p:column style="width:70%;">
-                    <p:outputLabel value="#{cell.word}"  >
+                    <p:outputLabel value="#{cell.word}"  onclick="AdvanceTranslation(this)">
 
                     </p:outputLabel>
                 </p:column>
                 <p:column style="width:30%; text-align: right;">
 
                     <h:panelGroup id="translationWrapper">
-                    <p:commandLink id="translation" value="#{cell.translation.get(cell.word)}"
+                    <p:outputLabel id="translation" value="#{cell.translation.get(cell.word)}"
                              >
-                        <p:ajax event="click"  update="@([id$=advance-translation-list])"/>
-                    </p:commandLink>
+                    </p:outputLabel>
                     </h:panelGroup>
 
                 </p:column>
             </p:pickList>
 
 
-
+            <p:remoteCommand name="updateCommand" action="#{wordsController.advanceTranslationListener}" update="@([id$=advance-translation-list-form])"/>
         </h:form>
+        <script type="text/javascript">
+            AdvanceTranslation = function(element) {
+                //console.log("My Log -> "+element.textContent);
+                updateCommand([{name:'word', value:element.textContent}]);
+            }
+        </script>
+
+
     </ui:composition>
 </h:body>
 </html>
