@@ -28,4 +28,10 @@ public class LiveSubtitlesService {
         System.out.println(time);
         return Response.ok().build();
     }
+
+    @PUT
+    public Response put(String time) {
+        System.out.println(time);
+        return Response.ok().build();
+    }
 }

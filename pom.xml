@@ -15,6 +15,7 @@
         <module>translator</module>
         <module>core</module>
         <module>web</module>
+        <module>vlc-plugin</module>
     </modules>
 
     <properties>
