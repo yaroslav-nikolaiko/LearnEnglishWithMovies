@@ -2,12 +2,14 @@ package learn.english.core.authentication.impl;
 
 import com.google.common.cache.*;
 import learn.english.core.authentication.AuthenticationProvider;
+import learn.english.core.authentication.SessionExpired;
 import learn.english.core.realtime.service.LiveContext;
 import learn.english.core.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
 import java.util.*;
@@ -26,10 +28,10 @@ public class AuthenticationProviderImpl implements AuthenticationProvider{
     private static final long EXPIRE_TIME = 5; //in hours
     @EJB
     UserService userService;
-    @Inject
-    LiveContext liveContext;
     // An authentication token storage which stores <auth_token, username>. Use guava Cache, to perform  expireAfterAccess
     Cache<String, String> authorizationTokensStorage;
+    @Inject @SessionExpired
+    Event<String> sessionExpiredEvent;
 
     @PostConstruct
     void init(){
@@ -39,7 +41,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider{
                 .expireAfterAccess(EXPIRE_TIME, TimeUnit.HOURS).removalListener(notification -> {
                     Object username = notification.getValue();
                     if(username!=null)
-                        liveContext.remove(username.toString());
+                        sessionExpiredEvent.fire(username.toString());
                 })
                 .build();
     }
@@ -71,7 +73,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider{
 
     @Override
     public String getUserName(String authToken) {
-        return authorizationTokensStorage.getIfPresent(authToken);
+        return authorizationTokensStorage.asMap().get(authToken);
     }
 
     @Override

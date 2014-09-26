@@ -1,7 +1,10 @@
 package learn.english.core.realtime.service;
 
+import learn.english.core.authentication.SessionExpired;
+
 import javax.ejb.Remove;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.HashMap;
@@ -30,7 +33,7 @@ public class LiveContext {
         return null;
     }
 
-    public void remove(String username){
+    public void remove(@Observes @SessionExpired String username){
         LiveSubtitlesProcessor processor = data.remove(username);
         if(processor!=null)
             processor.destroy();

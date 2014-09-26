@@ -21,8 +21,8 @@ public class RestClient {
     protected WebTarget target;
     String auth_token;
 
-    private static final String name = "ivan";
-    private static final String password = "ivan";
+    private static final String name = "admin";
+    private static final String password = "admin";
 
 
     public void execute(TransferData data){
