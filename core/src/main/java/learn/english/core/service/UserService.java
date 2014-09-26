@@ -1,5 +1,7 @@
 package learn.english.core.service;
 
+import learn.english.core.authentication.AuthenticationProvider;
+import learn.english.core.authentication.HTTPHeaderNames;
 import learn.english.core.validation.ExistInDB;
 import learn.english.core.exception.EJBIllegalArgumentException;
 import learn.english.core.validation.ValidationHandlerEjb;
@@ -12,7 +14,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
+import javax.security.auth.login.LoginException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -27,13 +32,11 @@ import java.net.URI;
 @ValidationHandlerEjb @LogTrace
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
-
     @Inject
     public UserService(EntityManager em) {
         super(User.class);
         this.em = em;
     }
-
 
     @POST
     public Response addToDataBase(User entity) {
@@ -47,16 +50,20 @@ public class UserService extends AbstractService<User> {
 
     @GET
     @Path("name/{name}")
-    public String nameExist(@PathParam("name") String name){
+    public Boolean nameExist(@PathParam("name") String name){
         Query query = buildSimpleQuery(User.COUNT_BY_NAME, name);
-        return String.valueOf((Long) query.getSingleResult() > 0);
+        return (Long) query.getSingleResult() > 0;
     }
 
     @GET
     @Path("email/{email}")
-    public String emailExist(@PathParam("email")String email){
+    public Boolean emailExist(@PathParam("email")String email){
         Query query = buildSimpleQuery(User.COUNT_BY_EMAIL, email);
-        return String.valueOf((Long) query.getSingleResult() > 0);
+        return (Long) query.getSingleResult() > 0;
+    }
+
+    public String getPassword(String name){
+        return singeResult(User.FIND_BY_NAME, name).getPassword();
     }
 
 

@@ -20,10 +20,12 @@ import java.util.List;
 @NamedQueries({@NamedQuery(name=User.FIND_BY_NAME_AND_PASSWORD, query = "SELECT u from User u WHERE u.name=?1 AND u.password=?2"),
                @NamedQuery(name=User.COUNT_BY_NAME, query = "SELECT COUNT(u.name) FROM User u WHERE u.name=?1"),
                @NamedQuery(name=User.COUNT_BY_EMAIL, query = "SELECT COUNT(u.email) FROM User u WHERE u.email=?1"),
-               @NamedQuery(name=User.FIND_BY_DICTIONARY, query = "SELECT u from User u WHERE ?1 MEMBER OF u.dictionaries")})
+               @NamedQuery(name=User.FIND_BY_DICTIONARY, query = "SELECT u from User u WHERE ?1 MEMBER OF u.dictionaries"),
+               @NamedQuery(name=User.FIND_BY_NAME, query = "SELECT u from User u WHERE u.name=?1")})
 @Data @ToString(of = {"name"}) @EqualsAndHashCode(of = {"name"})
 public class User implements Persistent {
     public static final String FIND_BY_NAME_AND_PASSWORD = "User.findByLoginAndPassword";
+    public static final String FIND_BY_NAME = "User.FIND_BY_NAME";
     public static final String COUNT_BY_NAME = "User.countByLogin";
     public static final String COUNT_BY_EMAIL = "User.countByEmail";
     public static final String FIND_BY_DICTIONARY = "User.FIND_BY_DICTIONARY";

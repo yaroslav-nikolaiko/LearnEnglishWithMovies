@@ -15,6 +15,7 @@ public class VlcPlugin {
     private Label headerLabel;
     private Label statusLabel;
     private Panel controlPanel;
+    Job job = new Job();
 
     public VlcPlugin(){
         prepareGUI();
@@ -56,7 +57,12 @@ public class VlcPlugin {
         Button submitButton = new Button("Submit");
         Button cancelButton = new Button("Cancel");
 
-        okButton.addActionListener(new StartJobAction());
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                job.start();
+            }
+        });
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +72,7 @@ public class VlcPlugin {
 
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                job.stop();
                 statusLabel.setText("Cancel Button clicked.");
             }
         });
