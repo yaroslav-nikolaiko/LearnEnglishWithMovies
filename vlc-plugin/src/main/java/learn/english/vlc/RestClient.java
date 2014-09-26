@@ -35,7 +35,7 @@ public class RestClient {
         Form form = new Form();
         form.param("name", name);
         form.param("password", password);
-        Response response = this.path("login").target.request(MediaType.APPLICATION_JSON_TYPE).
+        Response response = this.path("user").path("login").target.request(MediaType.APPLICATION_JSON_TYPE).
                 post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
         auth_token = response.getHeaderString("auth_token");
         System.out.println("Login successful, auth_token = "+auth_token);

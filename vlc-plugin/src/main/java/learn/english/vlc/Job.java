@@ -15,15 +15,26 @@ public class Job {
     SendRequest task;
     RestClient client = new RestClient();
 
+    public Job() {
+        execute();
+    }
+
     public void start(){
-        terminated = false;
-        timer = new Timer();
-        task = new SendRequest();
-        timer.schedule(task, 0, 2000);
+        if(terminated){
+            terminated = false;
+            execute();
+        }
+
     }
 
     public void stop(){
         terminated = true;
+    }
+
+    void execute(){
+        timer = new Timer();
+        task = new SendRequest();
+        timer.schedule(task, 0, 2000);
     }
 
     class SendRequest extends TimerTask {

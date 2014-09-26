@@ -33,9 +33,23 @@ import java.net.URI;
 @ApplicationException(rollback = false)
 public class UserService extends AbstractService<User> {
     @Inject
+    AuthenticationProvider authenticationProvider;
+    @Inject
     public UserService(EntityManager em) {
         super(User.class);
         this.em = em;
+    }
+
+    @POST
+    @Path("login")
+    @Consumes("application/x-www-form-urlencoded")
+    public Response login(@FormParam("name") String name, @FormParam("password") String password) {
+        try {
+            String auth_token = authenticationProvider.login(name, password);
+            return Response.ok().header(HTTPHeaderNames.AUTH_TOKEN, auth_token).build();
+        } catch (LoginException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
     }
 
     @POST
