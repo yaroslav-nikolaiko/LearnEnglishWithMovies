@@ -13,7 +13,7 @@ import java.net.URI;
 /**
  * Created by yaroslav on 9/25/14.
  */
-public class RestClient {
+public class ServerRestClient {
     private static final String SERVICE_HOST = "http://tevatron.ddns.ukrtel.net/lingvo-movie-core/rest";
     private static final Integer SERVICE_PORT = 80;
     protected URI uri = UriBuilder.fromUri(SERVICE_HOST).port(SERVICE_PORT).build();
@@ -25,10 +25,13 @@ public class RestClient {
     private static final String password = "admin";
 
 
-    public void execute(TransferData data){
+    public void execute(VlcStatusData data){
         if(auth_token==null)
             login();
-        this.path("live").update(data.getTime());
+        if(data!=null)
+            this.path("live").update(data);
+        else
+            System.out.println("VlcStatusData = null. Please make sure VLC Server is running");
     }
 
     public void login(){
@@ -42,24 +45,12 @@ public class RestClient {
     }
 
 
-    RestClient path(String path){
+    ServerRestClient path(String path){
         if(target != null)
             target = target.path(path);
         else
             target = client.target(uri).path(path);
         return this;
-    }
-
-    RestClient param(String name, Object... values) {
-        target = target.queryParam(name, values);
-        return this;
-    }
-
-    <T> T get(Class<T> entityClass){
-        //System.out.println("Get Query "+target.getUri());
-        Response response = target.request(MediaType.APPLICATION_JSON).header("auth_token", auth_token).get();
-        target = null;
-        return response.readEntity(entityClass);
     }
 
     <T> Response update(T entity){

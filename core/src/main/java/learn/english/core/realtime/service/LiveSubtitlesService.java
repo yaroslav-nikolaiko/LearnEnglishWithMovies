@@ -8,6 +8,7 @@ import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.WordCell;
 import learn.english.translator.Translator;
 import learn.english.utils.LogTrace;
+import learn.english.vlc.VlcStatusData;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,20 +32,12 @@ public class LiveSubtitlesService {
     LiveContext liveContext;
     @Inject
     AuthenticationProvider authenticationProvider;
-    @GET
-    @Path("{time}")
-    public Response get(@PathParam("time") String time, @Context HttpHeaders httpHeaders) {
-        String auth_token = httpHeaders.getHeaderString(HTTPHeaderNames.AUTH_TOKEN);
-        String username = authenticationProvider.getUserName(auth_token);
-        liveContext.getLiveProcessor(username).execute(time);
-        return Response.ok().build();
-    }
 
     @PUT
-    public Response put(String time, @Context HttpHeaders httpHeaders) {
+    public Response put(VlcStatusData vlcStatus, @Context HttpHeaders httpHeaders) {
         String auth_token = httpHeaders.getHeaderString(HTTPHeaderNames.AUTH_TOKEN);
         String username = authenticationProvider.getUserName(auth_token);
-        liveContext.getLiveProcessor(username).execute(time);
+        liveContext.getLiveProcessor(username).execute(vlcStatus);
         return Response.ok().build();
     }
 }

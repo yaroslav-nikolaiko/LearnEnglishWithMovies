@@ -1,0 +1,107 @@
+<root>
+    <fullscreen>false</fullscreen>
+    <aspectratio>default</aspectratio>
+    <audiodelay>0</audiodelay>
+    <apiversion>3</apiversion>
+    <time>4</time>
+    <volume>174</volume>
+    <length>1323</length>
+    <random>false</random>
+    <audiofilters>
+        <filter_0/>
+    </audiofilters>
+    <rate>1</rate>
+    <videoeffects>
+        <hue>0</hue>
+        <saturation>1</saturation>
+        <contrast>1</contrast>
+        <brightness>1</brightness>
+        <gamma>1</gamma>
+    </videoeffects>
+    <state>paused</state>
+    <loop>false</loop>
+    <version>2.0.8 Twoflower</version>
+    <position>0.0037019012961537</position>
+    <repeat>false</repeat>
+    <subtitledelay>0</subtitledelay>
+    <equalizer/>
+    <information>
+        <category name="meta">
+            <info name="showName">Two And A Half Men</info>
+            <info name="title">
+                Two and a Half Men (2006) - Release for HDCLUB by Volshebnik
+            </info>
+            <info name="filename">
+                Two and a Half Men (2006) - Release for HDCLUB by Volshebnik
+            </info>
+            <info name="episodeNumber">08</info>
+            <info name="seasonNumber">04</info>
+        </category>
+        <category name="Stream 0">
+            <info name="Type">Video</info>
+            <info name="Frame rate">23.976216</info>
+            <info name="Decoded format">Planar 4:2:0 YUV</info>
+            <info name="Codec">H264 - MPEG-4 AVC (part 10) (avc1)</info>
+            <info name="Language">English</info>
+            <info name="Resolution">1280x718</info>
+        </category>
+        <category name="Stream 1">
+            <info name="Bitrate">192 kb/s</info>
+            <info name="Type">Audio</info>
+            <info name="Channels">Stereo</info>
+            <info name="Sample rate">48000 Hz</info>
+            <info name="Language">Русский</info>
+            <info name="Codec">A52 Audio (aka AC3) (a52 )</info>
+        </category>
+        <category name="Stream 3">
+            <info name="Type">Audio</info>
+            <info name="Description">AC3 2.0ch 192 kbps - Многоголосый, K1</info>
+            <info name="Channels">2</info>
+            <info name="Sample rate">48000 Hz</info>
+            <info name="Language">українська мова</info>
+            <info name="Codec">A52 Audio (aka AC3) (a52 )</info>
+        </category>
+        <category name="Stream 5">
+            <info name="Type">Subtitle</info>
+            <info name="Language">English</info>
+            <info name="Codec">Text subtitles with various tags (subt)</info>
+        </category>
+        <category name="Stream 4">
+            <info name="Type">Audio</info>
+            <info name="Description">AAC 2.0ch - English</info>
+            <info name="Channels">2</info>
+            <info name="Sample rate">48000 Hz</info>
+            <info name="Language">English</info>
+            <info name="Codec">MPEG AAC Audio (mp4a)</info>
+        </category>
+        <category name="Stream 2">
+            <info name="Type">Audio</info>
+            <info name="Description">AC3 2.0ch 192 kbps - Многоголосый, НТВ</info>
+            <info name="Channels">2</info>
+            <info name="Sample rate">48000 Hz</info>
+            <info name="Language">Русский</info>
+            <info name="Codec">A52 Audio (aka AC3) (a52 )</info>
+        </category>
+    </information>
+    <stats>
+        <lostabuffers>2</lostabuffers>
+        <readpackets>541</readpackets>
+        <lostpictures>0</lostpictures>
+        <demuxreadbytes>1826437</demuxreadbytes>
+        <demuxbitrate>0.49594855308533</demuxbitrate>
+        <playedabuffers>172</playedabuffers>
+        <demuxcorrupted>0</demuxcorrupted>
+        <sendbitrate>0</sendbitrate>
+        <sentbytes>0</sentbytes>
+        <displayedpictures>107</displayedpictures>
+        <demuxreadpackets>0</demuxreadpackets>
+        <sentpackets>0</sentpackets>
+        <inputbitrate>0.58840173482895</inputbitrate>
+        <demuxdiscontinuity>0</demuxdiscontinuity>
+        <averagedemuxbitrate>0</averagedemuxbitrate>
+        <decodedvideo>125</decodedvideo>
+        <averageinputbitrate>0</averageinputbitrate>
+        <readbytes>2310416</readbytes>
+        <decodedaudio>172</decodedaudio>
+    </stats>
+</root>

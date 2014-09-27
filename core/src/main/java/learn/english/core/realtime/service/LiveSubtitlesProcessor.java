@@ -1,5 +1,7 @@
 package learn.english.core.realtime.service;
 
+import learn.english.vlc.VlcStatusData;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
@@ -9,8 +11,8 @@ import javax.ejb.Stateful;
 @Stateful
 public class LiveSubtitlesProcessor {
     int counter;
-    public void execute(String time){
-        System.out.println("Time : "+time);
+    public void execute(VlcStatusData vlcStatus){
+        System.out.println("Time : "+vlcStatus.getTime());
         System.out.println("Counter : "+counter++);
     }
 

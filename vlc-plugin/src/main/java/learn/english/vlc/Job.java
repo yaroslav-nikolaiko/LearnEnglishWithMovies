@@ -1,7 +1,5 @@
 package learn.english.vlc;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +11,8 @@ public class Job {
     boolean terminated;
     Timer timer;
     SendRequest task;
-    RestClient client = new RestClient();
+    ServerRestClient serviceClient = new ServerRestClient();
+    VlcRestClient vlcClient = new VlcRestClient();
 
     public Job() {
         execute();
@@ -41,7 +40,7 @@ public class Job {
         public void run() {
             if(terminated)
                 cancel();
-            client.execute(new TransferData(String.valueOf(counter++)));
+            serviceClient.execute(vlcClient.getStatus());
         }
     }
 }
