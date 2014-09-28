@@ -1,12 +1,10 @@
 package learn.english.web.rest;
 
 import learn.english.model.entity.WordCell;
-import learn.english.model.entity.WordInfo;
-import learn.english.model.entity.wraper.WordCells;
+import learn.english.model.dto.WordInfo;
+import learn.english.model.dto.WordCells;
 
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import java.io.Serializable;
 import java.util.List;
 

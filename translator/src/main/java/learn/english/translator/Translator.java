@@ -1,6 +1,6 @@
 package learn.english.translator;
 
-import learn.english.model.entity.WordInfo;
+import learn.english.model.dto.WordInfo;
 
 import java.util.Collection;
 

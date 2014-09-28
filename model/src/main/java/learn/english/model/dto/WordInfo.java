@@ -1,4 +1,4 @@
-package learn.english.model.entity;
+package learn.english.model.dto;
 
 import lombok.Data;
 
@@ -13,6 +13,15 @@ import java.util.List;
 public @Data class WordInfo {
     @XmlElement(name="def")
     List<Definition> definitions;
+
+    public String summary() {
+        return "Summary from WordInfo";
+    }
+
+    public String shortSummary(){
+        return "Short summary from WordInfo";
+    }
+
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public @Data static class Definition{

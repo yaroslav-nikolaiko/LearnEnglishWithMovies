@@ -1,5 +1,6 @@
 package learn.english.web.controller;
 
+import learn.english.model.dto.WordInfo;
 import learn.english.model.entity.*;
 import learn.english.model.entity.Dictionary;
 import learn.english.web.rest.MediaItemService;
@@ -13,9 +14,6 @@ import org.primefaces.model.DualListModel;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;

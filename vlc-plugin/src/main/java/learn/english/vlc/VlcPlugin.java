@@ -53,32 +53,26 @@ public class VlcPlugin {
     private void showButtonDemo(){
         headerLabel.setText("Control in action: Button");
 
-        Button okButton = new Button("OK");
-        Button submitButton = new Button("Submit");
-        Button cancelButton = new Button("Cancel");
+        Button okButton = new Button("Start");
+        Button cancelButton = new Button("Pause");
 
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 job.start();
+                statusLabel.setText("Start Button clicked.");
             }
         });
 
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                statusLabel.setText("Submit Button clicked.");
-            }
-        });
 
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 job.stop();
-                statusLabel.setText("Cancel Button clicked.");
+                statusLabel.setText("Pause Button clicked.");
             }
         });
 
         controlPanel.add(okButton);
-        controlPanel.add(submitButton);
         controlPanel.add(cancelButton);
 
         mainFrame.setVisible(true);

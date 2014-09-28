@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ public  class SubtitlesUnit implements Comparable<SubtitlesUnit>{
      */
     private List<String> words;
     private Integer startTime;
+
 
     public SubtitlesUnit(String fullText) {
         this.fullText = fullText;

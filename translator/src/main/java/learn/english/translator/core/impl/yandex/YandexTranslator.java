@@ -1,14 +1,11 @@
 package learn.english.translator.core.impl.yandex;
 
 import com.google.common.collect.Lists;
-import learn.english.model.entity.WordInfo;
+import learn.english.model.dto.WordInfo;
 import learn.english.translator.Translator;
 import learn.english.translator.core.dao.TranslatorDAO;
 import learn.english.translator.core.impl.AbstractTranslator;
 import learn.english.translator.utils.Utils;
-import learn.english.utils.ConfigurationManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,10 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by yaroslav on 9/22/14.
@@ -92,6 +87,17 @@ public class YandexTranslator extends AbstractTranslator implements Translator{
 
     @Override
     public WordInfo singleWordTranslate(String text) {
-        return singleWordTranslator.lookup(text);
+        WordInfo wordInfo = singleWordTranslator.lookup(text);
+        if(wordInfo==null){
+            wordInfo = new WordInfo();
+            WordInfo.Definition definition = new WordInfo.Definition();
+            WordInfo.Translation translation = new WordInfo.Translation();
+            translation.setText(translate(text));
+            definition.setText(text);
+            definition.setTranslations(Arrays.asList(translation));
+            wordInfo.setDefinitions(Arrays.asList(definition));
+
+        }
+        return wordInfo;
     }
 }

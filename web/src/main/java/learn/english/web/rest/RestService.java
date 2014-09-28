@@ -9,6 +9,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -71,6 +72,12 @@ public class RestService implements Serializable {
         Response response = target.request().put(Entity.entity(entity, MediaType.APPLICATION_JSON));
         target = null;
         return response;
+    }
+
+    public String login(Form form){
+        Response response = client.target(uri).path("user").path("login").request(MediaType.APPLICATION_JSON_TYPE).
+                post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+        return response.getHeaderString("auth_token");
     }
 
 }

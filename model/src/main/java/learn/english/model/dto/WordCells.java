@@ -1,4 +1,4 @@
-package learn.english.model.entity.wraper;
+package learn.english.model.dto;
 
 import learn.english.model.entity.WordCell;
 import lombok.AllArgsConstructor;

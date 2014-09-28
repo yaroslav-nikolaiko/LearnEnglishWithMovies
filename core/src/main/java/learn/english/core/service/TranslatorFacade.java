@@ -1,11 +1,10 @@
 package learn.english.core.service;
 
-import learn.english.model.entity.WordInfo;
+import learn.english.model.dto.WordInfo;
 import learn.english.translator.TranslatorManager;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;

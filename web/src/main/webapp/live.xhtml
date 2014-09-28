@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<f:view renderKitId="PRIMEFACES_MOBILE">
+    <h:head></h:head>
+    <h:body>
+        <pm:page id="customerListing">
+            <pm:header>
+                Acme Pools
+            </pm:header>
+
+            <pm:content id="login-component">
+                <p:commandButton value="Login" onclick="PF('live-login-dlg-widget').show();" type="button" rendered="#{liveController.notLoggedIn}"/>
+                <p:dialog header="Login" widgetVar="live-login-dlg-widget" showEffect="pop">
+                    <h:form id="jsfexample">
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                This is a basic form component
+                            </f:facet>
+                            <h:outputLabel for="name" value="Name" />
+                            <p:inputText id="name" value="#{loginForm.name}" label="name"/>
+
+                            <h:outputLabel for="password" value="Password" />
+                            <h:inputSecret id="password" value="#{loginForm.password}" label="password"/>
+                            <p:messages />
+
+                            <p:commandButton actionListener="#{liveController.login}" value="Login"
+                                             icon="ui-icon-check" style="margin:0"
+                                             oncomplete="PF('live-login-dlg-widget').hide()"
+                                             update="@all"                                    />
+
+                            <p:messages />
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </pm:content>
+
+
+
+            <pm:footer>
+                Author: Josh Juneau
+            </pm:footer>
+        </pm:page>
+
+        <pm:page id="second">
+            <pm:header title="Second View Header" />
+            <pm:content>
+                Second View Page
+            </pm:content>
+        </pm:page>
+
+    </h:body>
+</f:view>
+</html>

@@ -2,17 +2,13 @@ package learn.english.web.rest;
 
 import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.WordCell;
-import learn.english.model.entity.wraper.WordCells;
+import learn.english.model.dto.WordCells;
 import learn.english.model.utils.MediaItemType;
 
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
-import javax.ws.rs.core.GenericEntity;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 

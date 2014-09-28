@@ -1,5 +1,6 @@
 package learn.english.vlc;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -43,7 +44,7 @@ public class VlcStatusData {
         List<Item> infos;
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD) @NoArgsConstructor
+    @XmlAccessorType(XmlAccessType.FIELD) @NoArgsConstructor @AllArgsConstructor
     static @Data  public class Item{
         @XmlAttribute
         String name;

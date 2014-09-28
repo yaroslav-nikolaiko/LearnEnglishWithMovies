@@ -6,7 +6,7 @@ import learn.english.core.validation.ExistInDB;
 import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
-import learn.english.model.entity.wraper.MediaItems;
+import learn.english.model.dto.MediaItems;
 import learn.english.model.entity.WordCell;
 import learn.english.model.entity.media.Book;
 import learn.english.model.entity.media.Movie;

@@ -2,6 +2,7 @@ package learn.english.parser.subtitles.bridge;
 
 
 import learn.english.parser.Text;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.NavigableMap;
@@ -16,6 +17,7 @@ public class Subtitles implements Text {
     /**
      * startTime - subtitleUnit map
      */
+    @Getter
     private NavigableMap<Integer, SubtitlesUnit> data;
     private String filmTitle;
     private String language;

@@ -1,7 +1,7 @@
 package learn.english.translator.core.impl.google;
 
 import com.google.gson.Gson;
-import learn.english.model.entity.WordInfo;
+import learn.english.model.dto.WordInfo;
 import learn.english.translator.Translator;
 import learn.english.translator.core.dao.TranslatorDAO;
 import learn.english.translator.core.impl.AbstractTranslator;

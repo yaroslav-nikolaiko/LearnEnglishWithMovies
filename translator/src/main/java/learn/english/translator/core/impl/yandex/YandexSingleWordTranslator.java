@@ -1,6 +1,6 @@
 package learn.english.translator.core.impl.yandex;
 
-import learn.english.model.entity.WordInfo;
+import learn.english.model.dto.WordInfo;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
