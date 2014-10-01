@@ -10,6 +10,5 @@ import learn.english.model.entity.WordCell;
 public interface EntitiesListenerProvider {
     void addTranslation(WordCell cell);
     void saveContentToDB(MediaItem item);
-
     void removeContentFromDB(MediaItem item);
 }

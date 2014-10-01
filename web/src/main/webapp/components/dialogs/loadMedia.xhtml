@@ -38,7 +38,8 @@
                              value="#{mediaItemBean.file}">
                 </h:inputFile>
                 <!--</h:form>-->
-
+                <p:outputLabel for="filename" value="filename" />
+                <p:inputText id="filename" value="#{mediaItemBean.mediaItem.filename}" />
                 <p:dataGrid columns="1" var="entry" value="#{mediaItemBean.mediaItem.attributes}" >
                     <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                         <p:outputLabel for="attribute" value="#{entry.name}" />

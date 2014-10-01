@@ -105,7 +105,7 @@ public class SubtitlesParserTimeTextObjectImpl implements SubtitlesParser {
 
         NavigableMap<Integer, SubtitlesUnit> map = new TreeMap<>();
         for (Map.Entry<Integer, Caption> entry : tto.captions.entrySet())
-            map.put(entry.getKey(), new SubtitlesUnit(entry.getValue().content));
+            map.put(entry.getKey()/1000, new SubtitlesUnit(entry.getValue().content));
 
         return new Subtitles(map);
     }

@@ -5,6 +5,7 @@ import learn.english.model.dto.AdvanceSubtitles;
 import learn.english.model.dto.LiveSample;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
+import learn.english.model.utils.Category;
 import learn.english.parser.exception.ParserException;
 import learn.english.parser.subtitles.SubtitlesParser;
 import learn.english.parser.subtitles.bridge.Subtitles;
@@ -13,11 +14,11 @@ import learn.english.translator.Translator;
 import learn.english.translator.TranslatorManager;
 import learn.english.vlc.VlcStatusData;
 import lombok.Getter;
+import lombok.Setter;
 
-import javax.ejb.EJB;
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
+import javax.ejb.*;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -28,20 +29,20 @@ import static java.util.stream.Collectors.toSet;
  * Created by yaroslav on 9/26/14.
  */
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class LiveSubtitlesProcessor {
     int counter; //TODO: remove this
     @EJB ContentService contentService;
     @EJB TranslatorManager translatorManager;
 
-
+    @Getter @Setter
     Dictionary dictionary;
 
     String videoFileName;
-    String status;
+    String state;
     Integer time;
 
     Long systemTime;
-    @Getter
     AdvanceSubtitles advanceSubtitles;
 
     //TODO: remove this
@@ -58,6 +59,8 @@ public class LiveSubtitlesProcessor {
     }
 
     public void vlcEvent(VlcStatusData vlcStatus){
+        System.out.println("Time : "+vlcStatus.getTime());
+        System.out.println("State : "+vlcStatus.getState());
         if(dictionary==null)
             return;
         String filename = vlcStatus.getMetaInfo().getInfos().stream()
@@ -69,6 +72,7 @@ public class LiveSubtitlesProcessor {
             constructSubtitles(filename);
         }
         this.time = vlcStatus.getTime();
+        this.state = vlcStatus.getState();
         this.systemTime = System.currentTimeMillis();
     }
 
@@ -76,18 +80,30 @@ public class LiveSubtitlesProcessor {
         return new LiveSample(videoFileName, timeFrame());
     }
 
+    public AdvanceSubtitles getAdvanceSubtitles() {
+        return advanceSubtitles;
+    }
+
     void constructSubtitles(String filename) {
-        MediaItem item = dictionary.getMediaItems().stream()
+/*        MediaItem item = dictionary.getMediaItems().stream()
                 .filter(i -> filename.equals(i.getFilename()))
-                .findFirst().get();
+                .findFirst().get();*/
+        MediaItem item = null;
+        for (MediaItem i : dictionary.getMediaItems()) {
+            if(filename.equals(i.getFilename())){
+                item = i;
+                break;
+            }
+        }
         if(item == null)
             return;
 
         byte[] content = contentService.get(item.getId());
         Subtitles subtitles = parseSubtitles(content);
         this.advanceSubtitles = new AdvanceSubtitles();
+        this.advanceSubtitles.setVideoFileName(videoFileName);
 
-        Set<String> newWords = item.getWords().stream().flatMap(w -> w.getWords().stream())
+        Set<String> newWords = item.getWords().stream().filter(w -> w.getCategory().equals(Category.NEW_WORD)).flatMap(w -> w.getWords().stream())
                 .collect(toSet());
 
         subtitles.getData().entrySet().stream().forEach(
@@ -114,7 +130,7 @@ public class LiveSubtitlesProcessor {
                 .filter(newWords::contains)
                 .collect(toSet());
         for (String word : newWordsInUnit)
-            text = text.replaceAll(word, String.format("%s(%s)", word, translator.singleWordTranslate(word).shortSummary()));
+            text = text.replaceAll(word, String.format("<FONT COLOR=\"#a298fa\">%s</FONT>(%s)", word, translator.singleWordTranslate(word).shortSummary()));
 
         return text;
     }
@@ -125,6 +141,7 @@ public class LiveSubtitlesProcessor {
         return unit.getWords().stream()
                 .filter(newWords::contains)
                 .peek(String::toLowerCase)
+                .distinct()
                 .collect(toMap(
                         w -> w,
                         w -> translator.singleWordTranslate(w).summary())
@@ -134,8 +151,10 @@ public class LiveSubtitlesProcessor {
     Integer timeFrame(){
         if(time==null)
             return -1;
+        if(! "playing".equals(state))
+            return advanceSubtitles.getData().floorKey(time);
         long currentTime = System.currentTimeMillis();
-        int deltaTime_sec = (int)(currentTime - systemTime)/1000;
+        int deltaTime_sec = (int)((currentTime - systemTime)/1000);
         return  advanceSubtitles.getData().floorKey(time + deltaTime_sec);
     }
 
