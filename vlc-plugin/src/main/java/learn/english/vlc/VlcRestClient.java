@@ -24,7 +24,7 @@ public class VlcRestClient {
     protected Client client = ClientBuilder.newClient();
 
     private static final String name = "";
-    private static final String password = "";
+    private static final String password = "1975";
 
     public VlcRestClient(){
         client = ClientBuilder.newClient();

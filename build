@@ -47,7 +47,7 @@ fi
 
 if [[ $ARG = "redeploy" ]]; then
     $GLASSFISH deploy --force=true --name $REST_SERVICE_ARTIFACT_NAME --contextroot $REST_SERVICE_CONTEXT_ROOT $REST_SERVICE_ARTIFACT_PATH
-     sh $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
+    $GLASSFISH deploy --force=true --name $WEB_ARTIFACT_NAME --contextroot $WEB_CONTEXT_ROOT $WEB_ARTIFACT_PATH
     exit
 fi
 
