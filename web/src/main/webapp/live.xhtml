@@ -15,6 +15,47 @@
                 border-color: #1437ff !important;
             }
         </style>
+
+        <script>
+            $(window).on("touchstart", function(ev) {
+                auto = false;
+            });
+
+            $(window).on("touchend", function(ev) {
+                auto = true;
+            });
+        </script>
+
+        <script>
+            var webSocket;
+            var auto = false;
+
+            changeAuto = function(){
+                if(auto){
+                    auto = false;
+                }else{
+                    auto = true;
+                }
+            }
+
+            openSocket = function(authToken){
+                //ensure only one connection open at a time
+                if(webSocket !== undefined){
+                    if(webSocket.readyState !== WebSocket.CLOSED){
+                        return;
+                    }
+                }
+                //document.cookie = 'auth_token='+authToken;
+                webSocket = new WebSocket("ws://tevatron.ddns.ukrtel.net/lingvo-movie-core/update/"+authToken);
+                webSocket.onmessage = function(event){
+                    if(auto){
+                        var data = JSON.parse(event.data);
+                        scrollToTimeFrameFirstPage(data.previousTimeFrame, data.timeFrame, data.nextTimeFrame);
+                    }
+                }
+            }
+        </script>
+
         <script>
             scrollToTimeFrameFirstPage = function(previousTimeFrame, timeFrame, nextTimeFrame){
                 var previousElement = document.querySelector("li>span[title=time-1-"+previousTimeFrame+"]").parentNode;
@@ -116,11 +157,13 @@
             </pm:content>
 
             <pm:footer fixed="true">
-
-                <p:commandButton id="update-1-page" value="Update" >
-                    <p:ajax listener="#{liveController.updateFirstPage}" update="@([id$=full-text-list])"
-                            />
-                </p:commandButton>
+                <p:panelGrid columns="2">
+                    <p:commandButton id="auto-1-page" value="Auto Scroll" onclick="changeAuto()"/>
+                    <p:commandButton id="update-1-page" value="Update" >
+                        <p:ajax listener="#{liveController.updateFirstPage}" update="@([id$=full-text-list])"
+                                />
+                    </p:commandButton>
+                </p:panelGrid>
                 <p:button id="go-to-2-page-btn" style="display: none"  outcome="pm:second?transition=flip"/>
 
             </pm:footer>
@@ -198,6 +241,7 @@
 
             </pm:footer>
         </pm:page>
+
 
     </h:body>
 </f:view>

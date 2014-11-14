@@ -7,6 +7,8 @@ import learn.english.web.rest.LiveSubtitlesService;
 import learn.english.web.rest.RestService;
 import lombok.Getter;
 import org.primefaces.context.RequestContext;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by yaroslav on 9/27/14.
@@ -32,19 +36,43 @@ public class LiveController implements Serializable {
     @Getter
     LiveSample sample;
 
+    Timer timer;
+
     String auth_token;
     //TODO
     Dictionary currentDictionary;
 
     public void login() {
         auth_token = restService.login(loginForm.getForm());
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute(String.format("openSocket('%s')",auth_token ));
     }
 
     public boolean isNotLoggedIn(){
         return auth_token==null;
     }
 
+/*    public void createPush(){
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Integer nextTimeFrame = subtitles.getData().higherKey(sample.getTimeFrame());
+                nextTimeFrame = nextTimeFrame!=null ? nextTimeFrame : sample.getTimeFrame();
+                Integer previousTimeFrame = subtitles.getData().lowerKey(sample.getTimeFrame());
+                if(previousTimeFrame!=null)
+                    previousTimeFrame = subtitles.getData().lowerKey(previousTimeFrame);
+                previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
+
+                //eventBus.publish(String.format("\"previousTimeFrame\": \"%s\", \"timeFrame\": \"%s\", \"nextTimeFrame\": \"%s\"",                        previousTimeFrame, sample.getTimeFrame(), nextTimeFrame));
+                eventBus.publish(new TimeDTO(previousTimeFrame, sample.getTimeFrame(), nextTimeFrame));
+            }
+        }, 0, 2000);
+    }*/
+
     public void updateFirstPage(){
+        //createPush();
         if(subtitles == null){
             getSubtitlesFromServer();
             if(subtitles==null)
@@ -65,7 +93,8 @@ public class LiveController implements Serializable {
         previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
 
         context.execute(String.format("scrollToTimeFrameFirstPage(%s, %s, %s)", previousTimeFrame,
-                                                                       sample.getTimeFrame(), nextTimeFrame));
+                sample.getTimeFrame(), nextTimeFrame));
+
     }
 
     public void updateSecondPage(){

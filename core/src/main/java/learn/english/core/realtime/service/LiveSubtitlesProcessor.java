@@ -17,10 +17,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.ejb.*;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Set;
-import java.util.TreeMap;
+import javax.websocket.Session;
+import java.io.IOException;
+import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -43,7 +42,9 @@ public class LiveSubtitlesProcessor {
     Integer time;
 
     Long systemTime;
+    @Getter
     AdvanceSubtitles advanceSubtitles;
+    Set<Session> clients = new HashSet<>();
 
     //TODO: remove this
     public void execute(VlcStatusData vlcStatus){
@@ -74,14 +75,43 @@ public class LiveSubtitlesProcessor {
         this.time = vlcStatus.getTime();
         this.state = vlcStatus.getState();
         this.systemTime = System.currentTimeMillis();
+
+        updateClients();
+    }
+
+    void updateClients() {
+        String json = clients.isEmpty() ? null:createJSONSample();
+        try {
+            for (Session session : clients)
+                session.getBasicRemote().sendText(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String createJSONSample(){
+        LiveSample sample = sample();
+
+        Integer nextTimeFrame = advanceSubtitles.getData().higherKey(sample.getTimeFrame());
+        nextTimeFrame = nextTimeFrame!=null ? nextTimeFrame : sample.getTimeFrame();
+
+        Integer previousTimeFrame = advanceSubtitles.getData().lowerKey(sample.getTimeFrame());
+        previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
+
+        TimeDTO timeDTO = new TimeDTO(previousTimeFrame, sample.getTimeFrame(), nextTimeFrame);
+        return timeDTO.createJSON();
     }
 
     public LiveSample sample(){
         return new LiveSample(videoFileName, timeFrame());
     }
 
-    public AdvanceSubtitles getAdvanceSubtitles() {
-        return advanceSubtitles;
+    public void registerClient(Session session){
+        clients.add(session);
+    }
+
+    public void removeClient(Session session) {
+        clients.remove(session);
     }
 
     void constructSubtitles(String filename) {
