@@ -28,7 +28,7 @@
 
         <script>
             var webSocket;
-            var auto = false;
+            var auto = true;
 
             changeAuto = function(){
                 if(auto){
@@ -64,9 +64,12 @@
                 var element = document.querySelector("li>span[title=time-1-"+timeFrame+"]").parentNode;
                 var nextElement = document.querySelector("li>span[title=time-1-"+nextTimeFrame+"]").parentNode;
                 //var yPosition = 0;
+
+
                 var yPositionPrevious = $(previousElement).offset().top;
-                var yPositionCurrent = $(element).offset().top;
-                var yPosition = yPositionPrevious - (yPositionCurrent - yPositionPrevious)*2;
+                //var yPositionCurrent = $(element).offset().top;
+                //var yPosition = yPositionPrevious - (yPositionCurrent - yPositionPrevious)*2;
+                var yPosition = yPositionPrevious - ($( window ).height()/2);
 
                 if(tempElement !== undefined){
                     $(tempElement).removeClass("highlighted");
