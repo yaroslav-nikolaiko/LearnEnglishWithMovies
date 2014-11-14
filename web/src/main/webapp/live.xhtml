@@ -57,12 +57,27 @@
         </script>
 
         <script>
+            var tempElement;
+            var tempNextElement;
             scrollToTimeFrameFirstPage = function(previousTimeFrame, timeFrame, nextTimeFrame){
                 var previousElement = document.querySelector("li>span[title=time-1-"+previousTimeFrame+"]").parentNode;
                 var element = document.querySelector("li>span[title=time-1-"+timeFrame+"]").parentNode;
                 var nextElement = document.querySelector("li>span[title=time-1-"+nextTimeFrame+"]").parentNode;
                 //var yPosition = 0;
-                var yPosition = $(previousElement).offset().top;
+                var yPositionPrevious = $(previousElement).offset().top;
+                var yPositionCurrent = $(element).offset().top;
+                var yPosition = yPositionPrevious - (yPositionCurrent - yPositionPrevious)*2;
+
+                if(tempElement !== undefined){
+                    $(tempElement).removeClass("highlighted");
+                }
+                if(tempNextElement !== undefined){
+                    $(tempNextElement).removeClass("border-highlighted");
+                }
+
+                tempElement = element;
+                tempNextElement = nextElement;
+
                 $(element).addClass("highlighted");
                 $(nextElement).addClass("border-highlighted");
 
