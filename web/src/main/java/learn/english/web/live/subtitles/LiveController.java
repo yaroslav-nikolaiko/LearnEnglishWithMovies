@@ -50,7 +50,7 @@ public class LiveController implements Serializable {
         return auth_token==null;
     }
 
-    public void updateFirstPage(){
+    public void update(){
         if(subtitles == null){
             getSubtitlesFromServer();
             if(subtitles==null)
@@ -59,7 +59,7 @@ public class LiveController implements Serializable {
         sample = subtitlesService.getSample(auth_token, "1");
         if(! sample.getVideoFileName().equals(subtitles.getVideoFileName())){
             subtitles=null;
-            updateFirstPage();
+            update();
         }
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -70,59 +70,9 @@ public class LiveController implements Serializable {
             previousTimeFrame = subtitles.getData().lowerKey(previousTimeFrame);
         previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
 
-        context.execute(String.format("scrollToTimeFrameFirstPage(%s, %s, %s)", previousTimeFrame,
+        context.execute(String.format("scrollToTimeFrame(%s, %s, %s)", previousTimeFrame,
                 sample.getTimeFrame(), nextTimeFrame));
 
-    }
-
-    public void updateSecondPage(){
-        if(subtitles == null){
-            getSubtitlesFromServer();
-            if(subtitles==null)
-                return;
-        }
-        sample = subtitlesService.getSample(auth_token, "1");
-        if(! sample.getVideoFileName().equals(subtitles.getVideoFileName())){
-            subtitles=null;
-            updateSecondPage();
-        }
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        Integer nextTimeFrame = subtitles.getData().higherKey(sample.getTimeFrame());
-        nextTimeFrame = nextTimeFrame!=null ? nextTimeFrame : sample.getTimeFrame();
-        Integer previousTimeFrame = subtitles.getData().lowerKey(sample.getTimeFrame());
-        if(previousTimeFrame!=null)
-            previousTimeFrame = subtitles.getData().lowerKey(previousTimeFrame);
-        previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
-
-
-        context.execute(String.format("scrollToTimeFrameSecondPage(%s, %s, %s)", previousTimeFrame,
-                sample.getTimeFrame(), nextTimeFrame));
-    }
-
-    public void updateThirdPage(){
-        if(subtitles == null){
-            getSubtitlesFromServer();
-            if(subtitles==null)
-                return;
-        }
-        sample = subtitlesService.getSample(auth_token, "1");
-        if(! sample.getVideoFileName().equals(subtitles.getVideoFileName())){
-            subtitles=null;
-            updateSecondPage();
-        }
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        Integer nextTimeFrame = subtitles.getData().higherKey(sample.getTimeFrame());
-        nextTimeFrame = nextTimeFrame!=null ? nextTimeFrame : sample.getTimeFrame();
-        Integer previousTimeFrame = subtitles.getData().lowerKey(sample.getTimeFrame());
-        if(previousTimeFrame!=null)
-            previousTimeFrame = subtitles.getData().lowerKey(previousTimeFrame);
-        previousTimeFrame = previousTimeFrame!=null ? previousTimeFrame : sample.getTimeFrame();
-
-
-        context.execute(String.format("scrollToTimeFrameThirdPage(%s, %s, %s)", previousTimeFrame,
-                sample.getTimeFrame(), nextTimeFrame));
     }
 
     public Collection<AdvanceSubtitles.Unit> getValues(){

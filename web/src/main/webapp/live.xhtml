@@ -16,105 +16,9 @@
             }
         </style>
 
-        <script>
-            $(window).on("touchstart", function(ev) {
-                auto = false;
-            });
 
-            $(window).on("touchend", function(ev) {
-                auto = true;
-            });
-        </script>
+        <h:outputScript library="js" name="live_subtitles.js"/>
 
-        <script>
-            var webSocket;
-            var auto = true;
-
-            changeAuto = function(){
-                if(auto){
-                    auto = false;
-                }else{
-                    auto = true;
-                }
-            }
-
-            openSocket = function(authToken){
-                //ensure only one connection open at a time
-                if(webSocket !== undefined){
-                    if(webSocket.readyState !== WebSocket.CLOSED){
-                        return;
-                    }
-                }
-                //document.cookie = 'auth_token='+authToken;
-                webSocket = new WebSocket("ws://tevatron.ddns.ukrtel.net/lingvo-movie-core/update/"+authToken);
-                webSocket.onmessage = function(event){
-                    if(auto){
-                        var data = JSON.parse(event.data);
-                        scrollToTimeFrameFirstPage(data.previousTimeFrame, data.timeFrame, data.nextTimeFrame);
-                    }
-                }
-            }
-        </script>
-
-        <script>
-            var tempElement;
-            var tempNextElement;
-            scrollToTimeFrameFirstPage = function(previousTimeFrame, timeFrame, nextTimeFrame){
-                var previousElement = document.querySelector("li>span[title=time-1-"+previousTimeFrame+"]").parentNode;
-                var element = document.querySelector("li>span[title=time-1-"+timeFrame+"]").parentNode;
-                var nextElement = document.querySelector("li>span[title=time-1-"+nextTimeFrame+"]").parentNode;
-                //var yPosition = 0;
-
-
-                var yPositionPrevious = $(previousElement).offset().top;
-                //var yPositionCurrent = $(element).offset().top;
-                //var yPosition = yPositionPrevious - (yPositionCurrent - yPositionPrevious)*2;
-                var yPosition = yPositionPrevious - ($( window ).height()/2);
-
-                if(tempElement !== undefined){
-                    $(tempElement).removeClass("highlighted");
-                }
-                if(tempNextElement !== undefined){
-                    $(tempNextElement).removeClass("border-highlighted");
-                }
-
-                tempElement = element;
-                tempNextElement = nextElement;
-
-                $(element).addClass("highlighted");
-                $(nextElement).addClass("border-highlighted");
-
-                $("html, body").animate({ scrollTop: yPosition });
-            }
-        </script>
-
-        <script>
-            scrollToTimeFrameSecondPage = function(previousTimeFrame, timeFrame, nextTimeFrame){
-                var previousElement = document.querySelector("li>span[title=time-2-"+previousTimeFrame+"]").parentNode;
-                var element = document.querySelector("li>span[title=time-2-"+timeFrame+"]").parentNode;
-                var nextElement = document.querySelector("li>span[title=time-2-"+nextTimeFrame+"]").parentNode;
-                //var yPosition = 0;
-                var yPosition = $(previousElement).offset().top;
-                $(element).addClass("highlighted");
-                $(nextElement).addClass("border-highlighted");
-
-                $("html, body").animate({ scrollTop: yPosition });
-            }
-        </script>
-
-        <script>
-            scrollToTimeFrameThirdPage = function(previousTimeFrame, timeFrame, nextTimeFrame){
-                var previousElement = document.querySelector("li>span[title=time-3-"+previousTimeFrame+"]").parentNode;
-                var element = document.querySelector("li>span[title=time-3-"+timeFrame+"]").parentNode;
-                var nextElement = document.querySelector("li>span[title=time-3-"+nextTimeFrame+"]").parentNode;
-                //var yPosition = 0;
-                var yPosition = $(previousElement).offset().top;
-                $(element).addClass("highlighted");
-                $(nextElement).addClass("border-highlighted");
-
-                $("html, body").animate({ scrollTop: yPosition });
-            }
-        </script>
     </h:head>
     <h:body>
         <pm:page id="first">
@@ -164,7 +68,7 @@
                                         document.getElementById('second:update-2-page').click();"/>
 
                     <p:ajax event="swiperight" update="@([id$=new-words-list])"
-                            onstart="document.getElementById('second:go-to-3-page-btn').click();
+                            onstart="document.getElementById('first:go-to-3-page-btn').click();
                             document.getElementById('third:update-3-page').click();"/>
 
                 </p:dataList>
@@ -178,13 +82,19 @@
                 <p:panelGrid columns="2">
                     <p:commandButton id="auto-1-page" value="Auto Scroll" onclick="changeAuto()"/>
                     <p:commandButton id="update-1-page" value="Update" >
-                        <p:ajax listener="#{liveController.updateFirstPage}" update="@([id$=full-text-list])"
+                        <p:ajax listener="#{liveController.update}" update="@([id$=full-text-list])"
                                 />
                     </p:commandButton>
                 </p:panelGrid>
-                <p:button id="go-to-2-page-btn" style="display: none"  outcome="pm:second?transition=flip"/>
+
 
             </pm:footer>
+
+
+
+            <p:button id="go-to-1-page-btn" style="display: none"  outcome="pm:first?transition=flip" onclick="setPageNumber(1)"/>
+            <p:button id="go-to-2-page-btn" style="display: none"  outcome="pm:second?transition=flip" onclick="setPageNumber(2)"/>
+            <p:button id="go-to-3-page-btn" style="display: none"  outcome="pm:third?transition=flip" onclick="setPageNumber(3)"/>
         </pm:page>
 
 
@@ -205,10 +115,10 @@
                     <h:outputText value="#{entry.key}" style="display: none" title="time-2-#{entry.key}"/>
                     <h:outputText value="#{entry.value.partialTranslatedText}" escape="false" style="white-space: normal !important"/>
                     <p:ajax event="swiperight" update="@([id$=full-text-list])"
-                            onstart="document.getElementById('second:go-to-1-page-btn').click();
+                            onstart="document.getElementById('first:go-to-1-page-btn').click();
                             document.getElementById('first:update-1-page').click();"/>
                     <p:ajax event="swipeleft" update="@([id$=new-words-list])"
-                            onstart="document.getElementById('second:go-to-3-page-btn').click();
+                            onstart="document.getElementById('first:go-to-3-page-btn').click();
                             document.getElementById('third:update-3-page').click();"/>
                 </p:dataList>
 
@@ -220,10 +130,8 @@
             <pm:footer fixed="true">
 
                 <p:commandButton id="update-2-page" value="Update" >
-                    <p:ajax listener="#{liveController.updateSecondPage}" update="@([id$=partial-translated-list])"/>
+                    <p:ajax listener="#{liveController.update}" update="@([id$=partial-translated-list])"/>
                 </p:commandButton>
-                <p:button id="go-to-1-page-btn" style="display: none"  outcome="pm:first?transition=flip"/>
-                <p:button id="go-to-3-page-btn" style="display: none"  outcome="pm:third?transition=flip"/>
 
             </pm:footer>
         </pm:page>
@@ -238,7 +146,7 @@
                     <h:outputText value="#{entry.key}" style="display: none" title="time-3-#{entry.key}"/>
                     <h:outputText value="#{entry.value.newWords_translationMap.values()}" escape="false" rendered="#{not empty entry.value.newWords_translationMap}" style="white-space: normal !important"/>
                     <p:ajax event="swipeleft" update="@([id$=full-text-list])"
-                            onstart="document.getElementById('second:go-to-1-page-btn').click();
+                            onstart="document.getElementById('first:go-to-1-page-btn').click();
                             document.getElementById('first:update-1-page').click();"/>
 
                     <p:ajax event="swiperight" update="@([id$=partial-translated-list)"
@@ -254,12 +162,15 @@
             <pm:footer fixed="true">
 
                 <p:commandButton id="update-3-page" value="Update" >
-                    <p:ajax listener="#{liveController.updateThirdPage}" update="@([id$=new-words-list])"/>
+                    <p:ajax listener="#{liveController.update}" update="@([id$=new-words-list])"/>
                 </p:commandButton>
 
             </pm:footer>
-        </pm:page>
 
+
+
+
+        </pm:page>
 
     </h:body>
 </f:view>
