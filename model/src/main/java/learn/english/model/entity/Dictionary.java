@@ -36,7 +36,7 @@ public class Dictionary implements Persistent {
     private Language nativeLanguage;
     @Enumerated(EnumType.STRING)
     private Level level;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "DICTIONARY_ID")
     private List<MediaItem> mediaItems;
 

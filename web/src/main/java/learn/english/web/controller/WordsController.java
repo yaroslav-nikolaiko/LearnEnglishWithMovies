@@ -58,7 +58,8 @@ public @Data class WordsController implements Serializable {
         }else{
 /*            words = selectedItems.stream().flatMap(item -> item.getWords().stream()).
                     distinct().collect(toMap(WordCell::getWord, cell -> cell));*/
-            words = mediaItemService.getWords(selectedItems).stream().collect(toMap(WordCell::getWord, cell -> cell));
+            Collection<WordCell> words1 = mediaItemService.getWords(selectedItems);
+            words = words1.stream().collect(toMap(WordCell::getWord, cell -> cell));
             updateDualList();
         }
     }

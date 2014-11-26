@@ -11,10 +11,12 @@ import learn.english.translator.Translator;
 import learn.english.translator.TranslatorManager;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  * Created by yaroslav on 9/19/14.
  */
+@Stateless
 public class EntitiesListener implements EntitiesListenerProvider {
     @EJB
     TranslatorManager translatorManager;

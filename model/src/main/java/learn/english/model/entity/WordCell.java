@@ -24,7 +24,7 @@ public  class WordCell implements Persistent {
     private String rootForm;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @ElementCollection()
+    @ElementCollection
     Set<String> words = new HashSet<>();
     @Transient
     Map<String,String> translation = new HashMap<>();

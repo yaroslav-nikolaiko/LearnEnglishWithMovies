@@ -45,7 +45,7 @@ public class User implements Persistent {
     @Column(unique = true)
     private String email;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_FK")
     private List<Dictionary> dictionaries;
 

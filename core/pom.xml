@@ -20,14 +20,15 @@
     <dependencies>
         <dependency>
             <groupId>LearnEnglishWIthMovies</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>LearnEnglishWIthMovies</groupId>
-            <artifactId>utils</artifactId>
+            <artifactId>model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>LearnEnglishWIthMovies</groupId>
             <artifactId>parser</artifactId>
@@ -164,11 +165,18 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>2.7</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>2.5.1</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -180,7 +188,9 @@
             <groupId>javax.websocket</groupId>
             <artifactId>javax.websocket-api</artifactId>
             <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
+
 
 
 

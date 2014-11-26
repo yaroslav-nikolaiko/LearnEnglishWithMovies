@@ -11,6 +11,7 @@ import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.User;
 import learn.english.model.entity.WordCell;
 import learn.english.utils.LogTrace;
+import lombok.NoArgsConstructor;
 
 
 import javax.ejb.EJB;
@@ -32,7 +33,7 @@ import java.util.Set;
 @Path("/dict")
 @Produces({ MediaType.APPLICATION_JSON})
 @Consumes({ MediaType.APPLICATION_JSON})
-@ValidationHandlerEjb @LogTrace
+@ValidationHandlerEjb @LogTrace @NoArgsConstructor
 public class DictionaryService extends AbstractService<Dictionary> {
     @EJB TextProcessor textProcessor;
     @EJB UserService userService;

@@ -1,6 +1,7 @@
 package learn.english.core.service;
 
 import com.mongodb.*;
+import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
  * Created by yaroslav on 9/21/14.
  */
 @Stateless
+@NoArgsConstructor
 public class ContentService {
     private static final String ID = "item_id";
     private static final String COLLECTION = "content";

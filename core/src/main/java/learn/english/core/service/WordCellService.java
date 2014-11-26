@@ -6,6 +6,7 @@ import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.WordCell;
 import learn.english.model.dto.WordCells;
 import learn.english.utils.LogTrace;
+import lombok.NoArgsConstructor;
 
 import javax.ejb.ApplicationException;
 import javax.ejb.EJB;
@@ -28,8 +29,7 @@ import java.util.Set;
 @Produces({ MediaType.APPLICATION_JSON})
 @Consumes({ MediaType.APPLICATION_JSON})
 @ValidationHandlerEjb
-@LogTrace
-@ApplicationException(rollback = false)
+@LogTrace @NoArgsConstructor
 public class WordCellService extends AbstractService<WordCell> {
     @EJB MediaItemService mediaItemService;
     @EJB DictionaryService dictionaryService;

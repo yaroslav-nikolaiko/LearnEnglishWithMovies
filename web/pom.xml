@@ -65,6 +65,7 @@
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
             <version>2.2.5</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -114,12 +115,14 @@
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -131,28 +134,36 @@
         </dependency>
 
         <!-- *************** REST **********************-->
-        <dependency>
+<!--        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>2.7</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.6</version>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>2.5.1</version>
         </dependency>
 
-        <dependency>
+
+        <!--        <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>2.6</version>
+                </dependency>-->
+
+<!--        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <version>2.6</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.0</version>
+            <scope>provided</scope>
         </dependency>
 
 

@@ -8,6 +8,7 @@ import learn.english.core.validation.ValidationHandlerEjb;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.User;
 import learn.english.utils.LogTrace;
+import lombok.NoArgsConstructor;
 
 import javax.ejb.ApplicationException;
 import javax.ejb.EJB;
@@ -29,8 +30,7 @@ import java.net.URI;
 @Path("/user")
 @Produces({ MediaType.APPLICATION_JSON})
 @Consumes({ MediaType.APPLICATION_JSON})
-@ValidationHandlerEjb @LogTrace
-@ApplicationException(rollback = false)
+@ValidationHandlerEjb @LogTrace @NoArgsConstructor
 public class UserService extends AbstractService<User> {
     @Inject
     AuthenticationProvider authenticationProvider;

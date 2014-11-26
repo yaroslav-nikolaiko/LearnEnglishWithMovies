@@ -4,6 +4,7 @@ import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
 import learn.english.model.entity.User;
 import learn.english.model.entity.WordCell;
+import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -26,6 +27,9 @@ public class RestService implements Serializable {
     protected Client client = ClientBuilder.newClient();
     protected WebTarget target;
 
+    public RestService() {
+        client.register(MOXyJsonProvider.class);
+    }
 
     public RestService path(String path){
         if(target != null)

@@ -16,6 +16,7 @@ import learn.english.model.utils.MediaItemType;
 import learn.english.translator.Translator;
 import learn.english.translator.TranslatorManager;
 import learn.english.utils.LogTrace;
+import lombok.NoArgsConstructor;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -33,7 +34,7 @@ import java.util.*;
 @Path("/item")
 @Produces({ MediaType.APPLICATION_JSON})
 @Consumes({ MediaType.APPLICATION_JSON})
-@ValidationHandlerEjb @LogTrace
+@ValidationHandlerEjb @LogTrace @NoArgsConstructor
 public class MediaItemService extends AbstractService<MediaItem> {
     @EJB DictionaryService dictionaryService;
     @EJB TextProcessor textProcessor;

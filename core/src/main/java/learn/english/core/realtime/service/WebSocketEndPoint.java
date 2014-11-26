@@ -27,14 +27,14 @@ public class WebSocketEndPoint {
 
 
     @OnOpen
-    public void openConnection(Session session, EndpointConfig conf, @PathParam("auth_token") String auth_token){
+    public void openConnection(Session session, @PathParam("auth_token") String auth_token){
         //String auth_token = (String) conf.getUserProperties().get(HTTPHeaderNames.AUTH_TOKEN);
         String name = authenticationProvider.getUserName(auth_token);
         liveContext.getLiveProcessor(name).registerClient(session);
     }
 
     @OnClose
-    public void closeConnection(Session session, EndpointConfig conf, @PathParam("auth_token") String auth_token){
+    public void closeConnection(Session session, @PathParam("auth_token") String auth_token){
        // String auth_token = (String) conf.getUserProperties().get(HTTPHeaderNames.AUTH_TOKEN);
         String name = authenticationProvider.getUserName(auth_token);
         liveContext.getLiveProcessor(name).removeClient(session);

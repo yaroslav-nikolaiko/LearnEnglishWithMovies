@@ -3,6 +3,7 @@ package learn.english.core.service;
 import learn.english.model.utils.Persistent;
 import learn.english.utils.ConfigurationManager;
 import learn.english.utils.LogTrace;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Created by yaroslav on 6/28/14.
  */
+@NoArgsConstructor
 public abstract class AbstractService<T extends Persistent> {
     static final Logger logger = LogManager.getLogger(ConfigurationManager.value("logger"));
     EntityManager em;
