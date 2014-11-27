@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Priority(1010)
 public class ValidationHandlerInterceptorEjb implements Serializable {
     @AroundInvoke
-    Object perform(InvocationContext ic) throws EJBIllegalArgumentException {
+    Object perform(InvocationContext ic) throws Exception {
         try {
             checkParameters(ic.getParameters());
             return ic.proceed();
@@ -31,8 +31,8 @@ public class ValidationHandlerInterceptorEjb implements Serializable {
 
         }
         catch(EJBIllegalArgumentException e) {throw e;}
-        catch (Exception e) {e.printStackTrace(); /*log*/ }
-        return null;
+        //catch (Exception e) {e.printStackTrace(); /*log*/ }
+        //return null;
     }
 
     private void checkParameters(Object[] parameters){

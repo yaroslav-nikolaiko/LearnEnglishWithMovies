@@ -126,7 +126,8 @@ public class MediaItemService extends AbstractService<MediaItem> {
     }
 
     public MediaItem getMediaItem(WordCell wordCell) {
-        return resultList(MediaItem.FIND_BY_WORD_CELL, wordCell).get(0);
+        List<MediaItem> mediaItems = resultList(MediaItem.FIND_BY_WORD_CELL, wordCell);
+        return mediaItems.isEmpty() ? null: mediaItems.get(0);
     }
 
     void garbageCollector(MediaItem item, Dictionary dictionary){

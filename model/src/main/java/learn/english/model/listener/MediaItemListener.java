@@ -17,22 +17,27 @@ import javax.persistence.PostRemove;
 public class MediaItemListener {
     //@Inject
     //@Resource(lookup = "java:global/lingvo-movie-core/EntitiesListener")
-    EntitiesListenerProvider provider;
+    //EntitiesListenerProvider provider;
 
     @PostPersist
     public void saveContentToDB(MediaItem item) {
-        try {
-            InitialContext ic = new InitialContext();
-            provider = (EntitiesListenerProvider)ic.lookup("java:global/lingvo-movie-core/EntitiesListener");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-        provider.saveContentToDB(item);
+
+        provider().saveContentToDB(item);
     }
 
     @PostRemove
     public void removeContentFromDB(MediaItem item) {
-        provider.removeContentFromDB(item);
+        provider().removeContentFromDB(item);
+    }
+
+    EntitiesListenerProvider provider(){
+        try {
+            InitialContext ic = new InitialContext();
+            return (EntitiesListenerProvider)ic.lookup("java:global/lingvo-movie-core/EntitiesListener");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

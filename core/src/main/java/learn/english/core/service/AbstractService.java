@@ -1,5 +1,6 @@
 package learn.english.core.service;
 
+import learn.english.model.entity.MediaItem;
 import learn.english.model.utils.Persistent;
 import learn.english.utils.ConfigurationManager;
 import learn.english.utils.LogTrace;
@@ -51,6 +52,9 @@ public abstract class AbstractService<T extends Persistent> {
     public Response addToDataBase(T entity){
         logger.debug("Add entity {} to DB",entity);
         em.persist(entity);
+        MediaItem item = (MediaItem)entity;
+        if(item.getWords().size()<100)
+            throw new Error("FUCK!!!!!!!!!!!!!!!!!");
         em.flush();
         URI entityURI = uriInfo.getAbsolutePathBuilder().path(String.valueOf(entity.getId())).build();
         return Response.created(entityURI).header("entity_id", entity.getId()).build();

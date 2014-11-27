@@ -41,9 +41,9 @@ public abstract class MediaItem implements Persistent {
     @Column(nullable = false)
     private String name;
     private String filename;
-    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinTable(name = "wordCell_mediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_ID"),
-                                            inverseJoinColumns = @JoinColumn(name = "WORDCELL_ID"))
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(name = "WordCell_MediaItem", joinColumns = @JoinColumn(name = "MEDIAITEM_id"),
+                                            inverseJoinColumns = @JoinColumn(name = "WORDCELL_id"))
     @XmlTransient
     private Set<WordCell> words;
     @Transient

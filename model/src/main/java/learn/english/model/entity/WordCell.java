@@ -15,7 +15,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "WordCell")
-@Data @EqualsAndHashCode(of = {"rootForm"}) @NoArgsConstructor()
+@Data @EqualsAndHashCode(of = {"rootForm"}) @NoArgsConstructor
 @EntityListeners({WordCellListener.class})
 public  class WordCell implements Persistent {
     @Id

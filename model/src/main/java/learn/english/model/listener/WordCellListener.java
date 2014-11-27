@@ -15,17 +15,21 @@ import javax.persistence.PostLoad;
 public class WordCellListener {
     //@Inject
     //@Resource(lookup = "java:global/lingvo-movie-core/EntitiesListener")
-    EntitiesListenerProvider provider;
+    //EntitiesListenerProvider provider;
 
     @PostLoad
     public void addTranslation(WordCell cell) {
+        if(cell.getTranslation().isEmpty())
+            provider().addTranslation(cell);
+    }
+
+    EntitiesListenerProvider provider(){
         try {
             InitialContext ic = new InitialContext();
-            provider = (EntitiesListenerProvider)ic.lookup("java:global/lingvo-movie-core/EntitiesListener");
+            return (EntitiesListenerProvider)ic.lookup("java:global/lingvo-movie-core/EntitiesListener");
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        if(cell.getTranslation().isEmpty())
-            provider.addTranslation(cell);
+        return null;
     }
 }
