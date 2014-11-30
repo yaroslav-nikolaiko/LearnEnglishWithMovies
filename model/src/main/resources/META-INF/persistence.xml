@@ -3,11 +3,14 @@
     <persistence-unit name="LearnEnglishWithMovies" transaction-type="JTA">
         <jta-data-source>java:/jdbc/LearningEnglish</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.transaction.flush_before_completion" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
         </properties>
         <!--<properties>-->
             <!--<property name="URL" value="jdbc:mysql://localhost:3306/LearnEnglishWithMovies" />-->

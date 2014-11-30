@@ -72,4 +72,10 @@ public class WordCellService extends AbstractService<WordCell> {
             update(wordCell);
         return Response.ok().build();
     }
+
+    public Set<WordCell> getWords(Long mediaItemID) {
+        Set<WordCell> words = mediaItemService.find(mediaItemID).getWords();
+        words.size();
+        return words;
+    }
 }

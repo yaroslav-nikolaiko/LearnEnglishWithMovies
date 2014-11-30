@@ -1,10 +1,13 @@
 package learn.english.core.realtime.service;
 
 import learn.english.core.service.ContentService;
+import learn.english.core.service.MediaItemService;
+import learn.english.core.service.WordCellService;
 import learn.english.model.dto.AdvanceSubtitles;
 import learn.english.model.dto.LiveSample;
 import learn.english.model.entity.Dictionary;
 import learn.english.model.entity.MediaItem;
+import learn.english.model.entity.WordCell;
 import learn.english.model.utils.Category;
 import learn.english.parser.exception.ParserException;
 import learn.english.parser.subtitles.SubtitlesParser;
@@ -16,10 +19,14 @@ import learn.english.vlc.VlcStatusData;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import javax.ejb.*;
+import javax.transaction.*;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -29,10 +36,13 @@ import static java.util.stream.Collectors.toSet;
  */
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+@AccessTimeout(value = 60, unit = TimeUnit.SECONDS)
 public class LiveSubtitlesProcessor {
     int counter; //TODO: remove this
     @EJB ContentService contentService;
     @EJB TranslatorManager translatorManager;
+    @EJB WordCellService wordCellService;
 
     @Getter @Setter
     Dictionary dictionary;
@@ -133,7 +143,9 @@ public class LiveSubtitlesProcessor {
         this.advanceSubtitles = new AdvanceSubtitles();
         this.advanceSubtitles.setVideoFileName(videoFileName);
 
-        Set<String> newWords = item.getWords().stream().filter(w -> w.getCategory().equals(Category.NEW_WORD)).flatMap(w -> w.getWords().stream())
+        Set<WordCell> words = wordCellService.getWords(item.getId());
+
+        Set<String> newWords = words.stream().filter(w -> w.getCategory().equals(Category.NEW_WORD)).flatMap(w -> w.getWords().stream())
                 .collect(toSet());
 
         subtitles.getData().entrySet().stream().forEach(
