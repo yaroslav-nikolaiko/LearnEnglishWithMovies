@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
     <persistence-unit name="LearnEnglishWithMovies" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>java:/jdbc/LearningEnglish</jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
+        <class>learn.english.model.entity.User</class>
+        <class>learn.english.model.entity.Dictionary</class>
+        <class>learn.english.model.entity.MediaItem</class>
+        <class>learn.english.model.entity.WordCell</class>
+        <class>learn.english.model.entity.media.Book</class>
+        <class>learn.english.model.entity.media.TVShow</class>
+        <class>learn.english.model.entity.media.Movie</class>
+        <class>learn.english.model.entity.media.Song</class>
+        <!--<exclude-unlisted-classes>false</exclude-unlisted-classes>-->
+        <!--<shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>-->
         <properties>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+<!--            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.transaction.flush_before_completion" value="true"/>
-            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>-->
+
+            <!--<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
             <!--<property name="hibernate.cache.use_query_cache" value="true"/>-->
+
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+            <property name="eclipselink.target-server" value="JBoss"/>
+            <property name="eclipselink.target-database" value="MySQL"/>
+            <property name="eclipselink.deploy-on-startup" value="true" />
+            <property name="eclipselink.logging.logger" value="JavaLogger"/>
+            <property name="eclipselink.archive.factory" value="CLASS.NAME.OF.YOUR.COPY.OF.JBossArchiveFactoryImpl"/>
         </properties>
     </persistence-unit>
 </persistence>
