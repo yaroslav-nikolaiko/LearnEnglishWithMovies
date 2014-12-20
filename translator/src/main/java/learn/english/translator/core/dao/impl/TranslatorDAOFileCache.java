@@ -22,7 +22,8 @@ public class TranslatorDAOFileCache implements TranslatorDAO {
     //Map<String, Properties> dictionary = new HashMap<>();
     Properties dictionary;
     static {
-        dataBaseFolder = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"translator/src/main/resources/DB";
+        //dataBaseFolder = System.getenv("LINGVO_MOVIE_PROJECT_FOLDER")+"translator/src/main/resources/DB";
+        dataBaseFolder = System.getenv("JBOSS_HOME")+"/Lingvo-Movie/DB";
     }
 
     String DBName;
