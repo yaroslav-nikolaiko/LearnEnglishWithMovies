@@ -1,6 +1,9 @@
-To install JAWS (Java API for WordNet Searching ):
-1)download .jar from http://lyle.smu.edu/~tspell/jaws/
-2) mvn install:install-file -Dfile=jaws-bin.jar -DgroupId=WordNet-Searching -DartifactId=JAWS -Dversion=1.3 -Dpackaging=jar
-3) download WordNet-3.0.tar.gz http://wordnet.princeton.edu/wordnet/download/current-version/
-    and put directory dict to your resources.
-4) specify path to dict : System.setProperty("wordnet.database.dir", "translator/src/main/resources/jaws/dict");
+To build LingvoMovie Project:
+1) Install latest WildFly app. server
+2) Install MySql
+3) Install MongoDB
+4) Export variables specified in lingvo-movie.sh
+5) Start WildFly
+6) Run mvn clean install -P first-build
+7) Create DataSource with JNDI name = java:/jdbc/LearningEnglish in WildFly pointing to some schema in MySql
+8) Run mvn clean deploy
