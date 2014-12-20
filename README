@@ -1,4 +1,5 @@
-To build LingvoMovie Project:
+To build/deploy LingvoMovie Project:
+0) Install latest Oracle JDK
 1) Install latest WildFly app. server
 2) Install MySql
 3) Install MongoDB
