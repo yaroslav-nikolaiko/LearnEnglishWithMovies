@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <defaultProtocol type="Servlet 3.0"/>
+    <container qualifier="wildfly-managed" default="true">
+        <!-- configuration that starts JBoss at ports + 100 (8180 instead of 8080). -->
+        <!-- This allows us to run this JBoss in parallel with another development JBoss -->
+        <!-- Thus making running our tests a lot more failsafe and simpler. -->
+        <configuration>
+            <property name="outputToConsole">true</property>
+            <!--<property name="serverConfig">standalone-zx.xml</property>-->
+            <property name="jbossHome">target/wildfly-8.2.0.Final</property>
+            <property name="javaVmArguments">-Xms1024m -Xmx2048m -XX:+CMSClassUnloadingEnabled -Djboss.socket.binding.port-offset=1</property>
+            <property name="managementPort">9991</property> <!-- This is important for Arquillian to know which JBoss to use.. -->
+
+        </configuration>
+    </container>
+</arquillian>

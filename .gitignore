@@ -27,7 +27,7 @@ overlays/
 # Logs and databases #
 ######################
 *.log
-*.sql
+#*.sql
 *.sqlite
 
 # OS generated files #
@@ -41,7 +41,6 @@ ehthumbs.db
 Thumbs.db
 
 # Eclipse
-target/
 .settings/
 .metadata/
 .classpath
