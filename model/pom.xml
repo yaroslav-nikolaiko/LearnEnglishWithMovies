@@ -14,77 +14,34 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>javax.ejb</groupId>
-            <artifactId>javax.ejb-api</artifactId>
-            <version>3.2</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- **********   Persistence   *********** -->
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.14.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>2.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.2</version>
-        </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
-            <version>2.5.2</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
-            <version>2.5.2</version>
-            <scope>provided</scope>
+        </dependency>
+
+        <!-- **********   Utils   *********** -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-vfs</artifactId>
-            <version>3.1.0.Final</version>
-            <scope>provided</scope>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>3.1.0.GA</version>
-            <scope>provided</scope>
-        </dependency>
-
-
-
-        <!--        <dependency>
-                    <groupId>org.glassfish.jersey.media</groupId>
-                    <artifactId>jersey-media-moxy</artifactId>
-                    <version>2.7</version>
-                </dependency>-->
 
     </dependencies>
 
