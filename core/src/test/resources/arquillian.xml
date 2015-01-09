@@ -15,4 +15,8 @@
 
         </configuration>
     </container>
+
+
+<!--    <extension qualifier="persistence-dbunit">
+    </extension>-->
 </arquillian>

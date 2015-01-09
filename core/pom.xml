@@ -124,6 +124,13 @@
             <artifactId>arquillian-suite-extension</artifactId>
             <scope>test</scope>
         </dependency>
+
+<!--        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-persistence-integration-tests</artifactId>
+            <version>1.0.0.Alpha7</version>
+            <scope>test</scope>
+        </dependency>-->
     </dependencies>
 
     <build>

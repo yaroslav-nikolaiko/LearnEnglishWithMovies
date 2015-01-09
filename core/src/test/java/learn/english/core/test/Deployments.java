@@ -16,6 +16,7 @@ import java.util.List;
  * Created by yaroslav on 11/29/14.
  */
 @ArquillianSuiteDeployment
+
 public class Deployments {
     @Deployment
     public static WebArchive createDeployment() {

@@ -79,6 +79,7 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
         </dependency>
+
         <!-- **********   Persistence   *********** -->
 
         <dependency>
